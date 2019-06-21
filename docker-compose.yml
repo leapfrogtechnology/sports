@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  db:
+    image: postgres:10
+    container_name: 'sports-db'
+    ports:
+      - '${DB_PORT}:5432'
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  api:
+    image: node:8
+    container_name: 'sports-api'
+    volumes:
+      - './api:/home/sports/api/'
+    working_dir: /home/sports/api/
+    ports:
+      - '${API_PORT}:3000'
+    command: sh -c 'yarn && yarn start:dev'
+
+  web-app:
+    image: node:8
+    container_name: 'sports-web-app'
+    volumes:
+      - './web-app:/home/sports/web-app/'
+    working_dir: /home/sports/web-app/
+    ports:
+      - '${WEB_APP_PORT}:8080'
+    command: sh -c 'yarn && yarn serve'
+
+  admin-app:
+    image: node:8
+    container_name: 'sports-admin-app'
+    volumes:
+      - './admin-app:/home/sports/admin-app/'
+    working_dir: /home/sports/admin-app/
+    ports:
+      - '${ADMIN_APP_PORT}:8080'
+    command: sh -c 'yarn && yarn serve'
