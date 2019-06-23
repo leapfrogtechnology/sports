@@ -17,3 +17,11 @@ type Query {
   users: [User]
   user(id: Int): User
 }
+
+type SignUpInfo{
+  email:String
+}
+
+type Mutation{
+  signUp(email:String):SignUpInfo
+}

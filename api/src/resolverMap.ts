@@ -21,6 +21,11 @@ const resolverMap: IResolvers = {
 
       return user.serialize();
     }
+  },
+  Mutation: {
+    signUp: async (parent, args, context: Context, info) => {
+      console.log({ parent, args });
+    }
   }
 };
 
