@@ -1,65 +1,48 @@
---- 
 sudo: false
 dist: xenial
-
 addons:
   apt:
     packages:
-      - "python3"
-      - "python3-pip"
-      - "python3-setuptools"
-
-before_script: 
-  - "pip install --user awscli"
-  - "mkdir ~/.aws && echo '[default]\n' > ~/.aws/config && echo 'output=json' >> ~/.aws/config"
-  - "pip3 install envault"
-  - "envault --version"
-  - "curl -sf https://up.apex.sh/install | sudo sh"
-  - | 
-      # branch to stage mapping          
-      if [ $TRAVIS_BRANCH == "dev" ] || [ $TRAVIS_BRANCH == "ci-config" ]
-      then
-        STAGE=dev
-      elif [ $TRAVIS_BRANCH == "master" ]
-      then
-        STAGE=production
-      else
-        echo "Undefine stage"
-      fi
-
-env: 
-  global: 
-    - "PATH=$HOME/.local/bin:$PATH"
-    
-jobs: 
-  include: 
-    - 
-      language: node_js
-      name: "Deploy WEB_APP"
-      node_js: "8.10"
-      script: |
-                echo "Deploying the web app"
-                cd web-app
-                envault list -secret=sports/web-app/${STAGE} > .env
-                yarn && yarn build
-                envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/web-app/${STAGE}         
-
-      stage: Deploy
-    - 
-      name: "Deploy ADMIN_APP"
-      script: |
-                echo "Deploying the admin app"
-                cd admin-app
-                envault list -secret=sports/admin-app/${STAGE} > .env
-                yarn && yarn build
-                envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/admin-app/${STAGE}
-
-    - 
-      name: "Deploy API"
-      script: |
-          echo "Deploying the api"
-          cd api
-          envault list -secret=sports/api/${STAGE} > .env          
-          source .env
-          sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json          
-          up deploy $STAGE
+    - python3
+    - python3-pip
+    - python3-setuptools
+before_script:
+- pip install --user awscli
+- |-
+  mkdir ~/.aws && echo '[default]
+  ' > ~/.aws/config && echo 'output=json' >> ~/.aws/config
+- pip3 install envault
+- envault --version
+- curl -sf https://up.apex.sh/install | sudo sh
+- "# branch to stage mapping          \nif [ $TRAVIS_BRANCH == \"dev\" ] || [ $TRAVIS_BRANCH
+  == \"ci-config\" ]\nthen\n  STAGE=dev\nelif [ $TRAVIS_BRANCH == \"master\" ]\nthen\n
+  \ STAGE=production\nelse\n  echo \"Undefine stage\"\nfi\n"
+env:
+  global:
+  - PATH=$HOME/.local/bin:$PATH
+jobs:
+  include:
+  - language: node_js
+    name: Deploy WEB_APP
+    node_js: '8.10'
+    script: "echo \"Deploying the web app\"\ncd web-app\nenvault list -secret=sports/web-app/${STAGE}
+      > .env\nyarn && yarn build\nenvault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/web-app/${STAGE}
+      \        \n"
+    stage: Deploy
+  - name: Deploy ADMIN_APP
+    script: |
+      echo "Deploying the admin app"
+      cd admin-app
+      envault list -secret=sports/admin-app/${STAGE} > .env
+      yarn && yarn build
+      envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/admin-app/${STAGE}
+  - name: Deploy API
+    script: "echo \"Deploying the api\"\ncd api\nenvault list -secret=sports/api/${STAGE}
+      > .env          \nsource .env\nsed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g'
+      up.json          \nup deploy $STAGE\n"
+notification:
+  slack:
+    secure: sspEAOGdegbPA9ojSHTrwZzka8CFXDyyq8SKTC5+MmPPpRAs51IR3tlwjt7/bg3E601/m4ehCtCKGTNTSjV80aHEmRX6WccfZQeOVHzoJ1fO45ccKYXQygl+5gNc4N960Fm/foZKHIqo8aXO9OcspiDbLN9ApzHEBjSuZh7hgztWc2ZwU4V/tzfOTgbwbv8oKjrTVV+zKy4vqV4oQWQ5qca439k1Z1XF//vFQtlJfX86CYJJYUUwqR9dUs4cVK51mFFAOozu39ByrunhF3u4vg/bggRnW7C6tyoomeCFwDJhTSKZcQgBTBs48BuoPLrZTV1nKsfHGScwewI8LB6Z4TWfMoV35CvVtG3UhIA/1HaORryzacYLV2VpFgMuHHSHkzXv4rbzvZUPAtFN3SbwCs282SP0B2NqV2rUclnXGxpLeRI0JBEvFEh5kM59nXyy/bFRD2PyhrucZuvdiwB+XIclBUuPNQGFR6ITO9I9rsYtGn52p6t9emzzhplcu+bcd6X0MYNBxuGzPAk4QM6j0YTwnuw14rjHZdR4D4clAbtcRRl7Ek5DLp1oLv0sweh+375od5nf2qew7YYJ0vDgncBsIY7CHGlzMKOpvz9jLolPCxvRWUX9YjRfReibGLZ80tnox9leG/oF0JWTzUGHndWZSE9znydrRG/h/HWfS1g=
+    on_success: always
+    on_failure: always
+    on_pull_requests: false
