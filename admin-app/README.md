@@ -1,4 +1,4 @@
-# admin-app
+# Sports Admin App
 
 ## Techs
 
