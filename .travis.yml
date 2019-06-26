@@ -32,10 +32,15 @@ env:
 
 jobs:
   include:
+    - env: PROJECT=admin-app
+    - env: PROJECT=api
+    - env: PROJECT=web-app
+
     - language: node_js
       name: 'Deploy WEB_APP'
       node_js: '8.10'
-      script: |
+      script: |        
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then echo "$PROJECT is being built"; else echo "$PROJECT is NOT being built"; fi
         echo "Deploying the web app"
         cd web-app
         envault list -secret=sports/web-app/${STAGE} > .env
@@ -44,6 +49,7 @@ jobs:
       stage: Deploy
     - name: 'Deploy ADMIN_APP'
       script: |
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then echo "$PROJECT is being built"; else echo "$PROJECT is NOT being built"; fi        
         echo "Deploying the admin app"
         cd admin-app
         envault list -secret=sports/admin-app/${STAGE} > .env
@@ -51,6 +57,7 @@ jobs:
         envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/admin-app/${STAGE}
     - name: 'Deploy API'
       script: |
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then echo "$PROJECT is being built"; else echo "$PROJECT is NOT being built"; fi
         echo "Deploying the api"
         cd api
         envault list -secret=sports/api/${STAGE} > .env
