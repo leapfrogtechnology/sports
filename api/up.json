@@ -1,0 +1,19 @@
+{
+  "name": "sports-api",
+  "profile": "default",
+  "regions": ["ap-south-1"],
+  "stages": {
+    "dev": {
+      "domain": "dev_DOMAIN_NAME",
+      "hooks": {
+        "build": "envault list -secret=sports/api/dev > .env && yarn && yarn build"
+      }
+    },
+    "production": {
+      "domain": "production_DOMAIN_NAME",
+      "hooks": {
+        "build": "envault list -secret=sports/api/production > .env && yarn && yarn build"
+      }
+    }
+  }
+}

@@ -15,8 +15,7 @@ export async function up(knex: Knex): Promise<any> {
       .integer('user_account_id')
       .notNullable()
       .references('id')
-      .inTable(TABLES.USER_ACCOUNTS)
-      .unique();
+      .inTable(TABLES.USER_ACCOUNTS);
     table.string('refresh_token').notNullable();
 
     table.timestamps(true, true);
