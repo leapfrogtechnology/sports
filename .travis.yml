@@ -36,34 +36,46 @@ jobs:
       name: 'Deploy WEB_APP'
       node_js: '8.10'
       script: |        
-        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then echo "$PROJECT is being built"; else echo "$PROJECT is NOT being built"; fi
-        echo "Deploying the web app"
-        cd web-app
-        envault list -secret=sports/web-app/${STAGE} > .env
-        yarn && yarn build
-        envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/web-app/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then 
+          echo "$PROJECT is being built"; 
+          cd web-app
+          envault list -secret=sports/web-app/${STAGE} > .env
+          yarn && yarn build
+          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/web-app/${STAGE}       
+        else
+          echo "$PROJECT is NOT being built"; 
+        fi
+       
       env: PROJECT=web-app
       stage: Deploy
 
     - name: 'Deploy ADMIN_APP'
       script: |
-        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then echo "$PROJECT is being built"; else echo "$PROJECT is NOT being built"; fi        
-        echo "Deploying the admin app"
-        cd admin-app
-        envault list -secret=sports/admin-app/${STAGE} > .env
-        yarn && yarn build
-        envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/admin-app/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then 
+          echo "$PROJECT is being built"; 
+          cd admin-app
+          envault list -secret=sports/admin-app/${STAGE} > .env
+          yarn && yarn build
+          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/admin-app/${STAGE}        
+        else 
+          echo "$PROJECT is NOT being built"; 
+        fi
+      
       env: PROJECT=admin-app
 
     - name: 'Deploy API'
       script: |
-        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then echo "$PROJECT is being built"; else echo "$PROJECT is NOT being built"; fi
-        echo "Deploying the api"
-        cd api
-        envault list -secret=sports/api/${STAGE} > .env
-        source .env
-        sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
-        up deploy $STAGE
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then 
+          echo "$PROJECT is being built"; 
+          cd api
+          envault list -secret=sports/api/${STAGE} > .env
+          source .env
+          sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
+          up deploy $STAGE
+        else 
+          echo "$PROJECT is NOT being built"; 
+        fi
+                
       env: PROJECT=api
 
 notifications:
