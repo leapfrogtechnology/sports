@@ -4,13 +4,13 @@
   "regions": ["ap-south-1"],
   "stages": {
     "dev": {
-      "domain": "dev.api.sports.lftechnology.com",
+      "domain": "dev_DOMAIN_NAME",
       "hooks": {
         "build": "envault list -secret=sports/api/dev > .env && yarn && yarn build"
       }
     },
     "production": {
-      "domain": "api.sports.lftechnology.com",
+      "domain": "production_DOMAIN_NAME",
       "hooks": {
         "build": "envault list -secret=sports/api/production > .env && yarn && yarn build"
       }
