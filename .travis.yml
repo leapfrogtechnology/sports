@@ -2,6 +2,9 @@
 sudo: false
 dist: xenial
 
+language: node_js
+node_js: '8.10'
+
 addons:
   apt:
     packages:
@@ -17,14 +20,14 @@ before_script:
   - 'curl -sf https://up.apex.sh/install | sudo sh'
   - |
     # branch to stage mapping
-    if [ $TRAVIS_BRANCH == "dev" ] || [ $TRAVIS_BRANCH == "ci-config" ]
+    if [ $TRAVIS_BRANCH == "dev" ]
     then
       STAGE=dev
     elif [ $TRAVIS_BRANCH == "master" ]
     then
       STAGE=production
     else
-      echo "Undefine stage"
+      echo "Undefined stage"
     fi
 env:
   global:
@@ -32,31 +35,40 @@ env:
 
 jobs:
   include:
-    - language: node_js
-      name: 'Deploy WEB_APP'
-      node_js: '8.10'
+    - name: 'Deploy WEB_APP'
+      env: PROJECT=web-app
       script: |
-        echo "Deploying the web app"
-        cd web-app
-        envault list -secret=sports/web-app/${STAGE} > .env
-        yarn && yarn build
-        envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/web-app/${STAGE}
-      stage: Deploy
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building $PROJECT";
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        fi
+
     - name: 'Deploy ADMIN_APP'
+      env: PROJECT=admin-app
       script: |
-        echo "Deploying the admin app"
-        cd admin-app
-        envault list -secret=sports/admin-app/${STAGE} > .env
-        yarn && yarn build
-        envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/admin-app/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building $PROJECT";
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        fi
+
     - name: 'Deploy API'
+      env: PROJECT=api
       script: |
-        echo "Deploying the api"
-        cd api
-        envault list -secret=sports/api/${STAGE} > .env
-        source .env
-        sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
-        up deploy $STAGE
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building $PROJECT";
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          source .env
+          sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
+          up deploy $STAGE
+        fi
+
 notifications:
   slack:
     secure: WNWuB5GBvC0Z9bJWXynim/n8aixg9vttt/4HAs6gfRQ/L47CeHNtjo5cjAn7HXa9emKenBrniiccNqfnRma7d7jcqQJ8BPI7+MTwjV5/Dgzng/Omm1nQ8Pwk2+w769/USDvY+PtNpVL15O0PY/c9MKfS5axJDgLyUIplOJXHRJUVtkBBZ/pK4QlZx1ffyl4+QlCGdMDdOLolrd4h2aj1wHjWMgyiLEQirIhR9oJbJyFi88cr+vzl5aZJRPf1L1Kji0hM8YNdcwrMej0WJwqAs17kTpYrfoymQHuFeX9rHHYIEMsh390o59Z5SwyCzBsGo66VvDhZ3mDcJurYF524fQynDJPIZqe4NLzd/JQMOC1Z5OsL3csMkd5XBQkGMC2HDfzHHlSHqfui2aptGiOZd3RZPE9yg8peMZ+OtzFOQFJz11PjiBiJZxyheXtzju3xeHwbgy9MS8yVWvzIkHwLKbuuBRG/Nx7r+C3H325eYdIQls4xwAiWfAdsuw888Im76h8Om1laHUnpVlTtHxaVMCOVoUHy5y0hnI6gMhGIE3NsIMgunmIQl9BffB8Z6HdzSOIJL5/VGGGI1ebWlBKk3mP3YBuZ+VKnQRHJKdAopPMdcLeIG+YGmbCLR27oY+gUHDxVSO2Ea5z9gJgFSGFDyOZnHctTpepqhaW9u8K/R+A=
