@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start":"node dist",
     "clean": "rimraf dist",
     "serve": "node 'dist/index.js'",
     "build": "npm run clean && tsc -p . && ncp src/schema dist/schema",
