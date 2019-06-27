@@ -20,7 +20,7 @@ export async function generateAccessAndRefreshTokens(data: any) {
   //   refreshToken,
   //   new Date(Date.now() + parseInt(appConfig.jwt.refreshTokenSignOptions.expiresIn))
   // );
-  //save to db
+  // save to db
   return {
     accessToken,
     refreshToken,

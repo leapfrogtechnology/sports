@@ -1,35 +1,19 @@
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 import appConfig from '../config/appConfig';
 import { en } from '../lang/en';
 import JWTError from '../error/JWTError';
-import JWTExpiredError from '../error/JWTExpiredError';
+// import JWTExpiredError from '../error/JWTExpiredError';
 
 /**
  * Create token.
  *
- * @param {Object} data - Data to be tokenized.
+ * @param {Object} dat`a - Data to be tokenized.
  * @returns {String}
  */
 export function createToken(data: any) {
   try {
-    const token = jwt.sign(data, appConfig.jwt.secret, appConfig.jwt.signOptions);
-
-    return token;
-  } catch (err) {
-    throw new JWTError(en.TOKEN_CREATION_ERROR, err);
-  }
-}
-
-/**
- * Create token.
- *
- * @param {Object} data - Data to be tokenized.
- * @returns {String}
- */
-export function createAuthorizationToken(data: any) {
-  try {
-    const token = jwt.sign(data, appConfig.jwt.authSecret, appConfig.jwt.authSignOptions);
+    const token = jwt.sign(data, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
 
     return token;
   } catch (err) {
@@ -45,7 +29,7 @@ export function createAuthorizationToken(data: any) {
  */
 export function createRefreshToken(data: any) {
   try {
-    const token = jwt.sign(data, appConfig.jwt.secret, appConfig.jwt.refreshTokenSignOptions);
+    const token = jwt.sign(data, appConfig.jwt.secret || '', appConfig.jwt.refreshTokenSignOptions);
 
     return token;
   } catch (err) {
@@ -59,15 +43,15 @@ export function createRefreshToken(data: any) {
  * @param {Object} token - Token to be verified.
  * @returns {Object}
  */
-export function verify(token: any) {
-  try {
-    const data = jwt.verify(token, appConfig.jwt.secret, appConfig.jwt.signOptions);
+// export function verify(token: any) {
+//   try {
+//     const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
 
-    return data;
-  } catch (err) {
-    if (err.name === 'TokenExpiredError') {
-      throw new JWTExpiredError(en.TOKEN_EXPIRED, err);
-    }
-    throw new JWTError(en.INVALID_TOKEN, err);
-  }
-}
+//     return data;
+//   } catch (err) {
+//     if (err.name === 'TokenExpiredError') {
+//       throw new JWTExpiredError(en.TOKEN_EXPIRED, err);
+//     }
+//     throw new JWTError(en.INVALID_TOKEN, err);
+//   }
+// }
