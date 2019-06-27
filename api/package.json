@@ -9,7 +9,7 @@
     "build": "npm run clean && tsc -p . && ncp src/schema dist/schema",
     "start:dev": "npm run build:dev",
     "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
-    "migrate": "knex --knexfile src/knexfile.ts' migrate:latest",
+    "migrate": "knex --knexfile knexfile.ts migrate:latest",
     "migrate:make": "knex --knexfile knexfile.ts -x ts migrate:make",
     "migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback",
     "seed": "knex --knexfile knexfile.ts seed:run",

@@ -20,6 +20,7 @@ export async function up(knex: Knex): Promise<any> {
       .unique();
     table.string('profile_picture_url');
     table.integer('ems_employee_id').notNullable();
+    table.string('status').notNullable();
 
     table.timestamps(true, true);
   });
