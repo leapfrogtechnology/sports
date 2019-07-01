@@ -34,7 +34,7 @@
 - Start application in development mode.
 
   ```bash
-  yarn start:dev
+  yarn start
   ```
 
 - For production build:

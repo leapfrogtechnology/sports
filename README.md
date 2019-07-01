@@ -6,7 +6,11 @@ An application to manage the sports events. It includes the followings:
 * Admin App - The admin dashboard to manage the events.
 * API - The backend part to make the management possible.
 
-## All-in-one Setup (docker-compose)
+## Individual setup
+
+* For individual setup, refer to the specific project folder.
+
+## All-in-one Setup (docker)
 
 * Copy the `.env.docker` and save as `.env`. Update the variables.
 

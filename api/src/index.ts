@@ -23,7 +23,8 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 //tslint:disable
 // Make Apex compatible
-const { PORT = 3000 } = process.env;
-app.listen(PORT);
+const { API_PORT = 3000 } = process.env;
 
-// app.listen({ port: 3000 }, (): void => console.log(`\n🚀    GraphQL is now running on http://localhost:3000/graphql`));
+app.listen({ port: API_PORT }, (): void =>
+  console.log(`\n🚀    GraphQL is now running on http://localhost:${API_PORT}/graphql`)
+);
