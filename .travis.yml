@@ -20,7 +20,7 @@ before_script:
   - 'curl -sf https://up.apex.sh/install | sudo sh'
   - |
     # branch to stage mapping
-    if [ $TRAVIS_BRANCH == "dev" ]
+    if [ $TRAVIS_BRANCH == "dev" || $TRAVIS_BRANCH == "dev-test" ]
     then
       STAGE=dev
     elif [ $TRAVIS_BRANCH == "master" ]
