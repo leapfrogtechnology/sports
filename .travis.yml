@@ -64,6 +64,7 @@ jobs:
           echo "Building $PROJECT";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          cat .env
           source .env
           sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
           up deploy $STAGE
