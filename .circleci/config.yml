@@ -37,6 +37,7 @@ jobs:
             cd api;
             yarn;
             envault list -secret=sports/api/$STAGE  > .env;
+            cat .env;
             up deploy $STAGE;
   aws_s3_deploy_admin:
     docker:
