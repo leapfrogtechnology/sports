@@ -5,13 +5,13 @@
     "dev": {
       "domain": "dev.api.sports.lftechnology.com",
       "hooks": {
-        "build": "yarn && yarn migrate && yarn build"
+        "build": "NODE_ENV=production yarn && yarn migrate && yarn build"
       }
     },
     "production": {
       "domain": "api.sports.lftechnology.com",
       "hooks": {
-        "build": "yarn && yarn migrate && yarn build"
+        "build": "NODE_ENV=production yarn && yarn migrate && yarn build"
       }
     }
   }
