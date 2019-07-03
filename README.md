@@ -25,7 +25,3 @@ An application to manage the sports events. It includes the followings:
 * To run other scripts, use the following command: `docker-compose exec <service_name> yarn <script_name>`.
 
 * You can also execute the commands as usual by entering into the container: `docker-compose exec <service_name> bash`. It gives a bash shell.
-
-## Database schema
-
-![database schema](./docs/schema.png)

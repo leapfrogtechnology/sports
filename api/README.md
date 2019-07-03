@@ -13,6 +13,10 @@
 - PostgreSQL: 9.6+
 - Yarn
 
+## Database documentation
+
+- [Database](./docs/db.md)
+
 ## Setup Instructions
 
 - Copy environment file
