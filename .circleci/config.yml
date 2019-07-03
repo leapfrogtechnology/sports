@@ -72,7 +72,7 @@ jobs:
                   cd web-app;
                   yarn;
                   envault run -secret=sports/web-app/$STAGE 'yarn build';
-                  envault run -secret=sports/web-app/$STAGE 'aws s3 sync build s3://$BUCKET_NAME';
+                  envault run -secret=sports/web-app/$STAGE 'aws s3 sync dist s3://$BUCKET_NAME';
                   
                   
 workflows:
