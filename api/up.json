@@ -1,6 +1,5 @@
 {
   "name": "sports-api",
-  "profile": "default",
   "regions": ["ap-south-1"],
   "stages": {
     "dev": {
