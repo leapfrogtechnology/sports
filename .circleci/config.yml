@@ -37,7 +37,6 @@ jobs:
             cd api;
             yarn;
             envault list -secret=sports/api/$STAGE  > .env;
-            yarn db-migrate && yarn db-seed;
             up deploy $STAGE;
   aws_s3_deploy:
     docker:
@@ -85,6 +84,7 @@ workflows:
             branches:
               only:
                 - dev
+                - circle-ci
                 - master
   deploy_app:
     jobs:
