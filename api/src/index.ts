@@ -21,6 +21,8 @@ app.use('*', cors());
 app.use(compression());
 server.applyMiddleware({ app, path: '/graphql' });
 
+app.get('/test', (req, res) => res.send('Hello World!'));
+
 //tslint:disable
 // Make Apex compatible
 const { API_PORT = 3000 } = process.env;
