@@ -20,7 +20,7 @@ before_script:
   - 'curl -sf https://up.apex.sh/install | sudo sh'
   - |
     # branch to stage mapping
-    if [ $TRAVIS_BRANCH == "dev" ]
+    if [ $TRAVIS_BRANCH == "dev" || $TRAVIS_BRANCH == "SPORTS-229" ]
     then
       STAGE=dev
     elif [ $TRAVIS_BRANCH == "master" ]
@@ -64,8 +64,6 @@ jobs:
           echo "Building $PROJECT";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
-          source .env
-          sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
           up deploy $STAGE
         fi
 
