@@ -28,6 +28,7 @@ before_script:
       STAGE=production
     else
       echo "Undefined stage"
+      exit 1
     fi
 env:
   global:
@@ -39,7 +40,7 @@ jobs:
       env: PROJECT=web-app
       script: |
         if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building $PROJECT";
+          echo "Building ${STAGE}:${PROJECT}";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
           yarn && yarn build
@@ -50,7 +51,7 @@ jobs:
       env: PROJECT=admin-app
       script: |
         if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building $PROJECT";
+          echo "Building ${STAGE}:${PROJECT}";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
           yarn && yarn build
@@ -61,7 +62,7 @@ jobs:
       env: PROJECT=api
       script: |
         if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building $PROJECT";
+          echo "Building ${STAGE}:${PROJECT}";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
           up deploy $STAGE
