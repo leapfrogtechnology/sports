@@ -5,7 +5,6 @@ dotenv.config();
 const appConfig = {
   jwt: {
     secret: process.env.JWT_SECRET,
-    authSecret: process.env.JWT_AUTH_SECRET,
     signOptions: {
       expiresIn: process.env.JWT_EXPIRE,
       algorithm: 'HS256'
