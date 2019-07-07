@@ -1,5 +1,8 @@
 import * as jwt from '../utils/jwt';
 
+import { en } from '../lang/en';
+
+import { getUserFromRefreshToken } from './user';
 import { AccessTokenData } from '../domains/token';
 import UserAccountTokens from '../models/UserAccountTokens';
 
@@ -11,8 +14,8 @@ import UserAccountTokens from '../models/UserAccountTokens';
  * @returns {Object}
  */
 export async function generateAccessAndRefreshTokens(data: AccessTokenData) {
-  const refreshTokenData = { data, isRefreshToken: true };
-  const accessTokenData = { data };
+  const refreshTokenData = { ...data, isRefreshToken: true };
+  const accessTokenData = { ...data };
 
   const accessToken = jwt.createToken(accessTokenData);
   const refreshToken = jwt.createRefreshToken(refreshTokenData);
@@ -38,7 +41,23 @@ export async function generateAccessAndRefreshTokens(data: AccessTokenData) {
  * @returns {String}
  */
 export function generateAccessToken(data: AccessTokenData) {
-  const accessToken = jwt.createToken({ data });
+  const accessToken = jwt.createToken(data);
 
   return accessToken;
+}
+
+/**
+ * Returns new access token.
+ *
+ * @param  {Object}  req
+ * @returns {Promise}
+ */
+export async function getNewAccessToken(refreshToken: string): Promise<any> {
+  const user = await getUserFromRefreshToken(refreshToken);
+
+  const accessToken = generateAccessToken({ user });
+
+  return new Promise(resolve => {
+    resolve({ accessToken, message: en.TOKENIZATION_SUCCESSFUL });
+  });
 }

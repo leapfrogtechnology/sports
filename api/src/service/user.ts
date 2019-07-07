@@ -8,8 +8,8 @@ import User from '../models/UserAccount';
 import generateHash from '../utils/bcrypt';
 import Employees from '../models/Employees';
 import { Employee } from '../domains/employees';
+import { generateAccessAndRefreshTokens } from './token';
 import UserAccountTokens from '../models/UserAccountTokens';
-import { generateAccessAndRefreshTokens, generateAccessToken } from './token';
 
 import JWTExpiredError from '../error/JWTExpiredError';
 import UserNotFoundError from '../error/UserNotFoundError';
@@ -90,22 +90,6 @@ export async function createUser(password: string, email: string) {
     created_at: new Date(),
     is_active: true
   }).save();
-}
-
-/**
- * Returns new access token.
- *
- * @param  {Object}  req
- * @returns {Promise}
- */
-export async function getNewAccessToken(refreshToken: string): Promise<any> {
-  const user = await getUserFromRefreshToken(refreshToken);
-
-  const accessToken = generateAccessToken({ user });
-
-  return new Promise(resolve => {
-    resolve({ accessToken, message: en.TOKENIZATION_SUCCESSFUL });
-  });
 }
 
 /**

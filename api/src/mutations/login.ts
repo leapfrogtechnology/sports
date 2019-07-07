@@ -1,6 +1,5 @@
 import { buildError } from '../utils/errors';
 import Context from '../models/Context';
-
 import * as userService from '../service/user';
 
 export const login = async (
