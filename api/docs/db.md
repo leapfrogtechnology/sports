@@ -127,16 +127,17 @@ Foreign-key constraints:
 
 ### `tournaments`
 
-| Column      | Type                     | Collation | Nullable | Default                                 |
-| ----------- | ------------------------ | --------- | -------- | --------------------------------------- |
-| id          | integer                  |           | not null | nextval('tournaments_id_seq'::regclass) |
-| game_id     | integer                  |           | not null |                                         |
-| season      | character varying(255)   |           | not null |                                         |
-| start_date  | timestamp with time zone |           |          |                                         |
-| finish_date | timestamp with time zone |           |          |                                         |
-| updated_by  | integer                  |           | not null |                                         |
-| created_at  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
-| updated_at  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
+| Column                | Type                     | Collation | Nullable | Default                                 |
+| --------------------- | ------------------------ | --------- | -------- | --------------------------------------- |
+| id                    | integer                  |           | not null | nextval('tournaments_id_seq'::regclass) |
+| game_id               | integer                  |           | not null |                                         |
+| season                | character varying(255)   |           | not null |                                         |
+| start_date            | timestamp with time zone |           |          |                                         |
+| finish_date           | timestamp with time zone |           |          |                                         |
+| registration_form_url | text                     |           |          |                                         |
+| updated_by            | integer                  |           | not null |                                         |
+| created_at            | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
+| updated_at            | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
 
 Indexes:
 

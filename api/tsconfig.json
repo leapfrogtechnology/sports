@@ -21,7 +21,6 @@
     "noFallthroughCasesInSwitch": true,
 
     "baseUrl": "./",
-    "rootDir": "src",
     "types": ["node"],
     "esModuleInterop": true,
     "preserveSymlinks": true,
@@ -34,6 +33,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["src/**/*", "knexfile.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
