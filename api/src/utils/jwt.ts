@@ -3,12 +3,12 @@ import jwt from 'jsonwebtoken';
 import appConfig from '../config/appConfig';
 import { en } from '../lang/en';
 import JWTError from '../error/JWTError';
-// import JWTExpiredError from '../error/JWTExpiredError';
+import JWTExpiredError from '../error/JWTExpiredError';
 
 /**
  * Create token.
  *
- * @param {Object} dat`a - Data to be tokenized.
+ * @param {Object} data - Data to be tokenized.
  * @returns {String}
  */
 export function createToken(data: any) {
@@ -43,15 +43,15 @@ export function createRefreshToken(data: any) {
  * @param {Object} token - Token to be verified.
  * @returns {Object}
  */
-// export function verify(token: any) {
-//   try {
-//     const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
+export function verify(token: any) {
+  try {
+    const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
 
-//     return data;
-//   } catch (err) {
-//     if (err.name === 'TokenExpiredError') {
-//       throw new JWTExpiredError(en.TOKEN_EXPIRED, err);
-//     }
-//     throw new JWTError(en.INVALID_TOKEN, err);
-//   }
-// }
+    return data;
+  } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      throw new JWTExpiredError(en.TOKEN_EXPIRED, err);
+    }
+    throw new JWTError(en.INVALID_TOKEN, err);
+  }
+}

@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
 // import uuidv1 from 'uuid/v1';
 // import Tokens from '../models/tokens';
+import HttpStatus from 'http-status-codes';
+
+import { verify } from '../utils/jwt';
 import generateHash from '../utils/bcrypt';
-import { createToken, createRefreshToken } from '../utils/jwt';
-// import { TOKENIZATION_SUCCESSFUL, USER_NOT_FOUND, LOGIN_SUCCESSFUL, INVALID_PASSWORD } from '../constants/messages';
+import { generateAccessAndRefreshTokens, generateAccessToken } from './token';
 
 import UserNotFoundError from '../error/UserNotFoundError';
 import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
@@ -15,30 +17,29 @@ import Employees from '../models/Employees';
 import UserAccountTokens from '../models/UserAccountTokens';
 
 /**
- * Get a user.
- *
- * @param  {Number|String}  id
- * @returns {Promise}
- */
-// export function getUser(id: number) {
-//   return getOne(id).then(user => {
-//     if (!user) {
-//       throw Boom.notFound(USER_NOT_FOUND);
-//     }
-
-//     return user;
-//   });
-// }
-
-/**
  * Get a user from refreshToken.
  *
- * @param  {Object}  req
- * @returns {Promise}
+ * @param  {String}  token
+ * @returns {Object}
  */
-// export function getUserFromRefreshToken(req: any) {
-//   return getuserFromToken(req.headers['refresh-token']);
-// }
+export async function getUserFromRefreshToken(refreshToken: any) {
+  verify(refreshToken);
+
+  const userTokenData = await new UserAccountTokens().where({ refresh_token: refreshToken }).fetch();
+  if (!userTokenData) {
+    throw new Error('refreshToken not present ');
+  }
+
+  const serializedTokenData = userTokenData.serialize();
+
+  const user = await new User().where({ id: serializedTokenData.user_account_id }).fetch();
+
+  if (!user) {
+    throw new EmployeeNotFoundError(en.EmployeeNotFound);
+  }
+
+  return user.serialize();
+}
 
 /**
  * Gets a employee from email.
@@ -47,9 +48,13 @@ import UserAccountTokens from '../models/UserAccountTokens';
  * @returns {Object}
  */
 export async function getEmployeeFromEmail(email: string) {
-  const employeeData = await new Employees().where({ email }).fetch();
+  const employee = await new Employees().where({ email }).fetch();
 
-  return employeeData.serialize();
+  if (!employee) {
+    throw new EmployeeNotFoundError(en.EmployeeNotFound);
+  }
+
+  return employee.serialize();
 }
 
 /**
@@ -77,6 +82,7 @@ export async function createUser(password: string, email: string) {
 
   return new User({
     password: hashedPassword,
+    // by default when a user is created assign a 3(Normal USER) as the role
     user_role_id: 3,
     employee_id: employee.ems_employee_id,
     created_at: new Date(),
@@ -90,15 +96,15 @@ export async function createUser(password: string, email: string) {
  * @param  {Object}  req
  * @returns {Promise}
  */
-// export async function getUserToken(req) {
-//   const user = await getUserFromRefreshToken(req);
+export async function getNewAccessToken(refreshToken: string): Promise<any> {
+  const user = await getUserFromRefreshToken(refreshToken);
 
-//   const accessToken = generateJWT(user.attributes.userUUID, process.env.ACCESS_TOKEN_VALIDITY);
+  const accessToken = generateAccessToken({ user });
 
-//   return new Promise(resolve => {
-//     resolve({ accessToken, message: TOKENIZATION_SUCCESSFUL });
-//   });
-// }
+  return new Promise(resolve => {
+    resolve({ accessToken, message: en.TOKENIZATION_SUCCESSFUL });
+  });
+}
 
 /**
  * Login a  user.
@@ -119,21 +125,15 @@ export function loginUser(password: string, email: string) {
       throw new UserNotFoundError(en.USER_NOT_FOUND);
     }
 
-    const accessToken = createToken({ email, password });
-    const refreshToken = createRefreshToken({ email, password });
-
+    // comparing the password for verification
     bcrypt.compare(password, user.password, async (err, match) => {
       if (!match) {
         throw new InvalidPasswordError(en.INVALID_PASSWORD);
       }
 
-      await new UserAccountTokens({
-        user_account_id: user.id,
-        refresh_token: refreshToken,
-        created_at: new Date()
-      }).save();
+      const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ email, user });
 
-      resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, status: 200 });
+      resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, status: HttpStatus.OK });
     });
   });
 }

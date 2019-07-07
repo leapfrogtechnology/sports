@@ -36,6 +36,15 @@ const resolverMap: IResolvers = {
         return buildError(err);
       }
     },
+    refreshAccessToken: async (parent, args, context: Context, info) => {
+      try {
+        const { accessToken, message } = await userService.getNewAccessToken(args.refreshToken);
+
+        return { message, code: HttpStatus.OK, accessToken };
+      } catch (err) {
+        return buildError(err);
+      }
+    },
     login: async (parent, args, context: Context, info) => {
       try {
         const data = await userService.loginUser(args.password, args.email);

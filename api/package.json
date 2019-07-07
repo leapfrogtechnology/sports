@@ -69,7 +69,6 @@
     "concurrently": "^4.1.1",
     "graphql-depth-limit": "^1.1.0",
     "graphql-import": "^0.7.1",
-    "graphql-import-node": "^0.0.4",
     "husky": "^2.4.1",
     "lint-staged": "^8.2.1",
     "nodemon": "^1.19.1",

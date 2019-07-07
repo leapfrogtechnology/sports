@@ -20,7 +20,7 @@ before_script:
   - 'curl -sf https://up.apex.sh/install | sudo sh'
   - |
     # branch to stage mapping
-    if [ $TRAVIS_BRANCH == "dev" ]
+    if [ $TRAVIS_BRANCH == "dev" ] || [ $TRAVIS_BRANCH == "SPORTS-229" ]
     then
       STAGE=dev
     elif [ $TRAVIS_BRANCH == "master" ]
@@ -28,6 +28,7 @@ before_script:
       STAGE=production
     else
       echo "Undefined stage"
+      exit 1
     fi
 env:
   global:
@@ -39,7 +40,7 @@ jobs:
       env: PROJECT=web-app
       script: |
         if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building $PROJECT";
+          echo "Building ${STAGE}:${PROJECT}";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
           yarn && yarn build
@@ -50,7 +51,7 @@ jobs:
       env: PROJECT=admin-app
       script: |
         if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building $PROJECT";
+          echo "Building ${STAGE}:${PROJECT}";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
           yarn && yarn build
@@ -61,11 +62,9 @@ jobs:
       env: PROJECT=api
       script: |
         if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building $PROJECT";
+          echo "Building ${STAGE}:${PROJECT}";
           cd ${PROJECT}
           envault list -secret=sports/${PROJECT}/${STAGE} > .env
-          source .env
-          sed -i 's#'${STAGE}'_DOMAIN_NAME#'${DOMAIN_NAME}'#g' up.json
           up deploy $STAGE
         fi
 

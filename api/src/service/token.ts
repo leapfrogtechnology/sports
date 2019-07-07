@@ -1,12 +1,13 @@
-import appConfig from '../config/appConfig';
 import * as jwt from '../utils/jwt';
+
+import UserAccountTokens from '../models/UserAccountTokens';
 
 /**
  * Generates access token and refresh token.
  * Insert refresh token into the database.
  *
  * @param {Object} data
- * @returns {String}
+ * @returns {Object}
  */
 export async function generateAccessAndRefreshTokens(data: any) {
   const refreshTokenData = { data, isRefreshToken: true };
@@ -15,11 +16,12 @@ export async function generateAccessAndRefreshTokens(data: any) {
   const accessToken = jwt.createToken(accessTokenData);
   const refreshToken = jwt.createRefreshToken(refreshTokenData);
 
-  // await refreshTokens.insert(
-  //   data.id,
-  //   refreshToken,
-  //   new Date(Date.now() + parseInt(appConfig.jwt.refreshTokenSignOptions.expiresIn))
-  // );
+  await new UserAccountTokens({
+    user_account_id: data.user.id,
+    refresh_token: refreshToken,
+    created_at: new Date(Date.now())
+  }).save();
+
   // save to db
   return {
     accessToken,
@@ -31,7 +33,7 @@ export async function generateAccessAndRefreshTokens(data: any) {
 /**
  * Generate access token.
  *
- * @param {Object} data - Client key sent by LMS.
+ * @param {Object} data.
  * @returns {String}
  */
 export function generateAccessToken(data: any) {
