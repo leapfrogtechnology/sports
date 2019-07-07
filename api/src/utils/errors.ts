@@ -10,6 +10,7 @@ import CustomError from '../error/CustomError';
  */
 export function buildError(err: any) {
   if (err instanceof CustomError) {
+    // If error code is identified is known return the error code else return a bad request
     const httpCode = err.code ? err.code : HttpStatus.BAD_REQUEST;
 
     return {
@@ -19,6 +20,7 @@ export function buildError(err: any) {
     };
   }
 
+  // If the user is not known throw a internal server error
   return {
     code: HttpStatus.INTERNAL_SERVER_ERROR,
     message: HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR),
