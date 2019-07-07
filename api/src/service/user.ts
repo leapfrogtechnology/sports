@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-// import uuidv1 from 'uuid/v1';
 // import Tokens from '../models/tokens';
 import HttpStatus from 'http-status-codes';
 
@@ -11,6 +10,7 @@ import UserNotFoundError from '../error/UserNotFoundError';
 import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
 import InvalidPasswordError from '../error/InvalidPasswordError';
 import { en } from '../lang/en';
+import JWTExpiredError from '../error/JWTExpiredError';
 
 import User from '../models/UserAccount';
 import Employees from '../models/Employees';
@@ -27,7 +27,7 @@ export async function getUserFromRefreshToken(refreshToken: any) {
 
   const userTokenData = await new UserAccountTokens().where({ refresh_token: refreshToken }).fetch();
   if (!userTokenData) {
-    throw new Error('refreshToken not present ');
+    throw new JWTExpiredError(en.TOKEN_EXPIRED, '', HttpStatus.UNAUTHORIZED);
   }
 
   const serializedTokenData = userTokenData.serialize();
@@ -49,7 +49,6 @@ export async function getUserFromRefreshToken(refreshToken: any) {
  */
 export async function getEmployeeFromEmail(email: string) {
   const employee = await new Employees().where({ email }).fetch();
-
   if (!employee) {
     throw new EmployeeNotFoundError(en.EmployeeNotFound);
   }
@@ -64,9 +63,12 @@ export async function getEmployeeFromEmail(email: string) {
  * @returns {Object}
  */
 export async function getUserFromId(id: number) {
-  const userData = await new User().where({ employee_id: id }).fetch();
+  const user = await new User().where({ employee_id: id }).fetch();
+  if (!user) {
+    throw new UserNotFoundError(en.USER_NOT_FOUND);
+  }
 
-  return userData.serialize();
+  return user.serialize();
 }
 
 /**
@@ -115,25 +117,23 @@ export async function getNewAccessToken(refreshToken: string): Promise<any> {
  */
 export function loginUser(password: string, email: string) {
   return new Promise(async (resolve, reject) => {
-    const employee = await getEmployeeFromEmail(email);
-    if (!employee) {
-      throw new EmployeeNotFoundError(en.EmployeeNotFound);
+    try {
+      const employee = await getEmployeeFromEmail(email);
+
+      const user = await getUserFromId(employee.ems_employee_id);
+
+      // comparing the password for verification
+      bcrypt.compare(password, user.password, async (err, match) => {
+        if (!match) {
+          throw new InvalidPasswordError(en.INVALID_PASSWORD);
+        }
+
+        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ email, user });
+
+        resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, status: HttpStatus.OK });
+      });
+    } catch (err) {
+      reject(err);
     }
-    const user = await getUserFromId(employee.ems_employee_id);
-
-    if (!user) {
-      throw new UserNotFoundError(en.USER_NOT_FOUND);
-    }
-
-    // comparing the password for verification
-    bcrypt.compare(password, user.password, async (err, match) => {
-      if (!match) {
-        throw new InvalidPasswordError(en.INVALID_PASSWORD);
-      }
-
-      const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ email, user });
-
-      resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, status: HttpStatus.OK });
-    });
   });
 }

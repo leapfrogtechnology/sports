@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
+import HttpStatus from 'http-status-codes';
 
-import appConfig from '../config/appConfig';
 import { en } from '../lang/en';
 import JWTError from '../error/JWTError';
+import appConfig from '../config/appConfig';
 import JWTExpiredError from '../error/JWTExpiredError';
 
 /**
@@ -50,7 +51,7 @@ export function verify(token: any) {
     return data;
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      throw new JWTExpiredError(en.TOKEN_EXPIRED, err);
+      throw new JWTExpiredError(en.TOKEN_EXPIRED, err, HttpStatus.UNAUTHORIZED);
     }
     throw new JWTError(en.INVALID_TOKEN, err);
   }

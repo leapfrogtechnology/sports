@@ -28,5 +28,6 @@ app.get('/test', (req, res) => res.send('Hello World!'));
 const { PORT = 3000 } = process.env;
 
 app.listen({ port: PORT }, (): void =>
+  /* eslint-disable-next-line no-console */
   console.log(`\n🚀    GraphQL is now running on http://localhost:${PORT}/graphql`)
 );
