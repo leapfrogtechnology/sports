@@ -5,9 +5,13 @@ import Context from '../models/Context';
 
 import * as userService from '../service/user';
 
-export const signUp = async (parent: any, args: any, context: Context, info: any) => {
+export const signUp = async (
+  parent: any,
+  { password, email }: { password: string; email: string },
+  context: Context
+) => {
   try {
-    await userService.createUser(args.password, args.email);
+    await userService.createUser(password, email);
 
     return { message: 'success', code: HttpStatus.CREATED };
   } catch (err) {

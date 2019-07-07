@@ -3,9 +3,13 @@ import Context from '../models/Context';
 
 import * as userService from '../service/user';
 
-export const login = async (parent: any, args: any, context: Context, info: any) => {
+export const login = async (
+  parent: any,
+  { password, email }: { password: string; email: string },
+  context: Context
+) => {
   try {
-    const data = await userService.loginUser(args.password, args.email);
+    const data = await userService.loginUser(password, email);
 
     return { ...data };
   } catch (err) {
