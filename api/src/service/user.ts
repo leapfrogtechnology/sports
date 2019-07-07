@@ -109,7 +109,7 @@ export function loginUser(password: string, email: string) {
       // comparing the password for verification
       bcrypt.compare(password, user.password, async (err, match) => {
         if (!match) {
-          throw new InvalidPasswordError(en.INVALID_PASSWORD);
+          reject(new InvalidPasswordError(en.INVALID_PASSWORD));
         }
 
         const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ user });
