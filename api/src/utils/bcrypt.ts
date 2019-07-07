@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { reject } from 'bluebird';
+
 const saltRounds = 10;
 
 /**
@@ -9,12 +9,13 @@ const saltRounds = 10;
  * @returns {Promise}
  */
 function generateHash(password: string) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     bcrypt.genSalt(saltRounds, (err: any, salt: string) => {
       if (err) {
         reject(err);
       }
 
+      // tslint:disable-next-line:no-shadowed-variable
       bcrypt.hash(password, salt, (err: any, hash: string) => {
         if (err) {
           reject(err);

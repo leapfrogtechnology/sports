@@ -1,16 +1,15 @@
 import bcrypt from 'bcrypt';
-// import Tokens from '../models/tokens';
 import HttpStatus from 'http-status-codes';
 
+import { en } from '../lang/en';
 import { verify } from '../utils/jwt';
 import generateHash from '../utils/bcrypt';
 import { generateAccessAndRefreshTokens, generateAccessToken } from './token';
 
-import UserNotFoundError from '../error/UserNotFoundError';
-import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
-import InvalidPasswordError from '../error/InvalidPasswordError';
-import { en } from '../lang/en';
 import JWTExpiredError from '../error/JWTExpiredError';
+import UserNotFoundError from '../error/UserNotFoundError';
+import InvalidPasswordError from '../error/InvalidPasswordError';
+import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
 
 import User from '../models/UserAccount';
 import Employees from '../models/Employees';

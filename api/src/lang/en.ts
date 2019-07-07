@@ -7,5 +7,5 @@ export const en = {
   TOKEN_CREATION_ERROR: 'Couldnot create token',
   INVALID_REFRESH_TOKEN: 'Invalid refresh token',
   USER_NOT_FOUND: 'User Not registered in the  app',
-  TOKENIZATION_SUCCESSFUL:'Token Created Successfully',
+  TOKENIZATION_SUCCESSFUL: 'Token Created Successfully'
 };
