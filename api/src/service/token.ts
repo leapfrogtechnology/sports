@@ -1,5 +1,6 @@
 import * as jwt from '../utils/jwt';
 
+import { AccessTokenData } from '../domains/token';
 import UserAccountTokens from '../models/UserAccountTokens';
 
 /**
@@ -9,7 +10,7 @@ import UserAccountTokens from '../models/UserAccountTokens';
  * @param {Object} data
  * @returns {Object}
  */
-export async function generateAccessAndRefreshTokens(data: any) {
+export async function generateAccessAndRefreshTokens(data: AccessTokenData) {
   const refreshTokenData = { data, isRefreshToken: true };
   const accessTokenData = { data };
 
@@ -36,7 +37,7 @@ export async function generateAccessAndRefreshTokens(data: any) {
  * @param {Object} data.
  * @returns {String}
  */
-export function generateAccessToken(data: any) {
+export function generateAccessToken(data: AccessTokenData) {
   const accessToken = jwt.createToken({ data });
 
   return accessToken;

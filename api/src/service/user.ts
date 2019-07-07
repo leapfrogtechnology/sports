@@ -3,7 +3,12 @@ import HttpStatus from 'http-status-codes';
 
 import { en } from '../lang/en';
 import { verify } from '../utils/jwt';
+import { Users } from '../domains/user';
+import User from '../models/UserAccount';
 import generateHash from '../utils/bcrypt';
+import Employees from '../models/Employees';
+import { Employee } from '../domains/employees';
+import UserAccountTokens from '../models/UserAccountTokens';
 import { generateAccessAndRefreshTokens, generateAccessToken } from './token';
 
 import JWTExpiredError from '../error/JWTExpiredError';
@@ -11,17 +16,13 @@ import UserNotFoundError from '../error/UserNotFoundError';
 import InvalidPasswordError from '../error/InvalidPasswordError';
 import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
 
-import User from '../models/UserAccount';
-import Employees from '../models/Employees';
-import UserAccountTokens from '../models/UserAccountTokens';
-
 /**
  * Get a user from refreshToken.
  *
  * @param  {String}  token
  * @returns {Object}
  */
-export async function getUserFromRefreshToken(refreshToken: any) {
+export async function getUserFromRefreshToken(refreshToken: string): Promise<Users> {
   verify(refreshToken);
 
   const userTokenData = await new UserAccountTokens().where({ refresh_token: refreshToken }).fetch();
@@ -46,7 +47,7 @@ export async function getUserFromRefreshToken(refreshToken: any) {
  * @param  {String}  email
  * @returns {Object}
  */
-export async function getEmployeeFromEmail(email: string) {
+export async function getEmployeeFromEmail(email: string): Promise<Employee> {
   const employee = await new Employees().where({ email }).fetch();
   if (!employee) {
     throw new EmployeeNotFoundError(en.EmployeeNotFound);
@@ -61,7 +62,7 @@ export async function getEmployeeFromEmail(email: string) {
  * @param  {String}  email
  * @returns {Object}
  */
-export async function getUserFromId(id: number) {
+export async function getUserFromId(id: number): Promise<Users> {
   const user = await new User().where({ employee_id: id }).fetch();
   if (!user) {
     throw new UserNotFoundError(en.USER_NOT_FOUND);
@@ -127,7 +128,7 @@ export function loginUser(password: string, email: string) {
           throw new InvalidPasswordError(en.INVALID_PASSWORD);
         }
 
-        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ email, user });
+        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ user });
 
         resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, status: HttpStatus.OK });
       });

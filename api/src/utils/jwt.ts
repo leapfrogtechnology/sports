@@ -5,6 +5,7 @@ import { en } from '../lang/en';
 import JWTError from '../error/JWTError';
 import appConfig from '../config/appConfig';
 import JWTExpiredError from '../error/JWTExpiredError';
+import { AccessTokenData, RefreshTokenData } from '../domains/token';
 
 /**
  * Create token.
@@ -12,7 +13,7 @@ import JWTExpiredError from '../error/JWTExpiredError';
  * @param {Object} data - Data to be tokenized.
  * @returns {String}
  */
-export function createToken(data: any) {
+export function createToken(data: AccessTokenData) {
   try {
     const token = jwt.sign(data, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
 
@@ -28,7 +29,7 @@ export function createToken(data: any) {
  * @param {Object} data - Data to be tokenized.
  * @returns {String}
  */
-export function createRefreshToken(data: any) {
+export function createRefreshToken(data: RefreshTokenData) {
   try {
     const token = jwt.sign(data, appConfig.jwt.secret || '', appConfig.jwt.refreshTokenSignOptions);
 
@@ -44,7 +45,7 @@ export function createRefreshToken(data: any) {
  * @param {Object} token - Token to be verified.
  * @returns {Object}
  */
-export function verify(token: any) {
+export function verify(token: string) {
   try {
     const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
 
