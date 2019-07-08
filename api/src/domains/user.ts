@@ -1,9 +1,9 @@
-export interface Users {
+export interface User {
   id: number;
-  employee_id: number;
-  user_role_id: number;
+  employeeId: number;
+  userRoleId: number;
   password: string;
-  is_active: boolean;
-  created_at: Date;
-  updated_at: Date;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

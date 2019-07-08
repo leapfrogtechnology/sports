@@ -1,12 +1,12 @@
 import CustomError from './CustomError';
 
 /**
- * User error class to handle User not found errors.
+ * Not found error class to handle  Not found errors.
  */
-class UserNotFoundError extends CustomError {
+class NotFoundError extends CustomError {
   constructor(message: string, public details?: string) {
     super(message, details);
   }
 }
 
-export default UserNotFoundError;
+export default NotFoundError;

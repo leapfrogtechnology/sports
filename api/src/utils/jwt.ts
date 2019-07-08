@@ -47,7 +47,7 @@ export function createRefreshToken(data: RefreshTokenData) {
  */
 export function verify(token: string) {
   try {
-    const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.signOptions);
+    const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.verifyOptions);
 
     return data;
   } catch (err) {

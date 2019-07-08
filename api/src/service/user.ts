@@ -3,18 +3,18 @@ import HttpStatus from 'http-status-codes';
 
 import { en } from '../lang/en';
 import { verify } from '../utils/jwt';
-import { Users } from '../domains/user';
-import User from '../models/UserAccount';
+import { User } from '../domains/user';
 import generateHash from '../utils/bcrypt';
-import Employees from '../models/Employees';
-import { Employee } from '../domains/employees';
+import UserModel from '../models/UserAccount';
+import EmployeeModel from '../models/Employee';
+import { Employee } from '../domains/employee';
+import { DEFAULT_USER_ROLE_ID } from '../constants/api';
 import { generateAccessAndRefreshTokens } from './token';
-import UserAccountTokens from '../models/UserAccountTokens';
+import UserAccountTokens from '../models/UserAccountToken';
 
+import NotFoundError from '../error/NotFoundError';
 import JWTExpiredError from '../error/JWTExpiredError';
-import UserNotFoundError from '../error/UserNotFoundError';
 import InvalidPasswordError from '../error/InvalidPasswordError';
-import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
 
 /**
  * Get a user from refreshToken.
@@ -22,7 +22,7 @@ import EmployeeNotFoundError from '../error/EmployeeNotFoundError';
  * @param  {String}  token
  * @returns {Object}
  */
-export async function getUserFromRefreshToken(refreshToken: string): Promise<Users> {
+export async function getUserFromRefreshToken(refreshToken: string): Promise<User> {
   verify(refreshToken);
 
   const userTokenData = await new UserAccountTokens().where({ refresh_token: refreshToken }).fetch();
@@ -32,10 +32,10 @@ export async function getUserFromRefreshToken(refreshToken: string): Promise<Use
 
   const serializedTokenData = userTokenData.serialize();
 
-  const user = await new User().where({ id: serializedTokenData.user_account_id }).fetch();
+  const user = await new UserModel().where({ id: serializedTokenData.user_account_id }).fetch();
 
   if (!user) {
-    throw new EmployeeNotFoundError(en.EmployeeNotFound);
+    throw new NotFoundError(en.EmployeeNotFound);
   }
 
   return user.serialize();
@@ -48,9 +48,9 @@ export async function getUserFromRefreshToken(refreshToken: string): Promise<Use
  * @returns {Object}
  */
 export async function getEmployeeFromEmail(email: string): Promise<Employee> {
-  const employee = await new Employees().where({ email }).fetch();
+  const employee = await new EmployeeModel().where({ email }).fetch();
   if (!employee) {
-    throw new EmployeeNotFoundError(en.EmployeeNotFound);
+    throw new NotFoundError(en.EmployeeNotFound);
   }
 
   return employee.serialize();
@@ -62,10 +62,10 @@ export async function getEmployeeFromEmail(email: string): Promise<Employee> {
  * @param  {String}  email
  * @returns {Object}
  */
-export async function getUserFromId(id: number): Promise<Users> {
-  const user = await new User().where({ employee_id: id }).fetch();
+export async function getUserFromId(id: number): Promise<User> {
+  const user = await new UserModel().where({ employee_id: id }).fetch();
   if (!user) {
-    throw new UserNotFoundError(en.USER_NOT_FOUND);
+    throw new NotFoundError(en.USER_NOT_FOUND);
   }
 
   return user.serialize();
@@ -82,11 +82,11 @@ export async function createUser(password: string, email: string) {
   const hashedPassword = await generateHash(password);
   const employee = await getEmployeeFromEmail(email);
 
-  return new User({
+  return new UserModel({
     password: hashedPassword,
     // by default when a user is created assign a 3(Normal USER) as the role
-    user_role_id: 3,
-    employee_id: employee.ems_employee_id,
+    user_role_id: DEFAULT_USER_ROLE_ID,
+    ems_employee_id: employee.emsEmployeeId,
     created_at: new Date(),
     is_active: true
   }).save();
@@ -103,10 +103,9 @@ export function loginUser(password: string, email: string) {
   return new Promise(async (resolve, reject) => {
     try {
       const employee = await getEmployeeFromEmail(email);
+      const user = await getUserFromId(employee.emsEmployeeId);
 
-      const user = await getUserFromId(employee.ems_employee_id);
-
-      // comparing the password for verification
+      // Comparing the password for verification
       bcrypt.compare(password, user.password, async (err, match) => {
         if (!match) {
           reject(new InvalidPasswordError(en.INVALID_PASSWORD));

@@ -1,6 +1,7 @@
 import Knex from 'knex';
 
 import TABLES from '../../constants/tables';
+import { DEFAULT_USER_ROLE_ID } from '../../constants/api';
 
 export async function seed(knex: Knex): Promise<any> {
   // Deletes ALL existing entries
@@ -11,7 +12,7 @@ export async function seed(knex: Knex): Promise<any> {
       return knex(TABLES.USER_ROLES).insert([
         { id: 1, name: 'Super Admin' },
         { id: 2, name: 'Admin' },
-        { id: 3, name: 'User' }
+        { id: DEFAULT_USER_ROLE_ID, name: 'User' }
       ]);
     });
 }

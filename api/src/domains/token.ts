@@ -1,10 +1,10 @@
-import { Users } from './user';
+import { User } from './user';
 
 export interface AccessTokenData {
-  user: Users;
+  user: User;
 }
 
 export interface RefreshTokenData {
   isRefreshToken: boolean;
-  user: Users;
+  user: User;
 }

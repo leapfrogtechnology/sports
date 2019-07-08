@@ -4,6 +4,14 @@ import Context from '../models/Context';
 import { buildError } from '../utils/errors';
 import * as tokenService from '../service/token';
 
+/**
+ * Mutation to refresh access token.
+ *
+ * @param {Object} parent
+ * @param {Object} param1
+ * @param {Context} context
+ * @returns {Object}
+ */
 export const refreshAccessToken = async (parent: any, { refreshToken }: { refreshToken: string }, context: Context) => {
   try {
     const { accessToken, message } = await tokenService.getNewAccessToken(refreshToken);

@@ -6,6 +6,14 @@ import { buildError } from '../utils/errors';
 import * as userService from '../service/user';
 import MissingUserNameOrPassword from '../error/MissingUserNameOrPasswordError';
 
+/**
+ * Mutation for user to signup.
+ *
+ * @param {Object} parent
+ * @param {Object} param1
+ * @param {Context} context
+ * @returns {Object}
+ */
 export const signUp = async (
   parent: any,
   { password, email }: { password: string; email: string },

@@ -1,10 +1,8 @@
-import * as jwt from '../utils/jwt';
-
 import { en } from '../lang/en';
-
+import * as jwt from '../utils/jwt';
 import { getUserFromRefreshToken } from './user';
 import { AccessTokenData } from '../domains/token';
-import UserAccountTokens from '../models/UserAccountTokens';
+import UserAccountTokenModel from '../models/UserAccountToken';
 
 /**
  * Generates access token and refresh token.
@@ -20,13 +18,12 @@ export async function generateAccessAndRefreshTokens(data: AccessTokenData) {
   const accessToken = jwt.createToken(accessTokenData);
   const refreshToken = jwt.createRefreshToken(refreshTokenData);
 
-  await new UserAccountTokens({
+  await new UserAccountTokenModel({
     user_account_id: data.user.id,
     refresh_token: refreshToken,
     created_at: new Date(Date.now())
   }).save();
 
-  // save to db
   return {
     accessToken,
     refreshToken,

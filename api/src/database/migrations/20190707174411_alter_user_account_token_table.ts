@@ -3,7 +3,7 @@ import Knex from 'knex';
 import TABLES from '../../constants/tables';
 
 /**
- * Alters table <user account token>.
+ * Alters table user_account_token
  *
  * @param  {object} knex
  * @return {Promise}
@@ -15,7 +15,7 @@ export function up(knex: Knex): any {
 }
 
 /**
- * Reverses the alter of table <user account token>.
+ * Reverses the alter of table user_account_token
  *
  * @param  {object} knex
  * @return {Promise}
