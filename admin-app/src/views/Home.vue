@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Sports Admin Dashboard"/>
+    <Dashboard msg="Sports Admin Dashboard" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import HelloWorld from '@/components/HelloWorld.vue';
+import Dashboard from '@/views/Dashboard.vue';
 
 @Component({
   components: {
-    HelloWorld
+    Dashboard
   }
 })
 export default class Home extends Vue {}
