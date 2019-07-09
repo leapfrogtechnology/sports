@@ -20,8 +20,14 @@ const config: Knex.Config = {
     }
 
     return toCamelCase(result);
+  },
+  wrapIdentifier: (value: string, origImpl: any) => {
+    if (value !== '*') {
+      return origImpl(toSnakeCase(value));
+    }
+
+    return value;
   }
-  // wrapIdentifier: (value: string, origImpl: any) => origImpl(toSnakeCase(value))
 };
 
 /**

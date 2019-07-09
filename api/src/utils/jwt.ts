@@ -7,6 +7,8 @@ import appConfig from '../config/appConfig';
 import JWTExpiredError from '../error/JWTExpiredError';
 import { AccessTokenData, RefreshTokenData } from '../domains/token';
 
+const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
+
 /**
  * Create token.
  *
@@ -51,7 +53,7 @@ export function verify(token: string) {
 
     return data;
   } catch (err) {
-    if (err.name === 'TokenExpiredError') {
+    if (err.name === TOKEN_EXPIRED_ERROR) {
       throw new JWTExpiredError(en.TOKEN_EXPIRED, err, HttpStatus.UNAUTHORIZED);
     }
     throw new JWTError(en.INVALID_TOKEN, err);

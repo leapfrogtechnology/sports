@@ -31,7 +31,6 @@ export async function getUserFromRefreshToken(refreshToken: string): Promise<Use
   }
 
   const serializedTokenData = userTokenData.serialize();
-
   const user = await new UserModel().where({ id: serializedTokenData.user_account_id }).fetch();
 
   if (!user) {
@@ -49,6 +48,7 @@ export async function getUserFromRefreshToken(refreshToken: string): Promise<Use
  */
 export async function getEmployeeFromEmail(email: string): Promise<Employee> {
   const employee = await new EmployeeModel().where({ email }).fetch();
+
   if (!employee) {
     throw new NotFoundError(en.EmployeeNotFound);
   }
@@ -63,7 +63,7 @@ export async function getEmployeeFromEmail(email: string): Promise<Employee> {
  * @returns {Object}
  */
 export async function getUserFromId(id: number): Promise<User> {
-  const user = await new UserModel().where({ employee_id: id }).fetch();
+  const user = await new UserModel().where({ employeeId: id }).fetch();
   if (!user) {
     throw new NotFoundError(en.USER_NOT_FOUND);
   }

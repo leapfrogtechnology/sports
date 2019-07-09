@@ -50,7 +50,7 @@ export function withoutAttrs(obj: any, attrsToExclude: any[]) {
 export function withOnlyAttrs(obj: any, attrs: any[]) {
   const result: any = {};
 
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key: string) => {
     if (attrs.includes(key)) {
       result[key] = obj[key];
     }
