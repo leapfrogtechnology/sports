@@ -1,1 +1,5 @@
-export const DEFAULT_USER_ROLE_ID = 3;
+export const USER_ROLES = {
+  SUPER_ADMIN: 1,
+  ADMIN: 2,
+  NORMAL: 3
+};

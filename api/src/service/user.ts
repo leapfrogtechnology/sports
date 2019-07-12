@@ -5,16 +5,28 @@ import { en } from '../lang/en';
 import { verify } from '../utils/jwt';
 import { User } from '../domains/user';
 import generateHash from '../utils/bcrypt';
+import { USER_ROLES } from '../constants/api';
 import UserModel from '../models/UserAccount';
 import EmployeeModel from '../models/Employee';
 import { Employee } from '../domains/employee';
-import { DEFAULT_USER_ROLE_ID } from '../constants/api';
 import { generateAccessAndRefreshTokens } from './token';
 import UserAccountTokens from '../models/UserAccountToken';
 
 import NotFoundError from '../error/NotFoundError';
 import JWTExpiredError from '../error/JWTExpiredError';
+import DuplicateEntryError from '../error/DuplicateEntryError';
 import InvalidPasswordError from '../error/InvalidPasswordError';
+
+/**
+ * Returns a list of users.
+ *
+ * @returns {User[]}
+ */
+export async function fetchAllUsers(): Promise<User[]> {
+  const users = await new UserModel().fetchAll();
+
+  return users.serialize();
+}
 
 /**
  * Get a user from refreshToken.
@@ -25,16 +37,17 @@ import InvalidPasswordError from '../error/InvalidPasswordError';
 export async function getUserFromRefreshToken(refreshToken: string): Promise<User> {
   verify(refreshToken);
 
-  const userTokenData = await new UserAccountTokens().where({ refresh_token: refreshToken }).fetch();
+  const userTokenData = await new UserAccountTokens().where({ refreshToken }).fetch();
+
   if (!userTokenData) {
     throw new JWTExpiredError(en.TOKEN_EXPIRED, '', HttpStatus.UNAUTHORIZED);
   }
 
   const serializedTokenData = userTokenData.serialize();
-  const user = await new UserModel().where({ id: serializedTokenData.user_account_id }).fetch();
+  const user = await new UserModel().where({ id: serializedTokenData.userAccountId }).fetch();
 
   if (!user) {
-    throw new NotFoundError(en.EmployeeNotFound);
+    throw new NotFoundError(en.EMPLOYEE_NOT_FOUND);
   }
 
   return user.serialize();
@@ -45,12 +58,13 @@ export async function getUserFromRefreshToken(refreshToken: string): Promise<Use
  *
  * @param  {String}  email
  * @returns {Object}
+ * @throws {NotFoundError}
  */
 export async function getEmployeeFromEmail(email: string): Promise<Employee> {
   const employee = await new EmployeeModel().where({ email }).fetch();
 
   if (!employee) {
-    throw new NotFoundError(en.EmployeeNotFound);
+    throw new NotFoundError(en.EMPLOYEE_NOT_FOUND);
   }
 
   return employee.serialize();
@@ -61,6 +75,7 @@ export async function getEmployeeFromEmail(email: string): Promise<Employee> {
  *
  * @param  {String}  email
  * @returns {Object}
+ * @throws{NotFoundError}
  */
 export async function getUserFromId(id: number): Promise<User> {
   const user = await new UserModel().where({ employeeId: id }).fetch();
@@ -77,18 +92,25 @@ export async function getUserFromId(id: number): Promise<User> {
  * @param  {String}  password
  * @param  {String}  email
  * @returns {Promise}
+ * @throws {DuplicateEntryError}
  */
 export async function createUser(password: string, email: string) {
   const hashedPassword = await generateHash(password);
   const employee = await getEmployeeFromEmail(email);
+  const users = await fetchAllUsers();
+  const userEmployeeIdList = users.map(user => user.employeeId);
+
+  if (userEmployeeIdList.includes(employee.emsEmployeeId)) {
+    throw new DuplicateEntryError(en.EMAIL_ALREADY_TAKEN);
+  }
 
   return new UserModel({
     password: hashedPassword,
-    // by default when a user is created assign a 3(Normal USER) as the role
-    user_role_id: DEFAULT_USER_ROLE_ID,
-    ems_employee_id: employee.emsEmployeeId,
-    created_at: new Date(),
-    is_active: true
+    // By default when a user is created assign a 3(Normal USER) as the role
+    userRoleId: USER_ROLES.NORMAL,
+    employeeId: employee.emsEmployeeId,
+    createdAt: new Date(),
+    isActive: true
   }).save();
 }
 
@@ -98,6 +120,7 @@ export async function createUser(password: string, email: string) {
  * @param  {String}  password
  * @param  {String}  email
  * @returns {Promise}
+ * @throws {InvalidPasswordError}
  */
 export function loginUser(password: string, email: string) {
   return new Promise(async (resolve, reject) => {

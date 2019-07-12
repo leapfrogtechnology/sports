@@ -8,7 +8,7 @@ import MissingUserNameOrPassword from '../error/MissingUserNameOrPasswordError';
  * Mutation for user to login.
  *
  * @param {Object} parent
- * @param {Object} param1
+ * @param {Object} mutationParams
  * @param {Context} context
  * @returns {Object}
  */

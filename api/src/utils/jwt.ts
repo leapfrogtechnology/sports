@@ -14,6 +14,7 @@ const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
  *
  * @param {Object} data - Data to be tokenized.
  * @returns {String}
+ * @throws {JWTError}
  */
 export function createToken(data: AccessTokenData) {
   try {
@@ -30,6 +31,7 @@ export function createToken(data: AccessTokenData) {
  *
  * @param {Object} data - Data to be tokenized.
  * @returns {String}
+ * @throws {JWTError}
  */
 export function createRefreshToken(data: RefreshTokenData) {
   try {
@@ -46,6 +48,7 @@ export function createRefreshToken(data: RefreshTokenData) {
  *
  * @param {Object} token - Token to be verified.
  * @returns {Object}
+ * @throws {JWTError|JWTExpiredError}
  */
 export function verify(token: string) {
   try {

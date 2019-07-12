@@ -1,3 +1,5 @@
+import HttpStatus from 'http-status-codes';
+
 import CustomError from './CustomError';
 
 /**
@@ -5,7 +7,7 @@ import CustomError from './CustomError';
  */
 class NotFoundError extends CustomError {
   constructor(message: string, public details?: string) {
-    super(message, details);
+    super(message, details, HttpStatus.NOT_FOUND);
   }
 }
 

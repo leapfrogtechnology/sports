@@ -8,7 +8,7 @@ import * as tokenService from '../service/token';
  * Mutation to refresh access token.
  *
  * @param {Object} parent
- * @param {Object} param1
+ * @param {Object} mutationParams
  * @param {Context} context
  * @returns {Object}
  */

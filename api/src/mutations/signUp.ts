@@ -4,15 +4,16 @@ import { en } from '../lang/en';
 import Context from '../models/Context';
 import { buildError } from '../utils/errors';
 import * as userService from '../service/user';
-import MissingUserNameOrPassword from '../error/MissingUserNameOrPasswordError';
+import MissingUserNameOrPasswordError from '../error/MissingUserNameOrPasswordError';
 
 /**
- * Mutation for user to signup.
+ * Mutation for user to signUP.
  *
  * @param {Object} parent
- * @param {Object} param1
+ * @param {Object} mutationParams
  * @param {Context} context
  * @returns {Object}
+ * @throws {MissingUserNameOrPasswordError}
  */
 export const signUp = async (
   parent: any,
@@ -21,7 +22,7 @@ export const signUp = async (
 ) => {
   try {
     if (!email || !password) {
-      throw new MissingUserNameOrPassword(en.MISSING_USERNAME_OR_PASSWORD);
+      throw new MissingUserNameOrPasswordError(en.MISSING_USERNAME_OR_PASSWORD);
     }
 
     await userService.createUser(password, email);
