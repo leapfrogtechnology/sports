@@ -3,6 +3,7 @@
 ## Techs
 
 * VueJS
+* Ant Design Framework
 
 ## Requirements
 
