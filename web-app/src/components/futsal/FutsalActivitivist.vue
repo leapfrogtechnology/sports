@@ -1,9 +1,11 @@
 <template>
   <div class="futsal-activist-wrapper" :class="{ 'futsal-activist-assist': activityType === 'assist' }">
-    <span class="activist-name" v-if="teamType === 'home'">{{ playerName }}</span>
+    <span class="activist-name" v-if="teamType === 'home'">
+      {{ playerName }}<slot v-if="activityType === 'own goal'"> (O.G.)</slot>
+    </span>
     <div class="activity-symbol-wrapper">
-      <img v-if="activityType === 'goal'" :src="footballIcon" class="activity-symbol">
-      <img v-else-if="activityType === 'own goal'" :src="footballIcon" class="activity-symbol">
+      <i v-if="activityType === 'goal'" class="fa fa-futbol activity-symbol" />
+      <i v-else-if="activityType === 'own goal'" :src="footballIcon" class="fa fa-futbol activity-symbol activity-symbol--red" />
       <img v-else-if="activityType === 'yellow card'" :src="yellowCardIcon" class="activity-symbol">
       <img
         v-else-if="activityType === 'double yellow card'"
@@ -13,7 +15,9 @@
       <img v-else-if="activityType === 'red card'" :src="redCardIcon" class="activity-symbol">
       <img v-else-if="activityType === 'assist'" :src="footballAssistIcon" class="activity-symbol">
     </div>
-    <span class="activist-name" v-if="teamType === 'away'">{{ playerName }}</span>
+    <span class="activist-name" v-if="teamType === 'away'">
+      {{ playerName }}<slot v-if="activityType === 'own goal'"> (O.G.)</slot>
+    </span>
   </div>
 </template>
 

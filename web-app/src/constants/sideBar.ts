@@ -90,6 +90,10 @@ export default [
     icon: 'fas fa-gamepad',
     seasons: [
       {
+        name: '2019 Q2',
+        route: '/fifa/2019-q2'
+      },
+      {
         name: 'January Jatra',
         route: '/fifa/january-jatra'
       }
@@ -102,8 +106,7 @@ export default [
       {
         name: 'January Jatra',
         route: '/dota2/january-jatra'
-      },
-
+      }
     ]
   }
 ];

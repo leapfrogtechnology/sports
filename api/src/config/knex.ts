@@ -22,6 +22,7 @@ const config: Knex.Config = {
     return toCamelCase(result);
   },
   wrapIdentifier: (value: string, origImpl: any) => {
+    // FIXME: Currently this has been implemented as a hack. Need to figure out a better implementation
     if (value !== '*') {
       return origImpl(toSnakeCase(value));
     }
