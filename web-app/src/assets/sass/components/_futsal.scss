@@ -106,6 +106,14 @@
       display: inline-flex;
       height: $space--4;
       width: $space--4;
+
+      .activity-symbol {
+        color: rgba($color-black, 0.75);
+
+        @include m(red) {
+          color: rgba($color-red, 0.9);
+        }
+      }
     }
   }
 
