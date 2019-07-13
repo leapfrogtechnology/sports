@@ -1,7 +1,8 @@
-import BaseModel from './BaseModel';
 import TABLES from '../constants/tables';
 
-class UserAccount extends BaseModel<UserAccount> {
+import BookShelf from '../config/bookshelf';
+
+class UserAccount extends BookShelf.Model<UserAccount> {
   get tableName() {
     return TABLES.USER_ACCOUNTS;
   }

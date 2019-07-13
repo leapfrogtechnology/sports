@@ -11,11 +11,24 @@ type Project {
   creator: User
 }
 
+type Employee {
+  id: Int!,
+  firstName: String!,
+  middleName: String,
+  lastName: String!,
+  email: String!,
+  status: String!
+  emsEmployeeId: Int!,
+  profilePictureUrl: String,
+}
+
 type Query {
   projects: [Project]
   project(id: Int): Project
   users: [User]
-  user(id: Int): User
+  user(id: Int): User,
+  employee: Employee,
+  employees: [Employee]
 }
 
 type SignUpResponse{
