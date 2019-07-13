@@ -17,6 +17,10 @@ const appConfig = {
       algorithms: ['HS256'],
       maxAge: process.env.JWT_EXPIRE || '12h'
     }
+  },
+  apiEndPoints: { employees: process.env.LMS_CORE + 'users?size=1000' },
+  apiKeys: {
+    core: process.env.CORE_API_KEY
   }
 };
 

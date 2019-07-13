@@ -3,7 +3,7 @@ import HttpStatus from 'http-status-codes';
 import { en } from '../lang/en';
 import Context from '../models/Context';
 import { buildError } from '../utils/errors';
-import * as userService from '../service/user';
+import * as userService from '../services/user';
 import MissingUserNameOrPasswordError from '../error/MissingUserNameOrPasswordError';
 
 /**
