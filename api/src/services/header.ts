@@ -7,10 +7,8 @@ import appConfig from '../config/appConfig';
 export function getLMSCoreHeader(params?: object) {
   const { apiKeys } = appConfig;
 
-  const authentication = `Bearer ${apiKeys.core}`;
-
   return {
-    Authorization: authentication,
+    apiKey: apiKeys.core,
     ...params
   };
 }

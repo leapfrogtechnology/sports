@@ -16,11 +16,9 @@ export async function fetchLMSEmployee() {
   const headers = getLMSCoreHeader();
 
   try {
-    const {
-      data: { data: employees }
-    } = await http.get(apiEndPoints.employees, { headers });
+    const { data } = await http.get(apiEndPoints.employees, { headers });
 
-    return structureEmployees(employees);
+    return structureEmployees(data);
   } catch (err) {
     throw err;
   }
@@ -34,14 +32,14 @@ export async function fetchLMSEmployee() {
  */
 function structureEmployees(employees: LMSEmployee[]) {
   return employees.map((employee: LMSEmployee) => {
-    const { email, firstName, lastName, middleName, empId, avatarUrl } = employee;
+    const { username, firstName, lastName, middleName, empId, avatarUrl, empStatus } = employee;
 
     return {
-      email,
       firstName,
       middleName,
       lastName,
-      status: 'aa',
+      email: username,
+      status: empStatus,
       emsEmployeeId: parseInt(empId, 10),
       profilePictureUrl: avatarUrl
     };
@@ -61,7 +59,7 @@ export async function storeEmployees(employees: any) {
 
     return await fetchAllEmployees();
   } catch {
-    throw new Error('aaaaa');
+    throw new Error('Failed to fetch employee data');
   }
 }
 
@@ -76,7 +74,7 @@ export async function fetchAllEmployees() {
 
     return employees.serialize();
   } catch {
-    throw new Error('bb');
+    throw new Error('Failed to fetch employee data');
   }
 }
 
@@ -96,6 +94,6 @@ export async function fetchEmployee(id: number) {
 
     return user.serialize();
   } catch {
-    throw new Error('bb');
+    throw new Error('Failed to fetch employee data');
   }
 }

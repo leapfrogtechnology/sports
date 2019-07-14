@@ -6,39 +6,43 @@ export interface Employee {
   createdAt: Date;
   lastName: string;
   firstName: string;
-  middleName: string;
+  middleName?: string;
   emsEmployeeId: number;
   profilePictureUrl: string;
 }
 
 export interface LMSEmployee {
-  id: number;
-  avatarUrl?: string;
+  address: { permanentAddress: string; temporaryAddress?: string };
+  avatarUrl: string;
+  contact: { githubId?: string; homePhone: null; mobilePhone: string; skypeId?: string };
+  dateCreated: string;
+  dateofBirth: string;
+  department: { id: number; name: string };
+  designation: string;
   empId: string;
   empStatus: string;
   firstName: string;
-  lastName: string;
-  email: string;
   gender: string;
-  githubId?: string;
+  id: number;
   isHod: boolean;
   isHr: boolean;
   isRaffleEligible: boolean;
   isSupervisor: boolean;
+  joinDate: string;
+  lastName: string;
+  lastUpdated: string;
+  maritialStatus: string;
   middleName?: string;
-  mobilePhone: string;
-  temporaryAddress?: string;
-  bloodGroup?: string;
-  isProjectManager: boolean;
-  isTeamLead: boolean;
-  isAccountManager: boolean;
-  isCoach: boolean;
-  isPeopleOps: boolean;
-  isProxypm: boolean;
-  isResourceManager: boolean;
-  coachId?: string;
-  supervisorId?: string;
-  permanentAddress: string;
-  skypeId?: string;
-  homePhone?: string;
+  projects: null;
+  role: string;
+  supervisor: {
+    avatarUrl: string;
+    department: any;
+    empId: string;
+    firstName: string;
+    id: number;
+    lastName: string;
+    middleName?: string;
+  };
+  username: string;
 }
