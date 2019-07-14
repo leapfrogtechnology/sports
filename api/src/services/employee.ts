@@ -27,8 +27,8 @@ export async function fetchLMSEmployee() {
 /**
  * Format and structure the employee object by removing unnecessary fields.
  *
- * @param employees : array of employees.
- * @returns {Array} : array of structured employees.
+ * @param employees : Array of employees.
+ * @returns {Array} : Array of structured employees.
  */
 function structureEmployees(employees: LMSEmployee[]) {
   return employees.map((employee: LMSEmployee) => {
