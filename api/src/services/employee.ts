@@ -1,8 +1,8 @@
 import http from '../utils/https';
 import appConfig from '../config/appConfig';
 import { getLMSCoreHeader } from './header';
-import Employee from '../models/Employee';
 
+import Employee from '../models/Employee';
 import { LMSEmployee } from '../domains/employee';
 
 /**
@@ -15,11 +15,15 @@ export async function fetchEmployeeList() {
 
   const headers = getLMSCoreHeader();
 
-  const {
-    data: { data: employees }
-  } = await http.get(apiEndPoints.employees, { headers });
+  try {
+    const {
+      data: { data: employees }
+    } = await http.get(apiEndPoints.employees, { headers });
 
-  return structureEmployees(employees);
+    return structureEmployees(employees);
+  } catch {
+    throw Error('ccc');
+  }
 }
 
 /**
@@ -67,9 +71,13 @@ export async function storeEmployees(employees: any) {
  * @returns {Array} : List of employees.
  */
 export async function fetchAllEmployees() {
-  const employees = await new Employee().fetchAll();
+  try {
+    const employees = await new Employee().fetchAll();
 
-  return employees.serialize();
+    return employees.serialize();
+  } catch {
+    throw new Error('bb');
+  }
 }
 
 /**
@@ -79,11 +87,15 @@ export async function fetchAllEmployees() {
  * @returns {Object} : Employee object.
  */
 export async function fetchEmployee(id: number) {
-  if (!id) {
-    return null;
+  try {
+    if (!id) {
+      return null;
+    }
+
+    const user = await new Employee().where({ id }).fetch();
+
+    return user.serialize();
+  } catch {
+    throw new Error('bb');
   }
-
-  const user = await new Employee().where({ id }).fetch();
-
-  return user.serialize();
 }
