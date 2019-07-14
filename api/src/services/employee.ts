@@ -15,6 +15,10 @@ export async function fetchLMSEmployee() {
 
   const headers = getLMSCoreHeader();
 
+  if (!lms.baseURI) {
+    throw new Error('not set LMS url');
+  }
+
   try {
     const { data } = await http.get(lms.baseURI, { headers });
 
