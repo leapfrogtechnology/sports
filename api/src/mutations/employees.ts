@@ -9,7 +9,7 @@ export async function fetchEmployeeList() {
   try {
     const employees = await employeeServices.fetchEmployeeList();
 
-    return employees;
+    return await employeeServices.storeEmployees(employees);
   } catch (err) {
     throw err;
   }

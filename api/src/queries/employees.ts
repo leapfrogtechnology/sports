@@ -1,5 +1,6 @@
 import Context from '../models/Context';
-import Employee from '../models/Employee';
+
+import { fetchAllEmployees, fetchEmployee } from '../services/employee';
 
 /**
  * Returns all the employees
@@ -10,9 +11,7 @@ import Employee from '../models/Employee';
  * @returns {Array}
  */
 export async function employees(parent: any, args: any, context: Context) {
-  const employeeList = await new Employee().fetchAll();
-
-  return employeeList.serialize();
+  return fetchAllEmployees();
 }
 
 /**
@@ -24,13 +23,5 @@ export async function employees(parent: any, args: any, context: Context) {
  * @returns {object}
  */
 export async function employee(parent: any, args: any, context: Context) {
-  const { id } = args;
-
-  if (!id) {
-    return null;
-  }
-
-  const user = await new Employee().where({ id }).fetch();
-
-  return user.serialize();
+  return fetchEmployee(args.id);
 }
