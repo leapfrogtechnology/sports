@@ -9,7 +9,7 @@ export async function fetchEmployeeList() {
   try {
     const employees = await employeeServices.fetchLMSEmployee();
 
-    return await employeeServices.storeEmployees(employees);
+    return employeeServices.storeEmployees(employees);
   } catch (err) {
     throw err;
   }

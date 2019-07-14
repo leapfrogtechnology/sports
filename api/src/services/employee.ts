@@ -21,8 +21,8 @@ export async function fetchLMSEmployee() {
     } = await http.get(apiEndPoints.employees, { headers });
 
     return structureEmployees(employees);
-  } catch {
-    throw new Error('ccc');
+  } catch (err) {
+    throw err;
   }
 }
 
