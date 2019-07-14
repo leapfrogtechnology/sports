@@ -7,7 +7,7 @@ import * as userService from '../service/user';
 import MissingUserNameOrPasswordError from '../error/MissingUserNameOrPasswordError';
 
 /**
- * Mutation for user to signUP.
+ * Mutation for a user to sign up.
  *
  * @param {Object} parent
  * @param {Object} mutationParams
