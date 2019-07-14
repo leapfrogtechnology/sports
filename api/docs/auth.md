@@ -10,48 +10,45 @@ Login an user.
 
   `Mutation: login`
 
-*  **Params**
+* **Params**
 
    `email*=[string]`
    `password*=[string]`
 
-
-
 * **Success Response:**
 
-    **Content:**
-
-    ```json
-    "data": {
-	    "login": {
-	      "message": "Login successful",
-	      "code": null,
-	      "data": null,
-	      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaXNSZWZyZXNoVG9rZW4iOnRydWUsImlhdCI6MTU2Mjg0MTg4NCwiZXhwIjoxNTYzNDQ2Njg0fQ.umvIkVhJ8bnCjkcBnGdW2dlxw4Wo27tnnzM2sJegTWc",
-	      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaWF0IjoxNTYyODQxODg0LCJleHAiOjE1NjI4NDU0ODR9.9i5Lg6aVCM9l3O3jYrx8UG529u7Ufq-95H5D2XyO7bg"
-	    }
+  **Content:**
+  ```json
+  "data": {
+	  "login": {
+	    "message": "Login successful",
+	    "code": null,
+	    "data": null,
+	    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaXNSZWZyZXNoVG9rZW4iOnRydWUsImlhdCI6MTU2Mjg0MTg4NCwiZXhwIjoxNTYzNDQ2Njg0fQ.umvIkVhJ8bnCjkcBnGdW2dlxw4Wo27tnnzM2sJegTWc",
+	    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaWF0IjoxNTYyODQxODg0LCJleHAiOjE1NjI4NDU0ODR9.9i5Lg6aVCM9l3O3jYrx8UG529u7Ufq-95H5D2XyO7bg"
+	  }
   }
   ```
 
 * **Error Response:**
 
   **Content:**
-     ```json
-      "data": {
-        "login": {
-          "message": "Employee not Found",
-          "code": 404,
-          "data": null,
-          "refreshToken": null,
-          "accessToken": null
-        }
-      }
-    ```
+    ```json
+  "data": {
+    "login": {
+      "message": "Employee not Found",
+      "code": 404,
+      "data": null,
+      "refreshToken": null,
+      "accessToken": null
+    }
+  }
+  ```
 
 * **Error Response:**
 
-    **Content:**
-    ```json
+  **Content:**
+  ```json
   "data": {
     "login": {
       "message": "Invalid Password",
@@ -65,25 +62,23 @@ Login an user.
 
 * **Error Response:**
 
-    **Content:**
-    ```json
-
+  **Content:**
+  ```json
   "data": {
     "login": {
-      "message": "User Not registered in the  app",
+      "message": "User account not found",
       "code": 404,
       "data": null,
       "refreshToken": null,
       "accessToken": null
     }
   }
-
 	```
 
 * **Error Response:**
 
-    **Content:**
-    ```json
+  **Content:**
+  ```json
   "data": {
     "login": {
       "message": "Either username or password is missing",
@@ -109,54 +104,48 @@ SignUp an user.
    `email*=[string]`
    `password*=[string]`
 
-
-
 * **Success Response:**
-
-    **Content:**
-
-    ```json
-   {
+  **Content:**
+  ```json
   "data": {
     "signUp": {
       "message": "Success",
       "code": 201,
       "data": null
-    		  }
-  		    }
-	}
+    	}
+  	}
   ```
 
 * **Error Response:**
 
   **Content:**
-     ```json
-      "data": {
+  ```json
+  "data": {
     "login": {
       "message": "Employee not Found",
       "code": 404,
       "data": null
-    		  }
-  }
-    ```
+    	}
+    }
+  ```
 
 * **Error Response:**
 
-    **Content:**
-    ```json
+  **Content:**
+  ```json
   "data": {
     "signUp": {
       "message": "Email Already Taken",
       "code": 409,
       "data": null
+      }
     }
-  }
 	```
 
 * **Error Response:**
 
-    **Content:**
-    ```json
+  **Content:**
+  ```json
   "data": {
     "login": {
       "message": "Either username or password is missing",
@@ -164,8 +153,8 @@ SignUp an user.
       "data": null,
       "refreshToken": null,
       "accessToken": null
+      }
     }
-  }
 	```
 
 **Refresh Access Token**
@@ -180,14 +169,11 @@ Refreshes access token after it has expired.
 
    `refreshToken*=[string]`
 
-
-
 * **Success Response:**
 
-    **Content:**
-
-    ```json
-   "data": {
+  **Content:**
+  ```json
+  "data": {
     "refreshAccessToken": {
       "message": "Token created successfully",
       "code": 200,
@@ -200,8 +186,8 @@ Refreshes access token after it has expired.
 * **Error Response:**
 
   **Content:**
-     ```json
-      "data": {
+  ```json
+  "data": {
     "refreshAccessToken": {
       "message": "Invalid token",
       "code": 400,
@@ -209,12 +195,12 @@ Refreshes access token after it has expired.
       "accessToken": null
     }
   }
-    ```
+  ```
 
 * **Error Response:**
 
-    **Content:**
-    ```json
+  **Content:**
+  ```json
   "data": {
     "refreshAccessToken": {
       "message": "Token has expired",
