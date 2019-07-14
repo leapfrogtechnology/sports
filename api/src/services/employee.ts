@@ -8,9 +8,9 @@ import { LMSEmployee } from '../domains/employee';
 /**
  * Fetch employees list from LMS.
  *
- * @returns {Promise}
+ * @returns {Array} : Array of employees.
  */
-export async function fetchEmployeeList() {
+export async function fetchLMSEmployee() {
   const { apiEndPoints } = appConfig;
 
   const headers = getLMSCoreHeader();
@@ -22,7 +22,7 @@ export async function fetchEmployeeList() {
 
     return structureEmployees(employees);
   } catch {
-    throw Error('ccc');
+    throw new Error('ccc');
   }
 }
 

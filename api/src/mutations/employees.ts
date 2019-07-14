@@ -7,7 +7,7 @@ import * as employeeServices from '../services/employee';
  */
 export async function fetchEmployeeList() {
   try {
-    const employees = await employeeServices.fetchEmployeeList();
+    const employees = await employeeServices.fetchLMSEmployee();
 
     return await employeeServices.storeEmployees(employees);
   } catch (err) {
