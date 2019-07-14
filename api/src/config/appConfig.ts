@@ -18,9 +18,9 @@ const appConfig = {
       maxAge: process.env.JWT_EXPIRE || '12h'
     }
   },
-  apiEndPoints: { employees: process.env.LMS_CORE },
-  apiKeys: {
-    core: process.env.EMS_API_KEY
+  lms: {
+    baseURI: process.env.LMS_CORE,
+    apiKey: process.env.EMS_API_KEY
   }
 };
 

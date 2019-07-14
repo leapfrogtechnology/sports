@@ -11,12 +11,12 @@ import { LMSEmployee } from '../domains/employee';
  * @returns {Array} : Array of employees.
  */
 export async function fetchLMSEmployee() {
-  const { apiEndPoints } = appConfig;
+  const { lms } = appConfig;
 
   const headers = getLMSCoreHeader();
 
   try {
-    const { data } = await http.get(apiEndPoints.employees, { headers });
+    const { data } = await http.get(lms.baseURI, { headers });
 
     return structureEmployees(data);
   } catch (err) {

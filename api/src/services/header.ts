@@ -5,10 +5,10 @@ import appConfig from '../config/appConfig';
  * @returns {object} : Header setup with athentication.
  */
 export function getLMSCoreHeader(params?: object) {
-  const { apiKeys } = appConfig;
+  const { lms } = appConfig;
 
   return {
-    apiKey: apiKeys.core,
+    apiKey: lms.apiKey,
     ...params
   };
 }
