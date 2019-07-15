@@ -4,7 +4,7 @@ import HttpStatus from 'http-status-codes';
 import { en } from '../lang/en';
 import { verify } from '../utils/jwt';
 import { User } from '../domains/user';
-import USER_ROLES from '../enums/roles';
+import USER_ROLES from '../enums/userRoles';
 import generateHash from '../utils/bcrypt';
 import UserModel from '../models/UserAccount';
 import EmployeeModel from '../models/Employee';

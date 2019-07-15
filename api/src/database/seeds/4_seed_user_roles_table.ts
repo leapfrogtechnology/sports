@@ -1,6 +1,6 @@
 import Knex from 'knex';
 
-import USER_ROLES from '../../enums/roles';
+import USER_ROLES from '../../enums/userRoles';
 import TABLES from '../../constants/tables';
 
 export async function seed(knex: Knex): Promise<any> {
