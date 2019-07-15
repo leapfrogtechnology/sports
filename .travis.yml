@@ -27,6 +27,7 @@ before_script:
     then
       STAGE=production
     else
+      STAGE=""
       echo "Undefined stage"
     fi
 env:
@@ -42,7 +43,7 @@ jobs:
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
         yarn && yarn build
-        if $STAGE IN (dev, production); then
+        if env(STAGE) IS present AND env(STAGE) IN (dev, production); then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
         fi
@@ -54,7 +55,7 @@ jobs:
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
         yarn && yarn build
-        if $STAGE IN (dev, production); then
+        if env(STAGE) IS present AND env(STAGE) IN (dev, production); then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
         fi
@@ -66,7 +67,7 @@ jobs:
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
         yarn && yarn build
-        if $STAGE IN (dev, production); then
+        if env(STAGE) IS present AND env(STAGE) IN (dev, production); then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
           up deploy $STAGE
         fi
