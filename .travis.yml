@@ -46,6 +46,7 @@ jobs:
         if [$STAGE == 'dev'] || [$STAGE == 'production']
         then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
+          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
         fi
 
@@ -59,6 +60,7 @@ jobs:
         if [$STAGE == 'dev'] || [$STAGE == 'production']
         then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
+          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
         fi
 
