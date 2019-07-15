@@ -106,8 +106,8 @@ SignUp an user.
       "message": "Success",
       "code": 201,
       "data": null
-    	}
       }
+    }
   ```
 
 - **Error Response:**
@@ -118,7 +118,7 @@ SignUp an user.
       "message": "Employee not Found",
       "code": 404,
       "data": null
-    	}
+      }
     }
   ```
 
