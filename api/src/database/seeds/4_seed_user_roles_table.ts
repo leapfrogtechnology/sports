@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
+import USER_ROLES from '../../enums/roles';
 import TABLES from '../../constants/tables';
-import { USER_ROLES } from '../../constants/api';
 
 export async function seed(knex: Knex): Promise<any> {
   // Deletes ALL existing entries
