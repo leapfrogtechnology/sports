@@ -39,6 +39,7 @@ jobs:
     - name: 'Deploy WEB_APP'
       env: PROJECT=web-app
       script: |
+        echo $STAGE
         echo "Building ${STAGE}:${PROJECT}"
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
