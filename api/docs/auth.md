@@ -15,7 +15,7 @@ Login an user.
   `email*=[string]`
   `password*=[string]`
 
-- **Success Response:**
+- **_Success Response:_**
 
   ```json
   "data": {
@@ -29,7 +29,9 @@ Login an user.
   }
   ```
 
-- **Error Response:**
+- **_Error Response:_**
+
+  **It occurs when the email provided is not registered as a ems employee**
 
   ```json
   "data": {
@@ -43,7 +45,7 @@ Login an user.
   }
   ```
 
-- **Error Response:**
+  **It occurs when the password provided is not correct**
 
   ```json
   "data": {
@@ -57,7 +59,7 @@ Login an user.
   }
   ```
 
-- **Error Response:**
+  **It occurs when the email provided is not signed onto the system**
 
   ```json
   "data": {
@@ -71,7 +73,7 @@ Login an user.
   }
   ```
 
-- **Error Response:**
+  **It occurs when either username or password is not provided while hitting the mutation**
 
   ```json
   "data": {
@@ -98,7 +100,7 @@ SignUp an user.
   `email*=[string]`
   `password*=[string]`
 
-- **Success Response:**
+- **_Success Response:_**
 
   ```json
   "data": {
@@ -106,11 +108,13 @@ SignUp an user.
       "message": "Success",
       "code": 201,
       "data": null
-      }
     }
+  }
   ```
 
 - **Error Response:**
+
+  **It occurs when the email provided is not registered as a ems employee**
 
   ```json
   "data": {
@@ -118,11 +122,11 @@ SignUp an user.
       "message": "Employee not Found",
       "code": 404,
       "data": null
-      }
     }
+  }
   ```
 
-- **Error Response:**
+  **It occurs when a user with the provided email has already been registered**
 
   ```json
   "data": {
@@ -130,11 +134,11 @@ SignUp an user.
       "message": "Email Already Taken",
       "code": 409,
       "data": null
-      }
     }
+  }
   ```
 
-- **Error Response:**
+  **It occurs if either username or password is not provided while signing up**
 
   ```json
   "data": {
@@ -144,8 +148,8 @@ SignUp an user.
       "data": null,
       "refreshToken": null,
       "accessToken": null
-      }
     }
+  }
   ```
 
 ## **Refresh Access Token**
@@ -160,7 +164,7 @@ Refreshes access token after it has expired.
 
   `refreshToken*=[string]`
 
-- **Success Response:**
+- **_Success Response:_**
 
   ```json
   "data": {
@@ -175,6 +179,8 @@ Refreshes access token after it has expired.
 
 - **Error Response:**
 
+  **It occurs if the provided refresh token is not valid**
+
   ```json
   "data": {
     "refreshAccessToken": {
@@ -186,7 +192,7 @@ Refreshes access token after it has expired.
   }
   ```
 
-- **Error Response:**
+  **It occurs when the provided refresh token has expired**
 
   ```json
   "data": {
