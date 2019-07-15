@@ -135,8 +135,6 @@ SignUp an user.
       "data": null
       }
     }
-  `
-
   ```
 
 - **Error Response:**
@@ -151,7 +149,6 @@ SignUp an user.
       "accessToken": null
       }
     }
-  `
   ```
 
 ## **Refresh Access Token**
@@ -203,5 +200,4 @@ Refreshes access token after it has expired.
       "accessToken": null
     }
   }
-  `
   ```
