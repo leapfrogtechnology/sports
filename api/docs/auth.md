@@ -107,7 +107,7 @@ SignUp an user.
       "code": 201,
       "data": null
     	}
-  	}
+      }
   ```
 
 - **Error Response:**
