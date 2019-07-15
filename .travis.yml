@@ -44,7 +44,7 @@ jobs:
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
         yarn && yarn build
-        if [$STAGE == 'dev'] || [$STAGE == 'production']
+        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
         then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
@@ -57,7 +57,7 @@ jobs:
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
         yarn && yarn build
-        if [$STAGE == 'dev'] || [$STAGE == 'production']
+        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
         then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
@@ -70,7 +70,7 @@ jobs:
         cd ${PROJECT}
         envault list -secret=sports/${PROJECT}/${STAGE} > .env
         yarn && yarn build
-        if [$STAGE == 'dev'] || [$STAGE == 'production']
+        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
         then
           echo "Pushing changes to ${STAGE}:${PROJECT}"
           up deploy $STAGE
