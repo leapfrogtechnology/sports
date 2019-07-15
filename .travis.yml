@@ -20,15 +20,15 @@ before_script:
   - 'curl -sf https://up.apex.sh/install | sudo sh'
   - |
     # branch to stage mapping
-    if [ $TRAVIS_BRANCH == "dev" ] || [ $TRAVIS_BRANCH == "SPORTS-229" ]
+    if [ $TRAVIS_BRANCH == "dev" ]
     then
       STAGE=dev
     elif [ $TRAVIS_BRANCH == "master" ]
     then
       STAGE=production
     else
+      STAGE=""
       echo "Undefined stage"
-      exit 1
     fi
 env:
   global:
@@ -39,32 +39,39 @@ jobs:
     - name: 'Deploy WEB_APP'
       env: PROJECT=web-app
       script: |
-        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building ${STAGE}:${PROJECT}";
-          cd ${PROJECT}
-          envault list -secret=sports/${PROJECT}/${STAGE} > .env
-          yarn && yarn build
+        echo "Building ${STAGE}:${PROJECT}"
+        cd ${PROJECT}
+        envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        yarn && yarn build
+        if [$STAGE == 'dev'] || [$STAGE == 'production']
+        then
+          echo "Pushing changes to ${STAGE}:${PROJECT}"
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
         fi
 
     - name: 'Deploy ADMIN_APP'
       env: PROJECT=admin-app
       script: |
-        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building ${STAGE}:${PROJECT}";
-          cd ${PROJECT}
-          envault list -secret=sports/${PROJECT}/${STAGE} > .env
-          yarn && yarn build
+        echo "Building ${STAGE}:${PROJECT}"
+        cd ${PROJECT}
+        envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        yarn && yarn build
+        if [$STAGE == 'dev'] || [$STAGE == 'production']
+        then
+          echo "Pushing changes to ${STAGE}:${PROJECT}"
           envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
         fi
 
     - name: 'Deploy API'
       env: PROJECT=api
       script: |
-        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
-          echo "Building ${STAGE}:${PROJECT}";
-          cd ${PROJECT}
-          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        echo "Building ${STAGE}:${PROJECT}"
+        cd ${PROJECT}
+        envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        yarn && yarn build
+        if [$STAGE == 'dev'] || [$STAGE == 'production']
+        then
+          echo "Pushing changes to ${STAGE}:${PROJECT}"
           up deploy $STAGE
         fi
 
