@@ -55,8 +55,6 @@ Login an user.
       "accessToken": null
     }
   }
-  `
-
   ```
 
 - **Error Response:**
@@ -85,7 +83,6 @@ Login an user.
       "accessToken": null
     }
   }
-  `
   ```
 
 ## **SignUp**
