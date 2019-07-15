@@ -2,38 +2,36 @@
 
 **Endpoint: api.sports/lftechnology.com/graphql**
 
-**Login**
-----
+## **Login**
+
 Login an user.
 
-* **Method:**
+- **Method:**
 
   `Mutation: login`
 
-* **Params**
+- **Params**
 
-   `email*=[string]`
-   `password*=[string]`
+  `email*=[string]`
+  `password*=[string]`
 
-* **Success Response:**
+- **Success Response:**
 
-  **Content:**
   ```json
   "data": {
-	  "login": {
-	    "message": "Login successful",
-	    "code": null,
-	    "data": null,
-	    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaXNSZWZyZXNoVG9rZW4iOnRydWUsImlhdCI6MTU2Mjg0MTg4NCwiZXhwIjoxNTYzNDQ2Njg0fQ.umvIkVhJ8bnCjkcBnGdW2dlxw4Wo27tnnzM2sJegTWc",
-	    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaWF0IjoxNTYyODQxODg0LCJleHAiOjE1NjI4NDU0ODR9.9i5Lg6aVCM9l3O3jYrx8UG529u7Ufq-95H5D2XyO7bg"
-	  }
+    "login": {
+      "message": "Login successful",
+      "code": null,
+      "data": null,
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaXNSZWZyZXNoVG9rZW4iOnRydWUsImlhdCI6MTU2Mjg0MTg4NCwiZXhwIjoxNTYzNDQ2Njg0fQ.umvIkVhJ8bnCjkcBnGdW2dlxw4Wo27tnnzM2sJegTWc",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaWF0IjoxNTYyODQxODg0LCJleHAiOjE1NjI4NDU0ODR9.9i5Lg6aVCM9l3O3jYrx8UG529u7Ufq-95H5D2XyO7bg"
+    }
   }
   ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
-    ```json
+  ```json
   "data": {
     "login": {
       "message": "Employee not Found",
@@ -45,9 +43,8 @@ Login an user.
   }
   ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
   ```json
   "data": {
     "login": {
@@ -58,11 +55,12 @@ Login an user.
       "accessToken": null
     }
   }
-	```
+  `
 
-* **Error Response:**
+  ```
 
-  **Content:**
+- **Error Response:**
+
   ```json
   "data": {
     "login": {
@@ -73,11 +71,10 @@ Login an user.
       "accessToken": null
     }
   }
-	```
+  ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
   ```json
   "data": {
     "login": {
@@ -88,24 +85,24 @@ Login an user.
       "accessToken": null
     }
   }
-	```
+  `
+  ```
 
+## **SignUp**
 
-**SignUp**
-----
 SignUp an user.
 
-* **Method:**
+- **Method:**
 
   `Mutation: signUp`
 
-*  **Params**
+- **Params**
 
-   `email*=[string]`
-   `password*=[string]`
+  `email*=[string]`
+  `password*=[string]`
 
-* **Success Response:**
-  **Content:**
+- **Success Response:**
+
   ```json
   "data": {
     "signUp": {
@@ -116,9 +113,8 @@ SignUp an user.
   	}
   ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
   ```json
   "data": {
     "login": {
@@ -129,9 +125,8 @@ SignUp an user.
     }
   ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
   ```json
   "data": {
     "signUp": {
@@ -140,11 +135,12 @@ SignUp an user.
       "data": null
       }
     }
-	```
+  `
 
-* **Error Response:**
+  ```
 
-  **Content:**
+- **Error Response:**
+
   ```json
   "data": {
     "login": {
@@ -155,23 +151,23 @@ SignUp an user.
       "accessToken": null
       }
     }
-	```
+  `
+  ```
 
-**Refresh Access Token**
-----
+## **Refresh Access Token**
+
 Refreshes access token after it has expired.
 
-* **Method:**
+- **Method:**
 
   `Mutation: refreshAccessToken`
 
-*  **Params**
+- **Params**
 
-   `refreshToken*=[string]`
+  `refreshToken*=[string]`
 
-* **Success Response:**
+- **Success Response:**
 
-  **Content:**
   ```json
   "data": {
     "refreshAccessToken": {
@@ -183,9 +179,8 @@ Refreshes access token after it has expired.
   }
   ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
   ```json
   "data": {
     "refreshAccessToken": {
@@ -197,9 +192,8 @@ Refreshes access token after it has expired.
   }
   ```
 
-* **Error Response:**
+- **Error Response:**
 
-  **Content:**
   ```json
   "data": {
     "refreshAccessToken": {
@@ -209,4 +203,5 @@ Refreshes access token after it has expired.
       "accessToken": null
     }
   }
-	```
+  `
+  ```
