@@ -7,7 +7,7 @@
       v-model="selectedTeam"
       :clearable="false"
       :options="teams"
-      :onChange="handleChangeSelectedTeam"
+      @input="handleChangeSelectedTeam"
     />
   </div>
 </template>
