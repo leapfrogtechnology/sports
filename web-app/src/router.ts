@@ -310,6 +310,13 @@ const router = new Router({
           }
         },
         {
+          path: FIFA_ROUTES.POINTS,
+          component: FutsalPoints,
+          meta: {
+            title: 'FIFA - Points'
+          }
+        },
+        {
           path: FIFA_ROUTES.TEAMS,
           component: Teams,
           meta: {
