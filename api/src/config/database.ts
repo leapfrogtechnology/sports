@@ -5,14 +5,15 @@ export const bootstrap = async (): Promise<void> => {
   dotenv.config();
 
   const environment = (process.env && process.env.NODE_ENV) || 'development';
+  const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION } = process.env;
 
-  if (environment === 'production') {
-    dynamoose.AWS.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION
-    });
-  } else {
-    dynamoose.local();
+  dynamoose.AWS.config.update({
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    region: AWS_REGION
+  });
+
+  if (environment !== 'production') {
+    dynamoose.local(`http://db:8000`);
   }
 };
