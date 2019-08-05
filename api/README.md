@@ -10,7 +10,7 @@
 ## Requirements
 
 - NodeJS: 8+
-- PostgreSQL: 9.6+
+- DynamoDB
 - Yarn
 
 ## Database documentation
@@ -19,7 +19,9 @@
 
 ## Setup Instructions
 
-- Copy environment file
+- Please use docker for the database setup. Refer to the [root readme](../README.md)
+
+- Copy environment file and update the values.
 
   ```bash
   cp `.env.example` `.env`
