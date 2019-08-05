@@ -4,8 +4,14 @@ import compression from 'compression';
 import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
 
-import schema from './schema';
 import * as dbConfig from './config/database';
+
+// Initialize database.
+// It needs to be here, do not move, please.
+dbConfig.bootstrap();
+
+import schema from './schema';
+import routes from './routes';
 
 const app = express();
 const server = new ApolloServer({
@@ -14,12 +20,8 @@ const server = new ApolloServer({
 });
 app.use('*', cors());
 app.use(compression());
+app.use(routes);
 server.applyMiddleware({ app, path: '/graphql' });
-
-// Initialize database.
-dbConfig.bootstrap();
-
-app.get('/', (req, res) => res.send('Hello World!'));
 
 const { PORT = 3000 } = process.env;
 
