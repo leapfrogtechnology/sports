@@ -1,16 +1,12 @@
 version: '3.1'
 services:
   db:
-    image: postgres:10
+    build: docker/db
     container_name: 'sports-db'
     ports:
-      - '${DB_PORT}:5432'
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - '${DB_PORT:-9090}:8000'
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+    - ./.data/dynamodb:/dynamodb_local_db
 
   api:
     image: node:8
@@ -19,7 +15,7 @@ services:
       - './api:/home/sports/api/'
     working_dir: /home/sports/api/
     ports:
-      - '${API_PORT}:3000'
+      - '${API_PORT:-9091}:3000'
     command: sh -c 'yarn && yarn start:dev'
 
   web-app:
@@ -29,7 +25,7 @@ services:
       - './web-app:/home/sports/web-app/'
     working_dir: /home/sports/web-app/
     ports:
-      - '${WEB_APP_PORT}:8080'
+      - '${WEB_APP_PORT:-9092}:8080'
     command: sh -c 'yarn && yarn serve'
 
   admin-app:
@@ -39,5 +35,5 @@ services:
       - './admin-app:/home/sports/admin-app/'
     working_dir: /home/sports/admin-app/
     ports:
-      - '${ADMIN_APP_PORT}:8080'
+      - '${ADMIN_APP_PORT:-9093}:8080'
     command: sh -c 'yarn && yarn serve'

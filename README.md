@@ -14,9 +14,9 @@ An application to manage the sports events. It includes the followings:
 
 ## All-in-one Setup (docker)
 
-* Copy the `.env.docker` and save as `.env`. Update the variables.
+* Copy the `.env.docker` and save as `.env`. Update the variables required for docker compose.
 
-  **_NOTE: The db variables should be same inside the api folder as well for migrations to work._**
+* Copy the `api/.env.example` and save as `api/.env`. Update the variables required for the database.
 
 * Run `docker-compose up` from the root folder to run all the applications at once. To run a specific application use `docker-compose up <service_name>`. To run the application in background, use `docker-compose up -d <service_name>`. The logs can be seen through `docker-compose logs`.
 
