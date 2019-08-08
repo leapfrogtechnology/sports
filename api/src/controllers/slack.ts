@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 
-import Employees from '../models/employees';
-
 export async function getEmployees(req: Request, res: Response) {
-  const employees = await Employees.scan().exec();
+  const data = {
+    name: 'Sports API',
+    test: true
+  };
 
-  res.json(employees);
+  res.json(data);
 }
