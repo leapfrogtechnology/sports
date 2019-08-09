@@ -1,5 +1,6 @@
 import Knex from 'knex';
 import * as dotenv from 'dotenv';
+
 import { toCamelCase, toSnakeCase } from '../utils/object';
 
 dotenv.config();
