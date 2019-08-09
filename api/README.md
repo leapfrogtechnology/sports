@@ -1,4 +1,4 @@
-# API
+# Sports API
 
 ## Techs
 
@@ -12,6 +12,10 @@
 - NodeJS: 8+
 - PostgreSQL: 9.6+
 - Yarn
+
+## Database documentation
+
+- [Database](./docs/db.md)
 
 ## Setup Instructions
 

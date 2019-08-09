@@ -19,6 +19,7 @@ export async function up(knex: Knex): Promise<any> {
     table.string('season').notNullable();
     table.timestamp('start_date');
     table.timestamp('finish_date');
+    table.text('registration_form_url');
     table
       .integer('updated_by')
       .notNullable()

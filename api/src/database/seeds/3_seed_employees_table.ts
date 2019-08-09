@@ -16,7 +16,8 @@ export async function seed(knex: Knex): Promise<any> {
           last_name: 'Admin',
           email: 'admin@sports.com',
           profile_picture_url: '',
-          ems_employee_id: 0
+          ems_employee_id: 0,
+          status: 'Permanent'
         }
       ]);
     });

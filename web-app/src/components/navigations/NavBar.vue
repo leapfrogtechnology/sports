@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="logo-wrapper">
-      <img 
-        :src="logo" 
-        class="logo" 
-        alt="sports" 
+      <img
+        :src="logo"
+        class="logo"
+        alt="sports"
       >
       <div class="logo-title">{{ pageTitle }}</div>
     </div>
     <ul class="nav nav--primary">
       <li>
-        <router-link 
+        <router-link
           :to="baseRoutes.FUTSAL"
           active-class="active"
         >
@@ -19,7 +19,7 @@
         </router-link>
       </li>
       <li>
-        <router-link 
+        <router-link
           :to="baseRoutes.CHESS"
           active-class="active"
         >
@@ -28,7 +28,7 @@
         </router-link>
       </li>
       <li>
-        <router-link 
+        <router-link
           :to="baseRoutes.CARROM_BOARD"
           active-class="active"
         >
@@ -37,7 +37,7 @@
         </router-link>
       </li>
       <li>
-        <router-link 
+        <router-link
           :to="baseRoutes.TABLE_TENNIS"
           active-class="active"
         >
@@ -80,7 +80,7 @@ export default class NavBar extends Vue {
   };
 
   public created() {
-    EventBus.$on('change-logo-title', (primaryText = 'LF Sports', secondaryText = '') => {
+    EventBus.$on('change-logo-title', (primaryText: string = 'LF Sports', secondaryText: string = '') => {
       this.title.primaryText = primaryText;
       this.title.secondaryText = secondaryText;
     });

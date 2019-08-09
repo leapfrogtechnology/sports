@@ -1,8 +1,9 @@
-# admin-app
+# Sports Admin App
 
 ## Techs
 
 * VueJS
+* Ant Design Framework
 
 ## Requirements
 

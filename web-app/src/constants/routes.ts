@@ -71,6 +71,7 @@ export const FIFA_ROUTES = {
   HOME: `${FIFA}/`,
   RESULTS: `${FIFA}/results`,
   FIXTURES: `${FIFA}/fixtures`,
+  POINTS: `${FIFA}/points`,
   TEAMS: `${FIFA}/teams`,
   FIXTURE: `${FIFA}/fixture/:fixtureId`,
 };

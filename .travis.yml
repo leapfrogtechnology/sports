@@ -1,0 +1,83 @@
+---
+sudo: false
+dist: xenial
+
+language: node_js
+node_js: '10.16'
+
+addons:
+  apt:
+    packages:
+      - 'python3'
+      - 'python3-pip'
+      - 'python3-setuptools'
+
+before_script:
+  - 'pip install --user awscli'
+  - "mkdir ~/.aws && echo '[default]\n' > ~/.aws/config && echo 'output=json' >> ~/.aws/config"
+  - 'pip3 install envault'
+  - 'envault --version'
+  - 'curl -sf https://up.apex.sh/install | sudo sh'
+  - |
+    # branch to stage mapping
+    if [ $TRAVIS_BRANCH == "dev" ]
+    then
+      STAGE=dev
+    elif [ $TRAVIS_BRANCH == "master" ]
+    then
+      STAGE=production
+    else
+      STAGE=""
+      echo "Undefined stage"
+    fi
+env:
+  global:
+    - 'PATH=$HOME/.local/bin:$PATH'
+
+jobs:
+  include:
+    - name: 'Deploy WEB_APP'
+      env: PROJECT=web-app
+      script: |
+        echo $STAGE
+        echo "Building ${STAGE}:${PROJECT}"
+        cd ${PROJECT}
+        envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        yarn && yarn build
+        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+        then
+          echo "Pushing changes to ${STAGE}:${PROJECT}"
+          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
+          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        fi
+
+    - name: 'Deploy ADMIN_APP'
+      env: PROJECT=admin-app
+      script: |
+        echo "Building ${STAGE}:${PROJECT}"
+        cd ${PROJECT}
+        envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        yarn && yarn build
+        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+        then
+          echo "Pushing changes to ${STAGE}:${PROJECT}"
+          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
+          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        fi
+
+    - name: 'Deploy API'
+      env: PROJECT=api
+      script: |
+        echo "Building ${STAGE}:${PROJECT}"
+        cd ${PROJECT}
+        envault list -secret=sports/${PROJECT}/${STAGE} > .env
+        yarn && yarn build
+        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+        then
+          echo "Pushing changes to ${STAGE}:${PROJECT}"
+          up deploy $STAGE
+        fi
+
+notifications:
+  slack:
+    secure: WNWuB5GBvC0Z9bJWXynim/n8aixg9vttt/4HAs6gfRQ/L47CeHNtjo5cjAn7HXa9emKenBrniiccNqfnRma7d7jcqQJ8BPI7+MTwjV5/Dgzng/Omm1nQ8Pwk2+w769/USDvY+PtNpVL15O0PY/c9MKfS5axJDgLyUIplOJXHRJUVtkBBZ/pK4QlZx1ffyl4+QlCGdMDdOLolrd4h2aj1wHjWMgyiLEQirIhR9oJbJyFi88cr+vzl5aZJRPf1L1Kji0hM8YNdcwrMej0WJwqAs17kTpYrfoymQHuFeX9rHHYIEMsh390o59Z5SwyCzBsGo66VvDhZ3mDcJurYF524fQynDJPIZqe4NLzd/JQMOC1Z5OsL3csMkd5XBQkGMC2HDfzHHlSHqfui2aptGiOZd3RZPE9yg8peMZ+OtzFOQFJz11PjiBiJZxyheXtzju3xeHwbgy9MS8yVWvzIkHwLKbuuBRG/Nx7r+C3H325eYdIQls4xwAiWfAdsuw888Im76h8Om1laHUnpVlTtHxaVMCOVoUHy5y0hnI6gMhGIE3NsIMgunmIQl9BffB8Z6HdzSOIJL5/VGGGI1ebWlBKk3mP3YBuZ+VKnQRHJKdAopPMdcLeIG+YGmbCLR27oY+gUHDxVSO2Ea5z9gJgFSGFDyOZnHctTpepqhaW9u8K/R+A=
