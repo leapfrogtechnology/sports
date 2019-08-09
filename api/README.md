@@ -17,6 +17,10 @@
 
 - [Database](./docs/db.md)
 
+## API documentation
+
+- [API](./docs/README.md)
+
 ## Setup Instructions
 
 - Copy environment file
