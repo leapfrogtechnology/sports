@@ -14,7 +14,7 @@ import Tournaments from './views/Tournaments.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -27,6 +27,9 @@ export default new Router({
       path: ROUTES.DASHBOARD,
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
           path: ROUTES.EMPLOYEES,
@@ -62,3 +65,29 @@ export default new Router({
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    const rawUserSession = localStorage.getItem('userSession');
+
+    if (rawUserSession === null || !rawUserSession.length) {
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      });
+    }
+
+    const userSession = rawUserSession && JSON.parse(rawUserSession);
+
+    if (userSession && !userSession.accessToken) {
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      });
+    }
+  }
+
+  next();
+});
+
+export default router;
