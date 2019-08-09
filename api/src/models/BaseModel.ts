@@ -1,6 +1,5 @@
-import BookShelf from '../config/bookshelf';
-
 import UserAccount from './UserAccount';
+import BookShelf from '../config/bookshelf';
 
 /**
  * Base bookshelf model that provides columns that is common in all tables used in app.

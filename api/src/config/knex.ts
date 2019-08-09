@@ -1,6 +1,8 @@
 import Knex from 'knex';
 import * as dotenv from 'dotenv';
 
+import { toCamelCase, toSnakeCase } from '../utils/object';
+
 dotenv.config();
 
 const config: Knex.Config = {
@@ -12,6 +14,21 @@ const config: Knex.Config = {
     database: process.env.DB_NAME,
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD
+  },
+  postProcessResponse: (result: any) => {
+    if (Array.isArray(result)) {
+      return result.map(row => toCamelCase(row));
+    }
+
+    return toCamelCase(result);
+  },
+  wrapIdentifier: (value: string, origImpl: any) => {
+    // FIXME: Currently this has been implemented as a hack. Need to figure out a better implementation
+    if (value !== '*') {
+      return origImpl(toSnakeCase(value));
+    }
+
+    return value;
   }
 };
 
