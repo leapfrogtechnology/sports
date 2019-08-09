@@ -1,12 +1,10 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <div>List of tournaments</div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {}
+export default class Tournaments extends Vue {}
 </script>

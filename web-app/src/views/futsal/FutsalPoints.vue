@@ -1,50 +1,47 @@
 <template>
   <div class="points-table-wrapper">
-    <table class="table table--striped points-wrapper">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Team</th>
-          <th>P</th>
-          <th>W</th>
-          <th>D</th>
-          <th>L</th>
-          <th class="hide-on-small-screen">GF</th>
-          <th class="hide-on-small-screen">GA</th>
-          <th>GD</th>
-          <th>Pts</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(point, index) in data.points" :key="index">
-          <td>{{ point.id }}</td>
-          <td class="points-team-name-wrapper">
-            <TeamLogo :team="point.team"/>
-            {{ point.team.name }}
-          </td>
-          <td>{{ point.played }}</td>
-          <td>{{ point.won }}</td>
-          <td>{{ point.drawn }}</td>
-          <td>{{ point.lost }}</td>
-          <td class="hide-on-small-screen">{{ point.goalsFor }}</td>
-          <td class="hide-on-small-screen">{{ point.goalsAgainst }}</td>
-          <td>{{ point.goalDifference }}</td>
-          <td>{{ point.points }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="!data.points || !data.points.length">
+      <p class="alert">Nothing to show here at the moment.</p>
+    </div>
+    <slot v-else-if="!groups.length || groups.length === 1">
+      <Points :points="data.points" />
+    </slot>
+    <slot v-else>
+      <Points
+        v-for="(group, index) in groups"
+        :key="`group-points-${index}`"
+        :title="group.name"
+        :points="group.points"
+      />
+    </slot>
   </div>
 </template>
 
 <script lang="ts">
+import { uniqBy } from 'lodash';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-import TeamLogo from '@/components/common/team-logo/TeamLogo.vue';
+import Points from './partials/Points.vue';
 
 @Component({
-  components: { TeamLogo }
+  components: { Points }
 })
 export default class FutsalPoints extends Vue {
   @Prop() private data!: any;
+
+  get groups(): object {
+    const groups: any = [];
+    const uniqueGroups = uniqBy(this.data.points, 'group');
+
+    uniqueGroups.forEach((g: any) => {
+      const points = this.data.points.filter((p: any) => p.group === g.group);
+      groups.push({
+        points,
+        name: g.group
+      });
+    });
+
+    return groups;
+  }
 }
 </script>

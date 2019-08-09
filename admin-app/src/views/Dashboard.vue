@@ -7,12 +7,7 @@
       <a-layout-header :style="{ background: '#fff', padding: 0 }" />
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
         <div :style="{ padding: '24px', background: '#fff', textAlign: 'center' }">
-          ...
-          <br />Really
-          <br />...
-          <br />...
-          <br />...
-          <br />long
+          <router-view />
         </div>
       </a-layout-content>
     </a-layout>

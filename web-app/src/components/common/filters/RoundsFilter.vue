@@ -7,7 +7,7 @@
       v-model="selectedRound"
       :clearable="false"
       :options="rounds"
-      :onChange="handleChangeSelectedRound"
+      @input="handleChangeSelectedRound"
     />
   </div>
 </template>

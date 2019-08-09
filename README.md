@@ -1,6 +1,6 @@
 # Sports
 
-[![Build Status](https://travis-ci.org/leapfrogtechnology/sports.svg?branch=dev)](https://travis-ci.org/leapfrogtechnology/sports)
+[![Build Status](https://travis-ci.org/leapfrogtechnology/sports.svg?branch=master)](https://travis-ci.org/leapfrogtechnology/sports) [![codebeat badge](https://codebeat.co/badges/6b922467-0143-4179-8797-34ced7fd4728)](https://codebeat.co/projects/github-com-leapfrogtechnology-sports-dev-5fb55e9c-0db5-46f0-af9a-4d1a3f038925)
 
 An application to manage the sports events. It includes the followings:
 
