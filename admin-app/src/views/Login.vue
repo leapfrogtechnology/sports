@@ -68,7 +68,7 @@ export default class Login extends Vue {
         const { email, password } = values;
 
         authService
-          .checkLogin(email, password)
+          .checkIfLoggedIn(email, password)
           .then((data: any) => {
             if (data && data.accessToken) {
               const params = {

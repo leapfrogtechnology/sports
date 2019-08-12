@@ -10,7 +10,7 @@ import * as httpHelper from '../utils/httpHelper';
  * @param {string} userPassword
  * @returns
  */
-export async function checkLogin(userEmail: string, userPassword: string) {
+export async function checkIfLoggedIn(userEmail: string, userPassword: string) {
   const queryApi = `login`;
 
   const mutation = `
