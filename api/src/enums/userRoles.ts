@@ -1,7 +1,14 @@
-enum roles {
-  SUPER_ADMIN = 1,
-  ADMIN = 2,
-  NORMAL = 3
-}
-
-export default roles;
+export default {
+  SUPER_ADMIN: {
+    id: 1,
+    name: 'Super Admin'
+  },
+  ADMIN: {
+    id: 2,
+    name: 'Admin'
+  },
+  USER: {
+    id: 3,
+    name: 'User'
+  }
+};

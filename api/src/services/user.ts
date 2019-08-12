@@ -107,7 +107,7 @@ export async function createUser(password: string, email: string) {
   return new UserModel({
     password: hashedPassword,
     // By default when a user is created assign a 3(Normal USER) as the role
-    userRoleId: USER_ROLES.NORMAL,
+    userRoleId: USER_ROLES.USER.id,
     employeeId: employee.emsEmployeeId,
     createdAt: new Date(),
     isActive: true

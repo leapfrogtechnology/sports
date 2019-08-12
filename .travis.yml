@@ -39,43 +39,49 @@ jobs:
     - name: 'Deploy WEB_APP'
       env: PROJECT=web-app
       script: |
-        echo $STAGE
-        echo "Building ${STAGE}:${PROJECT}"
-        cd ${PROJECT}
-        envault list -secret=sports/${PROJECT}/${STAGE} > .env
-        yarn && yarn build
-        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
-        then
-          echo "Pushing changes to ${STAGE}:${PROJECT}"
-          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
-          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo $STAGE
+          echo "Building ${STAGE}:${PROJECT}"
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+          then
+            echo "Pushing changes to ${STAGE}:${PROJECT}"
+            envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
+            envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+          fi
         fi
 
     - name: 'Deploy ADMIN_APP'
       env: PROJECT=admin-app
       script: |
-        echo "Building ${STAGE}:${PROJECT}"
-        cd ${PROJECT}
-        envault list -secret=sports/${PROJECT}/${STAGE} > .env
-        yarn && yarn build
-        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
-        then
-          echo "Pushing changes to ${STAGE}:${PROJECT}"
-          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
-          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building ${STAGE}:${PROJECT}"
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+          then
+            echo "Pushing changes to ${STAGE}:${PROJECT}"
+            envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
+            envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+          fi
         fi
 
     - name: 'Deploy API'
       env: PROJECT=api
       script: |
-        echo "Building ${STAGE}:${PROJECT}"
-        cd ${PROJECT}
-        envault list -secret=sports/${PROJECT}/${STAGE} > .env
-        yarn && yarn build
-        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
-        then
-          echo "Pushing changes to ${STAGE}:${PROJECT}"
-          up deploy $STAGE
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building ${STAGE}:${PROJECT}"
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+          then
+            echo "Pushing changes to ${STAGE}:${PROJECT}"
+            up deploy $STAGE
+          fi
         fi
 
 notifications:
