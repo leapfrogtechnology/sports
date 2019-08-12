@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
 
     if (!rawUserSession || !rawUserSession.length) {
       next({
-        path: '/login',
+        path: ROUTES.LOGIN,
         params: { nextUrl: to.fullPath }
       });
     }
@@ -81,7 +81,7 @@ router.beforeEach((to, from, next) => {
 
     if (userSession && !userSession.accessToken) {
       next({
-        path: '/login',
+        path: ROUTES.LOGIN,
         params: { nextUrl: to.fullPath }
       });
     }
