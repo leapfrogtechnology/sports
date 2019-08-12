@@ -11,9 +11,11 @@ import * as httpHelper from '../utils/httpHelper';
  * @returns
  */
 export async function checkLogin(userEmail: string, userPassword: string) {
+  const queryApi = `login`;
+
   const mutation = `
     mutation {
-      login (email: "${userEmail}", password: "${userPassword}") {
+      ${queryApi} (email: "${userEmail}", password: "${userPassword}") {
         message,
         code,
         data,
@@ -23,5 +25,5 @@ export async function checkLogin(userEmail: string, userPassword: string) {
     }
   `;
 
-  return await httpHelper.getResponse(mutation);
+  return await httpHelper.getResponse(queryApi, mutation);
 }

@@ -3,7 +3,12 @@
     <div class="header-image">
       <img :src="logo" width="300px" />
     </div>
+
     <a-form @submit.prevent="handleSubmit">
+      <a-form-item v-if="errorMessage.length">
+        <a-alert type="error" :message="errorMessage" />
+      </a-form-item>
+
       <a-form-item class="input-box">
         <a-input
           v-decorator="[{rules: [{required: true, message: 'Please enter your email'}]}]"
@@ -50,6 +55,7 @@ import * as storageService from '@/services/storage';
 export default class Login extends Vue {
   private userEmail: string = '';
   private userPassword: string = '';
+  private errorMessage: string = '';
   private logo: string = logoInvertedImage;
 
   private handleSubmit() {
@@ -64,14 +70,20 @@ export default class Login extends Vue {
             refreshToken: data.refreshToken
           };
 
+          this.errorMessage = '';
+
           storageService.setUserSession(params);
 
           this.$router.push(ROUTES.DASHBOARD);
 
           return;
         }
+
+        this.errorMessage = data.message;
       })
-      .catch();
+      .catch((err) => {
+        this.errorMessage = err.message;
+      });
   }
 }
 </script>
