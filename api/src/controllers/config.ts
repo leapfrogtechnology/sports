@@ -5,8 +5,9 @@ import * as configService from '../services/config';
 /**
  * Get app config values.
  *
- * @param req
- * @param res
+ * @export
+ * @param {Request} req
+ * @param {Response} res
  */
 export async function getConfig(req: Request, res: Response) {
   const data = configService.getConfig();
