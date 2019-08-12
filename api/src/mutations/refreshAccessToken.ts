@@ -2,7 +2,7 @@ import HttpStatus from 'http-status-codes';
 
 import Context from '../models/Context';
 import { buildError } from '../utils/errors';
-import * as tokenService from '../service/token';
+import * as tokenService from '../services/token';
 
 /**
  * Mutation to refresh access token.

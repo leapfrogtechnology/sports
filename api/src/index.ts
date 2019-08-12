@@ -5,6 +5,7 @@ import depthLimit from 'graphql-depth-limit';
 import { ApolloServer } from 'apollo-server-express';
 
 import schema from './schema';
+import routes from './routes';
 import knex from './config/knex';
 
 const app = express();
@@ -19,15 +20,13 @@ const server = new ApolloServer({
 });
 app.use('*', cors());
 app.use(compression());
+app.use(routes);
 server.applyMiddleware({ app, path: '/graphql' });
 
-app.get('/', (req, res) => res.send('Hello World!'));
-
-//tslint:disable
 // Make Apex compatible
 const { PORT = 3000 } = process.env;
 
 app.listen({ port: PORT }, (): void =>
-  /* eslint-disable-next-line no-console */
+  /* tslint:disable-next-line */
   console.log(`\n🚀    GraphQL is now running on http://localhost:${PORT}/graphql`)
 );
