@@ -1,43 +1,37 @@
 <template>
-  <div class="header">
-    <div class="header-image">
-      <img :src="logo" width="300px" />
+  <div id="components-form-demo-normal-login">
+    <div class="logo-wrapper">
+      <img class="logo-image" :src="logo" width="300px" />
     </div>
-
-    <a-form @submit.prevent="handleSubmit">
+    <a-form class="login-form" :form="form" @submit="handleSubmit">
       <a-form-item v-if="errorMessage.length">
         <a-alert type="error" :message="errorMessage" />
       </a-form-item>
-
-      <a-form-item class="input-box">
+      <a-form-item>
         <a-input
-          v-decorator="[{rules: [{required: true, message: 'Please enter your email'}]}]"
+          v-decorator="[
+          'email',
+          { rules: [{ required: true, type: 'email', message: 'Please input your email!' }] }
+        ]"
           placeholder="Email"
-          size="large"
-          v-model="userEmail"
         >
-          <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+          <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
-
-      <a-form-item class="input-box">
+      <a-form-item>
         <a-input
+          v-decorator="[
+          'password',
+          { rules: [{ required: true, message: 'Please input your Password!' }] }
+        ]"
           type="password"
-          v-decorator="[{rules: [{required: true, message: 'Please enter your password'}]}]"
           placeholder="Password"
-          size="large"
-          v-model="userPassword"
         >
-          <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+          <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
-
-      <a-form-item class="checkbox">
-        <a-checkbox class="checkbox-item">Remember Me</a-checkbox>
-      </a-form-item>
-
-      <a-form-item class="button">
-        <a-button type="primary" html-type="submit">Log in</a-button>
+      <a-form-item>
+        <a-button type="primary" html-type="submit" class="login-form-button">Log in</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -53,77 +47,77 @@ import * as storageService from '@/services/storage';
 
 @Component
 export default class Login extends Vue {
-  private userEmail: string = '';
-  private userPassword: string = '';
+  private form: any;
   private errorMessage: string = '';
   private logo: string = logoInvertedImage;
 
-  private handleSubmit() {
-    authService
-      .checkLogin(this.userEmail, this.userPassword)
-      .then((res) => {
-        const data = res.data.data.login;
+  private beforeCreate() {
+    this.form = this.$form.createForm(this);
+  }
 
-        if (data && data.accessToken) {
-          const params = {
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken
-          };
+  private handleSubmit(e: any) {
+    e.preventDefault();
 
-          this.errorMessage = '';
+    this.form.validateFields((err: any, values: any) => {
+      if (!err) {
+        const { email, password } = values;
+        this.errorMessage = '';
 
-          storageService.setUserSession(params);
+        authService
+          .checkLogin(email, password)
+          .then((data: any) => {
+            if (data && data.accessToken) {
+              const params = {
+                accessToken: data.accessToken,
+                refreshToken: data.refreshToken
+              };
 
-          this.$router.push(ROUTES.DASHBOARD);
+              storageService.setUserSession(params);
 
-          return;
-        }
+              this.$router.push(ROUTES.DASHBOARD);
 
-        this.errorMessage = data.message;
-      })
-      .catch((err) => {
-        this.errorMessage = err.message;
-      });
+              return;
+            } else {
+              this.errorMessage = data.message;
+            }
+          })
+          .catch((error: any) => {
+            this.errorMessage = error.message;
+          });
+      }
+    });
   }
 }
 </script>
 
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<style lang="scss" scoped>
+#components-form-demo-normal-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-.header-image {
-  text-align: center;
-  margin-top: 89px;
-  margin-bottom: 90px;
-}
+  .login-form {
+    width: 400px;
+    padding: 20px;
 
-.ant-input-affix-wrapper {
-  width: 370px;
-}
+    @media screen and (max-width: 420px) {
+      width: 100%;
+    }
+  }
 
-.input-box {
-  text-align: center;
-  margin-bottom: 25px;
-}
+  .login-form-button {
+    width: 100%;
+  }
 
-.checkbox-item {
-  color: white;
-}
+  .logo-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
 
-.checkbox {
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-.ant-btn-primary {
-  width: 370px;
-}
-
-.button {
-  text-align: center;
+    .logo-image {
+      width: 250px;
+    }
+  }
 }
 </style>

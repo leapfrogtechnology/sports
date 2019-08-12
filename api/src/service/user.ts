@@ -136,7 +136,7 @@ export function loginUser(password: string, email: string) {
 
         const { accessToken, refreshToken } = await generateAccessAndRefreshTokens({ user });
 
-        resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, status: HttpStatus.OK });
+        resolve({ accessToken, refreshToken, message: en.LOGIN_SUCCESSFUL, code: HttpStatus.OK });
       });
     } catch (err) {
       reject(err);
