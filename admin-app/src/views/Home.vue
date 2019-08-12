@@ -16,3 +16,4 @@ import Dashboard from '@/views/Dashboard.vue';
 })
 export default class Home extends Vue {}
 </script>
+

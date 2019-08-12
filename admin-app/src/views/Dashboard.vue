@@ -14,7 +14,7 @@
   </a-layout>
 </template>
 
-<script <script lang="ts">
+<script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
 import SideBar from '@/components/SideBar.vue';
