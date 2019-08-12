@@ -31,7 +31,8 @@
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" html-type="submit" class="login-form-button">Log in</a-button>
+        <a-button v-if="submitting" type="primary" class="login-form-button">Logging in...</a-button>
+        <a-button v-else type="primary" html-type="submit" class="login-form-button">Log in</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -49,6 +50,7 @@ import * as storageService from '@/services/storage';
 export default class Login extends Vue {
   private form: any;
   private errorMessage: string = '';
+  private submitting: boolean = false;
   private logo: string = logoInvertedImage;
 
   private beforeCreate() {
@@ -60,8 +62,10 @@ export default class Login extends Vue {
 
     this.form.validateFields((err: any, values: any) => {
       if (!err) {
-        const { email, password } = values;
         this.errorMessage = '';
+        this.submitting = true;
+
+        const { email, password } = values;
 
         authService
           .checkLogin(email, password)
@@ -83,6 +87,9 @@ export default class Login extends Vue {
           })
           .catch((error: any) => {
             this.errorMessage = error.message;
+          })
+          .then(() => {
+            this.submitting = false;
           });
       }
     });
