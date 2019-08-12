@@ -67,10 +67,10 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     const rawUserSession = localStorage.getItem('userSession');
 
-    if (rawUserSession === null || !rawUserSession.length) {
+    if (!rawUserSession || !rawUserSession.length) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }

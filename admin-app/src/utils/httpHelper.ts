@@ -12,7 +12,8 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
  * @export
  * @param {string} queryAPI
  * @param {string} query
- * @returns
+ * @returns {object}
+ * @throws {Error}
  */
 export async function getResponse(queryAPI: string, query: string) {
   const response = await axios({
@@ -25,7 +26,7 @@ export async function getResponse(queryAPI: string, query: string) {
 
   const data = response && response.data && response.data.data && response.data.data[queryAPI];
 
-  if (data && data.code && data.code === httpStatusCodes.OK) {
+  if (data && data.code === httpStatusCodes.OK) {
     return data;
   }
 

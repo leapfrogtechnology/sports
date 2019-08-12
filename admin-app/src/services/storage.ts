@@ -5,22 +5,13 @@ const SESSION_KEY = 'userSession';
  *
  * @export
  * @param {object} userSession
- * @returns {boolean}
  */
-export function setUserSession(userSession: object): boolean {
-  if (!userSession) {
-    return false;
+export function setUserSession(userSession: object) {
+  if (userSession) {
+    const session = JSON.stringify(userSession);
+
+    localStorage.setItem(SESSION_KEY, session);
   }
-
-  const session = JSON.stringify(userSession);
-
-  if (!session.length) {
-    return false;
-  }
-
-  localStorage.setItem(SESSION_KEY, session);
-
-  return true;
 }
 
 /**
