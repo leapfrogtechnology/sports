@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as dotenv from 'dotenv';
+import httpStatusCodes from 'http-status-codes';
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ export async function getResponse(queryApi: string, query: string) {
 
   const data = response && response.data && response.data.data && response.data.data[queryApi];
 
-  if (data && data.code && data.code === 200) {
+  if (data && data.code && data.code === httpStatusCodes.OK) {
     return data;
   }
 
