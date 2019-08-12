@@ -11,11 +11,11 @@ import * as httpHelper from '../utils/httpHelper';
  * @returns
  */
 export async function checkIfLoggedIn(userEmail: string, userPassword: string) {
-  const queryApi = `login`;
+  const queryAPI = `login`;
 
   const mutation = `
     mutation {
-      ${queryApi} (email: "${userEmail}", password: "${userPassword}") {
+      ${queryAPI} (email: "${userEmail}", password: "${userPassword}") {
         message,
         code,
         data,
@@ -25,5 +25,5 @@ export async function checkIfLoggedIn(userEmail: string, userPassword: string) {
     }
   `;
 
-  return await httpHelper.getResponse(queryApi, mutation);
+  return await httpHelper.getResponse(queryAPI, mutation);
 }

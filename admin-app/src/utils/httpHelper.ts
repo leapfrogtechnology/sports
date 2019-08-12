@@ -10,11 +10,11 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
  * Fetch response using the query/mutation.
  *
  * @export
- * @param {string} queryApi
+ * @param {string} queryAPI
  * @param {string} query
  * @returns
  */
-export async function getResponse(queryApi: string, query: string) {
+export async function getResponse(queryAPI: string, query: string) {
   const response = await axios({
     url: baseUrl,
     method: 'POST',
@@ -23,7 +23,7 @@ export async function getResponse(queryApi: string, query: string) {
     }
   });
 
-  const data = response && response.data && response.data.data && response.data.data[queryApi];
+  const data = response && response.data && response.data.data && response.data.data[queryAPI];
 
   if (data && data.code && data.code === httpStatusCodes.OK) {
     return data;
