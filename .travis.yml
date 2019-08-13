@@ -3,7 +3,6 @@ sudo: false
 dist: xenial
 
 language: node_js
-node_js: '8.10'
 
 addons:
   apt:
@@ -37,6 +36,7 @@ env:
 jobs:
   include:
     - name: 'Deploy WEB_APP'
+      node_js: '10.16'
       env: PROJECT=web-app
       script: |
         echo $STAGE
@@ -52,6 +52,7 @@ jobs:
         fi
 
     - name: 'Deploy ADMIN_APP'
+      node_js: '10.16'
       env: PROJECT=admin-app
       script: |
         echo "Building ${STAGE}:${PROJECT}"
@@ -66,6 +67,7 @@ jobs:
         fi
 
     - name: 'Deploy API'
+      node_js: '8.10'
       env: PROJECT=api
       script: |
         echo "Building ${STAGE}:${PROJECT}"
