@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>List of employees</h3>
+    <h2 class="custom-page-title">EMPLOYEES</h2>
     <EmployeeList />
   </div>
 </template>
