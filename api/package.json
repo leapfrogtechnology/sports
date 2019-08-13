@@ -82,5 +82,8 @@
     "tslint-config-leapfrog": "^1.0.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.2"
+  },
+  "engines" : {
+    "node" : "8.10"
   }
 }
