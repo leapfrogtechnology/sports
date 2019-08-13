@@ -23,7 +23,7 @@
 
 ## Setup Instructions
 
-- Copy environment file
+- Copy environment file and update environment variables.
 
   ```bash
   cp `.env.example` `.env`
