@@ -12,10 +12,10 @@ export async function up(knex: Knex): Promise<any> {
     table.increments('id').primary();
 
     table
-      .integer('fixture_id')
+      .integer('counter_strike_score_id')
       .notNullable()
       .references('id')
-      .inTable(TABLES.FIXTURES);
+      .inTable(TABLES.COUNTER_STRIKE_SCORES);
     table.integer('set').notNullable();
     table.integer('home_team_score').notNullable();
     table.integer('away_team_score').notNullable();

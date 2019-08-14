@@ -12,13 +12,13 @@ export async function up(knex: Knex): Promise<any> {
     table.increments('id').primary();
 
     table
-      .integer('fixture_id')
+      .integer('dota_score_id')
       .notNullable()
       .references('id')
-      .inTable(TABLES.FIXTURES);
+      .inTable(TABLES.DOTA_SCORES);
     table.integer('set').notNullable();
     table
-      .integer('winner_team')
+      .integer('winner_team_id')
       .notNullable()
       .references('id')
       .inTable(TABLES.TEAMS);

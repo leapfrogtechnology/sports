@@ -1,40 +1,41 @@
-- [List of tables](#List-of-tables)
-  - [Tables](#Tables)
-    - [`employees`](#employees)
-    - [`user_roles`](#userroles)
-    - [`user_accounts`](#useraccounts)
-    - [`user_account_tokens`](#useraccounttokens)
-    - [`games`](#games)
-    - [`tournaments`](#tournaments)
-    - [`categories`](#categories)
-    - [`sub_tournaments`](#subtournaments)
-    - [`sub_tournament_players`](#subtournamentplayers)
-    - [`teams`](#teams)
-    - [`team_players`](#teamplayers)
-    - [`statuses`](#statuses)
-    - [`rounds`](#rounds)
-    - [`fixtures`](#fixtures)
-    - [`fixture_images`](#fixtureimages)
-    - [`football_scores`](#footballscores)
-    - [`football_activity_types`](#footballactivitytypes)
-    - [`football_score_activities`](#footballscoreactivities)
-    - [`chess_scores`](#chessscores)
-    - [`chess_winning_methods`](#chesswinningmethods)
-    - [`carrom_board_scores`](#carromboardscores)
-    - [`carrom_board_score_activities`](#carromboardscoreactivities)
-    - [`table_tennis_scores`](#tabletennisscores)
-    - [`table_tennis_score_activities`](#tabletennisscoreactivities)
-    - [`counter_strike_scores`](#counterstrikescores)
-    - [`counter_strike_score_sets`](#counterstrikescoresets)
-    - [`counter_strike_score_set_activities`](#counterstrikescoresetactivities)
-    - [`dota_scores`](#dotascores)
-    - [`dota_score_activities`](#dotascoreactivities)
+- [List of tables](#list-of-tables)
+  - [Tables](#tables)
+    - [employees](#employees)
+    - [user_roles](#user_roles)
+    - [user_accounts](#user_accounts)
+    - [user_account_tokens](#user_account_tokens)
+    - [games](#games)
+    - [tournaments](#tournaments)
+    - [categories](#categories)
+    - [tournament_types](#tournament_types)
+    - [sub_tournaments](#sub_tournaments)
+    - [sub_tournament_images](#sub_tournament_images)
+    - [sub_tournament_players](#sub_tournament_players)
+    - [teams](#teams)
+    - [team_players](#team_players)
+    - [statuses](#statuses)
+    - [rounds](#rounds)
+    - [fixtures](#fixtures)
+    - [football_scores](#football_scores)
+    - [football_activity_types](#football_activity_types)
+    - [football_score_activities](#football_score_activities)
+    - [chess_winning_methods](#chess_winning_methods)
+    - [chess_scores](#chess_scores)
+    - [carrom_board_scores](#carrom_board_scores)
+    - [carrom_board_score_activities](#carrom_board_score_activities)
+    - [table_tennis_scores](#table_tennis_scores)
+    - [table_tennis_score_activities](#table_tennis_score_activities)
+    - [counter_strike_scores](#counter_strike_scores)
+    - [counter_strike_score_sets](#counter_strike_score_sets)
+    - [counter_strike_score_set_activities](#counter_strike_score_set_activities)
+    - [dota_scores](#dota_scores)
+    - [dota_score_activities](#dota_score_activities)
 
 # List of tables
 
 ## Tables
 
-### `employees`
+### employees
 
 | Column              | Type                     | Collation | Nullable | Default                               |
 | ------------------- | ------------------------ | --------- | -------- | ------------------------------------- |
@@ -54,7 +55,7 @@ Indexes:
 - "employees_pkey" PRIMARY KEY, btree (id)
 - "employees_email_unique" UNIQUE CONSTRAINT, btree (email)
 
-### `user_roles`
+### user_roles
 
 | Column     | Type                     | Collation | Nullable | Default                                |
 | ---------- | ------------------------ | --------- | -------- | -------------------------------------- |
@@ -67,7 +68,7 @@ Indexes:
 
 - "user_roles_pkey" PRIMARY KEY, btree (id)
 
-### `user_accounts`
+### user_accounts
 
 | Column       | Type                     | Collation | Nullable | Default                                   |
 | ------------ | ------------------------ | --------- | -------- | ----------------------------------------- |
@@ -88,13 +89,13 @@ Foreign-key constraints:
 
 - "user_accounts_user_role_id_foreign" FOREIGN KEY (user_role_id) REFERENCES user_roles(id)
 
-### `user_account_tokens`
+### user_account_tokens
 
 | Column          | Type                     | Collation | Nullable | Default                                         |
 | --------------- | ------------------------ | --------- | -------- | ----------------------------------------------- |
 | id              | integer                  |           | not null | nextval('user_account_tokens_id_seq'::regclass) |
 | user_account_id | integer                  |           | not null |                                                 |
-| refresh_token   | character varying(255)   |           | not null |                                                 |
+| refresh_token   | text                     |           | not null |                                                 |
 | created_at      | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                               |
 | updated_at      | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                               |
 
@@ -106,7 +107,7 @@ Foreign-key constraints:
 
 - "user_account_tokens_user_account_id_foreign" FOREIGN KEY (user_account_id) REFERENCES user_accounts(id)
 
-### `games`
+### games
 
 | Column     | Type                     | Collation | Nullable | Default                           |
 | ---------- | ------------------------ | --------- | -------- | --------------------------------- |
@@ -125,13 +126,14 @@ Foreign-key constraints:
 
 - "games_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `tournaments`
+### tournaments
 
 | Column                | Type                     | Collation | Nullable | Default                                 |
 | --------------------- | ------------------------ | --------- | -------- | --------------------------------------- |
 | id                    | integer                  |           | not null | nextval('tournaments_id_seq'::regclass) |
 | game_id               | integer                  |           | not null |                                         |
 | season                | character varying(255)   |           | not null |                                         |
+| name                  | character varying(255)   |           |          |                                         |
 | start_date            | timestamp with time zone |           |          |                                         |
 | finish_date           | timestamp with time zone |           |          |                                         |
 | registration_form_url | text                     |           |          |                                         |
@@ -148,7 +150,7 @@ Foreign-key constraints:
 - "tournaments_game_id_foreign" FOREIGN KEY (game_id) REFERENCES games(id)
 - "tournaments_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `categories`
+### categories
 
 | Column     | Type                     | Collation | Nullable | Default                                |
 | ---------- | ------------------------ | --------- | -------- | -------------------------------------- |
@@ -166,16 +168,30 @@ Foreign-key constraints:
 
 - "categories_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `sub_tournaments`
+### tournament_types
 
-| Column        | Type                     | Collation | Nullable | Default                                     |
-| ------------- | ------------------------ | --------- | -------- | ------------------------------------------- |
-| id            | integer                  |           | not null | nextval('sub_tournaments_id_seq'::regclass) |
-| tournament_id | integer                  |           | not null |                                             |
-| category_id   | integer                  |           | not null |                                             |
-| updated_by    | integer                  |           | not null |                                             |
-| created_at    | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                           |
-| updated_at    | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                           |
+| Column     | Type                     | Collation | Nullable | Default                                      |
+| ---------- | ------------------------ | --------- | -------- | -------------------------------------------- |
+| id         | integer                  |           | not null | nextval('tournament_types_id_seq'::regclass) |
+| name       | character varying(255)   |           | not null |                                              |
+| created_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                            |
+| updated_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                            |
+
+Indexes:
+
+- "tournament_types_pkey" PRIMARY KEY, btree (id)
+
+### sub_tournaments
+
+| Column             | Type                     | Collation | Nullable | Default                                     |
+| ------------------ | ------------------------ | --------- | -------- | ------------------------------------------- |
+| id                 | integer                  |           | not null | nextval('sub_tournaments_id_seq'::regclass) |
+| tournament_id      | integer                  |           | not null |                                             |
+| category_id        | integer                  |           | not null |                                             |
+| tournament_type_id | integer                  |           | not null |                                             |
+| updated_by         | integer                  |           | not null |                                             |
+| created_at         | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                           |
+| updated_at         | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                           |
 
 Indexes:
 
@@ -185,16 +201,38 @@ Foreign-key constraints:
 
 - "sub_tournaments_category_id_foreign" FOREIGN KEY (category_id) REFERENCES categories(id)
 - "sub_tournaments_tournament_id_foreign" FOREIGN KEY (tournament_id) REFERENCES tournaments(id)
+- "sub_tournaments_tournament_type_id_foreign" FOREIGN KEY (tournament_type_id) REFERENCES tournament_types(id)
 - "sub_tournaments_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `sub_tournament_players`
+### sub_tournament_images
+
+| Column            | Type                     | Collation | Nullable | Default                                           |
+| ----------------- | ------------------------ | --------- | -------- | ------------------------------------------------- |
+| id                | integer                  |           | not null | nextval('sub_tournament_images_id_seq'::regclass) |
+| sub_tournament_id | integer                  |           | not null |                                                   |
+| image             | integer                  |           | not null |                                                   |
+| is_cover          | boolean                  |           |          | false                                             |
+| updated_by        | integer                  |           | not null |                                                   |
+| created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
+| updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
+
+Indexes:
+
+- "sub_tournament_images_pkey" PRIMARY KEY, btree (id)
+
+Foreign-key constraints:
+
+- "sub_tournament_images_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES tournaments(id)
+- "sub_tournament_images_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
+
+### sub_tournament_players
 
 | Column            | Type                     | Collation | Nullable | Default                                            |
 | ----------------- | ------------------------ | --------- | -------- | -------------------------------------------------- |
 | id                | integer                  |           | not null | nextval('sub_tournament_players_id_seq'::regclass) |
 | sub_tournament_id | integer                  |           | not null |                                                    |
 | employee_id       | integer                  |           | not null |                                                    |
-| position          | character varying(255)   |           |          |                                                    |
+| positions         | character varying(255)   |           |          |                                                    |
 | updated_by        | integer                  |           | not null |                                                    |
 | created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                  |
 | updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                  |
@@ -209,13 +247,13 @@ Foreign-key constraints:
 - "sub_tournament_players_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES sub_tournaments(id)
 - "sub_tournament_players_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `teams`
+### teams
 
 | Column            | Type                     | Collation | Nullable | Default                           |
 | ----------------- | ------------------------ | --------- | -------- | --------------------------------- |
 | id                | integer                  |           | not null | nextval('teams_id_seq'::regclass) |
 | name              | character varying(255)   |           | not null |                                   |
-| logoImage         | text                     |           |          |                                   |
+| logo              | text                     |           |          |                                   |
 | sub_tournament_id | integer                  |           | not null |                                   |
 | updated_by        | integer                  |           | not null |                                   |
 | created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                 |
@@ -230,7 +268,7 @@ Foreign-key constraints:
 - "teams_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES sub_tournaments(id)
 - "teams_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `team_players`
+### team_players
 
 | Column     | Type                     | Collation | Nullable | Default                                  |
 | ---------- | ------------------------ | --------- | -------- | ---------------------------------------- |
@@ -252,7 +290,7 @@ Foreign-key constraints:
 - "team_players_team_id_foreign" FOREIGN KEY (team_id) REFERENCES teams(id)
 - "team_players_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `statuses`
+### statuses
 
 | Column     | Type                     | Collation | Nullable | Default                              |
 | ---------- | ------------------------ | --------- | -------- | ------------------------------------ |
@@ -270,7 +308,7 @@ Foreign-key constraints:
 
 - "statuses_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `rounds`
+### rounds
 
 | Column     | Type                     | Collation | Nullable | Default                            |
 | ---------- | ------------------------ | --------- | -------- | ---------------------------------- |
@@ -291,7 +329,7 @@ Foreign-key constraints:
 
 - "rounds_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `fixtures`
+### fixtures
 
 | Column                      | Type                     | Collation | Nullable | Default                              |
 | --------------------------- | ------------------------ | --------- | -------- | ------------------------------------ |
@@ -323,22 +361,7 @@ Foreign-key constraints:
 - "fixtures_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES sub_tournaments(id)
 - "fixtures_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `fixture_images`
-
-| Column     | Type                     | Collation | Nullable | Default                                    |
-| ---------- | ------------------------ | --------- | -------- | ------------------------------------------ |
-| id         | integer                  |           | not null | nextval('fixture_images_id_seq'::regclass) |
-| fixture_id | integer                  |           | not null |                                            |
-| image      | text                     |           | not null |                                            |
-| updated_by | integer                  |           | not null |                                            |
-| created_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                          |
-| updated_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                          |
-
-Indexes:
-
-- "fixture_images_pkey" PRIMARY KEY, btree (id)
-
-### `football_scores`
+### football_scores
 
 | Column                  | Type                     | Collation | Nullable | Default                                     |
 | ----------------------- | ------------------------ | --------- | -------- | ------------------------------------------- |
@@ -365,7 +388,7 @@ Foreign-key constraints:
 - "football_scores_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
 - "football_scores_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `football_activity_types`
+### football_activity_types
 
 | Column     | Type                     | Collation | Nullable | Default                                             |
 | ---------- | ------------------------ | --------- | -------- | --------------------------------------------------- |
@@ -378,41 +401,33 @@ Indexes:
 
 - "football_activity_types_pkey" PRIMARY KEY, btree (id)
 
-### `football_score_activities`
+### football_score_activities
 
-| Column           | Type                     | Collation | Nullable | Default                                               |
-| ---------------- | ------------------------ | --------- | -------- | ----------------------------------------------------- |
-| id               | integer                  |           | not null | nextval('football_score_activities_id_seq'::regclass) |
-| fixture_id       | integer                  |           | not null |                                                       |
-| team_player_id   | integer                  |           | not null |                                                       |
-| activity_type_id | integer                  |           | not null |                                                       |
-| assisted_by      | integer                  |           |          |                                                       |
-| activity_time    | character varying(255)   |           |          |                                                       |
-| updated_by       | integer                  |           | not null |                                                       |
-| created_at       | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
-| updated_at       | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
+| Column            | Type                     | Collation | Nullable | Default                                               |
+| ----------------- | ------------------------ | --------- | -------- | ----------------------------------------------------- |
+| id                | integer                  |           | not null | nextval('football_score_activities_id_seq'::regclass) |
+| football_score_id | integer                  |           | not null |                                                       |
+| team_player_id    | integer                  |           | not null |                                                       |
+| activity_type_id  | integer                  |           | not null |                                                       |
+| assisted_by       | integer                  |           |          |                                                       |
+| activity_time     | character varying(255)   |           |          |                                                       |
+| updated_by        | integer                  |           | not null |                                                       |
+| created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
+| updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
 
 Indexes:
 
 - "football_score_activities_pkey" PRIMARY KEY, btree (id)
 
-### `chess_scores`
+Foreign-key constraints:
 
-| Column            | Type                     | Collation | Nullable | Default                                  |
-| ----------------- | ------------------------ | --------- | -------- | ---------------------------------------- |
-| id                | integer                  |           | not null | nextval('chess_scores_id_seq'::regclass) |
-| fixture_id        | integer                  |           | not null |                                          |
-| winner_team       | integer                  |           | not null |                                          |
-| winning_method_id | integer                  |           | not null |                                          |
-| updated_by        | integer                  |           | not null |                                          |
-| created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                        |
-| updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                        |
+- "football_score_activities_activity_type_id_foreign" FOREIGN KEY (activity_type_id) REFERENCES football_activity_types(id)
+- "football_score_activities_assisted_by_foreign" FOREIGN KEY (assisted_by) REFERENCES team_players(id)
+- "football_score_activities_football_score_id_foreign" FOREIGN KEY (football_score_id) REFERENCES football_scores(id)
+- "football_score_activities_team_player_id_foreign" FOREIGN KEY (team_player_id) REFERENCES team_players(id)
+- "football_score_activities_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-Indexes:
-
-- "chess_scores_pkey" PRIMARY KEY, btree (id)
-
-### `chess_winning_methods`
+### chess_winning_methods
 
 | Column     | Type                     | Collation | Nullable | Default                                           |
 | ---------- | ------------------------ | --------- | -------- | ------------------------------------------------- |
@@ -425,7 +440,30 @@ Indexes:
 
 - "chess_winning_methods_pkey" PRIMARY KEY, btree (id)
 
-### `carrom_board_scores`
+### chess_scores
+
+| Column            | Type                     | Collation | Nullable | Default                                  |
+| ----------------- | ------------------------ | --------- | -------- | ---------------------------------------- |
+| id                | integer                  |           | not null | nextval('chess_scores_id_seq'::regclass) |
+| fixture_id        | integer                  |           | not null |                                          |
+| winner_team_id    | integer                  |           | not null |                                          |
+| winning_method_id | integer                  |           | not null |                                          |
+| updated_by        | integer                  |           | not null |                                          |
+| created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                        |
+| updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                        |
+
+Indexes:
+
+- "chess_scores_pkey" PRIMARY KEY, btree (id)
+
+Foreign-key constraints:
+
+- "chess_scores_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
+- "chess_scores_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
+- "chess_scores_winner_team_id_foreign" FOREIGN KEY (winner_team_id) REFERENCES teams(id)
+- "chess_scores_winning_method_id_foreign" FOREIGN KEY (winning_method_id) REFERENCES chess_winning_methods(id)
+
+### carrom_board_scores
 
 | Column          | Type                     | Collation | Nullable | Default                                         |
 | --------------- | ------------------------ | --------- | -------- | ----------------------------------------------- |
@@ -446,18 +484,18 @@ Foreign-key constraints:
 - "carrom_board_scores_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
 - "carrom_board_scores_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `carrom_board_score_activities`
+### carrom_board_score_activities
 
-| Column     | Type                     | Collation | Nullable | Default                                                   |
-| ---------- | ------------------------ | --------- | -------- | --------------------------------------------------------- |
-| id         | integer                  |           | not null | nextval('carrom_board_score_activities_id_seq'::regclass) |
-| fixture_id | integer                  |           | not null |                                                           |
-| team       | integer                  |           | not null |                                                           |
-| points     | integer                  |           | not null |                                                           |
-| order      | integer                  |           | not null |                                                           |
-| updated_by | integer                  |           | not null |                                                           |
-| created_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
-| updated_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
+| Column                | Type                     | Collation | Nullable | Default                                                   |
+| --------------------- | ------------------------ | --------- | -------- | --------------------------------------------------------- |
+| id                    | integer                  |           | not null | nextval('carrom_board_score_activities_id_seq'::regclass) |
+| carrom_board_score_id | integer                  |           | not null |                                                           |
+| team                  | integer                  |           | not null |                                                           |
+| set                   | integer                  |           | not null |                                                           |
+| points                | integer                  |           | not null |                                                           |
+| updated_by            | integer                  |           | not null |                                                           |
+| created_at            | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
+| updated_at            | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
 
 Indexes:
 
@@ -465,11 +503,11 @@ Indexes:
 
 Foreign-key constraints:
 
-- "carrom_board_score_activities_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
+- "carrom_board_score_activities_carrom_board_score_id_foreign" FOREIGN KEY (carrom_board_score_id) REFERENCES carrom_board_scores(id)
 - "carrom_board_score_activities_team_foreign" FOREIGN KEY (team) REFERENCES teams(id)
 - "carrom_board_score_activities_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `table_tennis_scores`
+### table_tennis_scores
 
 | Column          | Type                     | Collation | Nullable | Default                                         |
 | --------------- | ------------------------ | --------- | -------- | ----------------------------------------------- |
@@ -491,18 +529,18 @@ Foreign-key constraints:
 - "table_tennis_scores_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
 - "table_tennis_scores_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `table_tennis_score_activities`
+### table_tennis_score_activities
 
-| Column           | Type                     | Collation | Nullable | Default                                                   |
-| ---------------- | ------------------------ | --------- | -------- | --------------------------------------------------------- |
-| id               | integer                  |           | not null | nextval('table_tennis_score_activities_id_seq'::regclass) |
-| fixture_id       | integer                  |           | not null |                                                           |
-| set              | integer                  |           | not null |                                                           |
-| home_team_points | integer                  |           | not null |                                                           |
-| away_team_points | integer                  |           | not null |                                                           |
-| updated_by       | integer                  |           | not null |                                                           |
-| created_at       | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
-| updated_at       | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
+| Column                | Type                     | Collation | Nullable | Default                                                   |
+| --------------------- | ------------------------ | --------- | -------- | --------------------------------------------------------- |
+| id                    | integer                  |           | not null | nextval('table_tennis_score_activities_id_seq'::regclass) |
+| table_tennis_score_id | integer                  |           | not null |                                                           |
+| set                   | integer                  |           | not null |                                                           |
+| home_team_points      | integer                  |           | not null |                                                           |
+| away_team_points      | integer                  |           | not null |                                                           |
+| updated_by            | integer                  |           | not null |                                                           |
+| created_at            | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
+| updated_at            | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                         |
 
 Indexes:
 
@@ -513,7 +551,7 @@ Foreign-key constraints:
 - "table_tennis_score_activities_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
 - "table_tennis_score_activities_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `counter_strike_scores`
+### counter_strike_scores
 
 | Column          | Type                     | Collation | Nullable | Default                                           |
 | --------------- | ------------------------ | --------- | -------- | ------------------------------------------------- |
@@ -535,18 +573,18 @@ Foreign-key constraints:
 - "counter_strike_scores_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
 - "counter_strike_scores_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `counter_strike_score_sets`
+### counter_strike_score_sets
 
-| Column          | Type                     | Collation | Nullable | Default                                               |
-| --------------- | ------------------------ | --------- | -------- | ----------------------------------------------------- |
-| id              | integer                  |           | not null | nextval('counter_strike_score_sets_id_seq'::regclass) |
-| fixture_id      | integer                  |           | not null |                                                       |
-| set             | integer                  |           | not null |                                                       |
-| home_team_score | integer                  |           | not null |                                                       |
-| away_team_score | integer                  |           | not null |                                                       |
-| updated_by      | integer                  |           | not null |                                                       |
-| created_at      | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
-| updated_at      | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
+| Column                  | Type                     | Collation | Nullable | Default                                               |
+| ----------------------- | ------------------------ | --------- | -------- | ----------------------------------------------------- |
+| id                      | integer                  |           | not null | nextval('counter_strike_score_sets_id_seq'::regclass) |
+| counter_strike_score_id | integer                  |           | not null |                                                       |
+| set                     | integer                  |           | not null |                                                       |
+| home_team_score         | integer                  |           | not null |                                                       |
+| away_team_score         | integer                  |           | not null |                                                       |
+| updated_by              | integer                  |           | not null |                                                       |
+| created_at              | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
+| updated_at              | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                     |
 
 Indexes:
 
@@ -554,22 +592,22 @@ Indexes:
 
 Foreign-key constraints:
 
-- "counter_strike_score_sets_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
+- "counter_strike_score_sets_counter_strike_score_id_foreign" FOREIGN KEY (counter_strike_score_id) REFERENCES counter_strike_scores(id)
 - "counter_strike_score_sets_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `counter_strike_score_set_activities`
+### counter_strike_score_set_activities
 
-| Column         | Type                     | Collation | Nullable | Default                                                         |
-| -------------- | ------------------------ | --------- | -------- | --------------------------------------------------------------- |
-| id             | integer                  |           | not null | nextval('counter_strike_score_set_activities_id_seq'::regclass) |
-| set            | integer                  |           | not null |                                                                 |
-| team_player_id | integer                  |           | not null |                                                                 |
-| kills          | integer                  |           | not null |                                                                 |
-| deaths         | integer                  |           | not null |                                                                 |
-| assists        | integer                  |           | not null |                                                                 |
-| updated_by     | integer                  |           | not null |                                                                 |
-| created_at     | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                               |
-| updated_at     | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                               |
+| Column                      | Type                     | Collation | Nullable | Default                                                         |
+| --------------------------- | ------------------------ | --------- | -------- | --------------------------------------------------------------- |
+| id                          | integer                  |           | not null | nextval('counter_strike_score_set_activities_id_seq'::regclass) |
+| counter_strike_score_set_id | integer                  |           | not null |                                                                 |
+| team_player_id              | integer                  |           | not null |                                                                 |
+| kills                       | integer                  |           | not null |                                                                 |
+| deaths                      | integer                  |           | not null |                                                                 |
+| assists                     | integer                  |           | not null |                                                                 |
+| updated_by                  | integer                  |           | not null |                                                                 |
+| created_at                  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                               |
+| updated_at                  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                               |
 
 Indexes:
 
@@ -577,20 +615,21 @@ Indexes:
 
 Foreign-key constraints:
 
+- "counter_strike_score_set_activities_counter_strike_score_set_id" FOREIGN KEY (counter_strike_score_set_id) REFERENCES counter_strike_score_sets(id)
 - "counter_strike_score_set_activities_team_player_id_foreign" FOREIGN KEY (team_player_id) REFERENCES team_players(id)
 - "counter_strike_score_set_activities_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
-### `dota_scores`
+### dota_scores
 
-| Column      | Type                     | Collation | Nullable | Default                                 |
-| ----------- | ------------------------ | --------- | -------- | --------------------------------------- |
-| id          | integer                  |           | not null | nextval('dota_scores_id_seq'::regclass) |
-| fixture_id  | integer                  |           | not null |                                         |
-| sets_count  | integer                  |           | not null |                                         |
-| winner_team | integer                  |           | not null |                                         |
-| updated_by  | integer                  |           | not null |                                         |
-| created_at  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
-| updated_at  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
+| Column         | Type                     | Collation | Nullable | Default                                 |
+| -------------- | ------------------------ | --------- | -------- | --------------------------------------- |
+| id             | integer                  |           | not null | nextval('dota_scores_id_seq'::regclass) |
+| fixture_id     | integer                  |           | not null |                                         |
+| sets_count     | integer                  |           | not null |                                         |
+| winner_team_id | integer                  |           | not null |                                         |
+| updated_by     | integer                  |           | not null |                                         |
+| created_at     | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
+| updated_at     | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                       |
 
 Indexes:
 
@@ -600,19 +639,19 @@ Foreign-key constraints:
 
 - "dota_scores_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
 - "dota_scores_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
-- "dota_scores_winner_team_foreign" FOREIGN KEY (winner_team) REFERENCES teams(id)
+- "dota_scores_winner_team_foreign" FOREIGN KEY (winner_team_id) REFERENCES teams(id)
 
-### `dota_score_activities`
+### dota_score_activities
 
-| Column      | Type                     | Collation | Nullable | Default                                           |
-| ----------- | ------------------------ | --------- | -------- | ------------------------------------------------- |
-| id          | integer                  |           | not null | nextval('dota_score_activities_id_seq'::regclass) |
-| fixture_id  | integer                  |           | not null |                                                   |
-| set         | integer                  |           | not null |                                                   |
-| winner_team | integer                  |           | not null |                                                   |
-| updated_by  | integer                  |           | not null |                                                   |
-| created_at  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
-| updated_at  | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
+| Column         | Type                     | Collation | Nullable | Default                                           |
+| -------------- | ------------------------ | --------- | -------- | ------------------------------------------------- |
+| id             | integer                  |           | not null | nextval('dota_score_activities_id_seq'::regclass) |
+| dota_score_id  | integer                  |           | not null |                                                   |
+| set            | integer                  |           | not null |                                                   |
+| winner_team_id | integer                  |           | not null |                                                   |
+| updated_by     | integer                  |           | not null |                                                   |
+| created_at     | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
+| updated_at     | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
 
 Indexes:
 
@@ -620,6 +659,6 @@ Indexes:
 
 Foreign-key constraints:
 
-- "dota_score_activities_fixture_id_foreign" FOREIGN KEY (fixture_id) REFERENCES fixtures(id)
+- "dota_score_activities_dota_score_id_foreign" FOREIGN KEY (dota_score_id) REFERENCES dota_scores(id)
 - "dota_score_activities_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
-- "dota_score_activities_winner_team_foreign" FOREIGN KEY (winner_team) REFERENCES teams(id)
+- "dota_score_activities_winner_team_id_foreign" FOREIGN KEY (winner_team_id) REFERENCES teams(id)

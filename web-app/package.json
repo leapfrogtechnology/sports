@@ -52,5 +52,8 @@
       "prettier --parser scss --print-width 120 --write src/**/*.{sass,scss}",
       "git add"
     ]
+  },
+  "engines" : {
+    "node" : "10.16"
   }
 }

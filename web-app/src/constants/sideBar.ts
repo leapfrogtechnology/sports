@@ -72,6 +72,10 @@ export default [
     icon: 'fas fa-gamepad',
     seasons: [
       {
+        name: '2019 Q3',
+        route: '/counter-strike/2019-q3'
+      },
+      {
         name: '2019 Q1',
         route: '/counter-strike/2019-q1'
       },

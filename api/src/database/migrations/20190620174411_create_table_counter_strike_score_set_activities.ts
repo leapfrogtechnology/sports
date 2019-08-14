@@ -11,7 +11,11 @@ export async function up(knex: Knex): Promise<any> {
   return knex.schema.createTable(TABLES.COUNTER_STRIKE_SCORE_SET_ACTIVITIES, (table: Knex.CreateTableBuilder) => {
     table.increments('id').primary();
 
-    table.integer('set').notNullable();
+    table
+      .integer('counter_strike_score_set_id')
+      .notNullable()
+      .references('id')
+      .inTable(TABLES.COUNTER_STRIKE_SCORE_SETS);
     table
       .integer('team_player_id')
       .notNullable()

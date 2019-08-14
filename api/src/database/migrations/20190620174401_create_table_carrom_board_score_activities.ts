@@ -12,17 +12,17 @@ export async function up(knex: Knex): Promise<any> {
     table.increments('id').primary();
 
     table
-      .integer('fixture_id')
+      .integer('carrom_board_score_id')
       .notNullable()
       .references('id')
-      .inTable(TABLES.FIXTURES);
+      .inTable(TABLES.CARROM_BOARD_SCORES);
     table
       .integer('team')
       .notNullable()
       .references('id')
       .inTable(TABLES.TEAMS);
+    table.integer('set').notNullable();
     table.integer('points').notNullable();
-    table.integer('order').notNullable();
     table
       .integer('updated_by')
       .notNullable()

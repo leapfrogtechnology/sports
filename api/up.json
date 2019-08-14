@@ -2,6 +2,12 @@
   "name": "sports-api",
   "profile": "default",
   "regions": ["ap-south-1"],
+  "lambda": {
+    "vpc": {
+      "subnets": ["subnet-0f58a09403abb4c6b", "subnet-05d176d6cd31c100c"],
+      "security_groups": ["sg-0bf483895327eb3a0"]
+    }
+  },
   "stages": {
     "dev": {
       "domain": "dev.api.sports.lftechnology.com",

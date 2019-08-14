@@ -7,16 +7,20 @@ export default {
     id: 2,
     name: 'Own Goal'
   },
-  RED_CARD: {
+  PENALTY_GOAL: {
     id: 3,
+    name: 'Penalty Goal'
+  },
+  RED_CARD: {
+    id: 4,
     name: 'Red Card'
   },
   YELLOW_CARD: {
-    id: 4,
+    id: 5,
     name: 'Yellow Card'
   },
   DOUBLE_YELLOW_CARD: {
-    id: 5,
+    id: 6,
     name: 'Double Yellow Card'
   }
 };
