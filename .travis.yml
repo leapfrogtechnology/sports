@@ -51,6 +51,8 @@ jobs:
             envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
             envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
           fi
+        else
+          echo "Nothing to deploy for ${STAGE}:${PROJECT}"
         fi
 
     - name: 'Deploy ADMIN_APP'
@@ -68,6 +70,8 @@ jobs:
             envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
             envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
           fi
+        else
+          echo "Nothing to deploy for ${STAGE}:${PROJECT}"
         fi
 
     - name: 'Deploy API'
@@ -84,6 +88,8 @@ jobs:
             echo "Pushing changes to ${STAGE}:${PROJECT}"
             up deploy $STAGE
           fi
+        else
+          echo "Nothing to deploy for ${STAGE}:${PROJECT}"
         fi
 
 notifications:
