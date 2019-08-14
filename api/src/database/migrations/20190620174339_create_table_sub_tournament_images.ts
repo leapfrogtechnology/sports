@@ -16,7 +16,7 @@ export async function up(knex: Knex): Promise<any> {
       .notNullable()
       .references('id')
       .inTable(TABLES.TOURNAMENTS);
-    table.integer('image').notNullable();
+    table.text('image').notNullable();
     table.boolean('is_cover').defaultTo(false);
     table
       .integer('updated_by')
