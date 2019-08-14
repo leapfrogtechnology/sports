@@ -16,7 +16,7 @@ export async function up(knex: Knex): Promise<any> {
       .notNullable()
       .references('id')
       .inTable(TABLES.USER_ACCOUNTS);
-    table.string('refresh_token').notNullable();
+    table.text('refresh_token').notNullable();
 
     table.timestamps(true, true);
   });

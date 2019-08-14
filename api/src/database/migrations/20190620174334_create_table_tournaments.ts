@@ -17,6 +17,7 @@ export async function up(knex: Knex): Promise<any> {
       .references('id')
       .inTable(TABLES.GAMES);
     table.string('season').notNullable();
+    table.string('name');
     table.timestamp('start_date');
     table.timestamp('finish_date');
     table.text('registration_form_url');
