@@ -21,7 +21,7 @@ export async function up(knex: Knex): Promise<any> {
       .notNullable()
       .references('id')
       .inTable(TABLES.EMPLOYEES);
-    table.string('position');
+    table.string('positions');
     table
       .integer('updated_by')
       .notNullable()

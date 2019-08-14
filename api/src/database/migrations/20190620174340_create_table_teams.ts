@@ -12,7 +12,7 @@ export async function up(knex: Knex): Promise<any> {
     table.increments('id').primary();
 
     table.string('name').notNullable();
-    table.text('logoImage');
+    table.text('logo');
     table
       .integer('sub_tournament_id')
       .notNullable()

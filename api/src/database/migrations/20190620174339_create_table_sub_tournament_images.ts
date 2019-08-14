@@ -3,20 +3,21 @@ import Knex from 'knex';
 import TABLES from '../../constants/tables';
 
 /**
- * Add fixture_images table.
+ * Add sub_tournament_images table.
  *
  * @param {Knex} knex
  */
 export async function up(knex: Knex): Promise<any> {
-  return knex.schema.createTable(TABLES.FIXTURE_IMAGES, (table: Knex.CreateTableBuilder) => {
+  return knex.schema.createTable(TABLES.SUB_TOURNAMENT_IMAGES, (table: Knex.CreateTableBuilder) => {
     table.increments('id').primary();
 
     table
-      .integer('fixture_id')
+      .integer('sub_tournament_id')
       .notNullable()
       .references('id')
-      .inTable(TABLES.FIXTURES);
-    table.text('image').notNullable();
+      .inTable(TABLES.TOURNAMENTS);
+    table.integer('image').notNullable();
+    table.boolean('is_cover').defaultTo(false);
     table
       .integer('updated_by')
       .notNullable()
@@ -28,10 +29,10 @@ export async function up(knex: Knex): Promise<any> {
 }
 
 /**
- * Drop fixture_images table.
+ * Drop sub_tournament_images table.
  *
  * @param {Knex} knex
  */
 export async function down(knex: Knex): Promise<any> {
-  return knex.schema.dropTable(TABLES.FIXTURE_IMAGES);
+  return knex.schema.dropTable(TABLES.SUB_TOURNAMENT_IMAGES);
 }

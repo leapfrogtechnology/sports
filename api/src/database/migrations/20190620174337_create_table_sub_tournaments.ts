@@ -22,6 +22,11 @@ export async function up(knex: Knex): Promise<any> {
       .references('id')
       .inTable(TABLES.CATEGORIES);
     table
+      .integer('tournament_type_id')
+      .notNullable()
+      .references('id')
+      .inTable(TABLES.TOURNAMENT_TYPES);
+    table
       .integer('updated_by')
       .notNullable()
       .references('id')

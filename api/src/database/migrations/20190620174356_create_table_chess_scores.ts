@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<any> {
       .references('id')
       .inTable(TABLES.FIXTURES);
     table
-      .integer('winner_team')
+      .integer('winner_team_id')
       .notNullable()
       .references('id')
       .inTable(TABLES.TEAMS);
