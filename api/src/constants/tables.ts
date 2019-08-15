@@ -23,6 +23,7 @@ export default {
   COUNTER_STRIKE_SCORES: 'counter_strike_scores',
   DOTA_SCORE_ACTIVITIES: 'dota_score_activities',
   CHESS_WINNING_METHODS: 'chess_winning_methods',
+  SUB_TOURNAMENT_GROUPS: 'sub_tournament_groups',
   SUB_TOURNAMENT_PLAYERS: 'sub_tournament_players',
   FOOTBALL_ACTIVITY_TYPES: 'football_activity_types',
   COUNTER_STRIKE_SCORE_SETS: 'counter_strike_score_sets',

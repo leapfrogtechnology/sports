@@ -11,6 +11,7 @@
     - [sub_tournaments](#sub_tournaments)
     - [sub_tournament_images](#sub_tournament_images)
     - [sub_tournament_players](#sub_tournament_players)
+    - [sub_tournament_groups](#sub_tournament_groups)
     - [teams](#teams)
     - [team_players](#team_players)
     - [statuses](#statuses)
@@ -247,17 +248,38 @@ Foreign-key constraints:
 - "sub_tournament_players_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES sub_tournaments(id)
 - "sub_tournament_players_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
+### sub_tournament_groups
+
+| Column            | Type                     | Collation | Nullable | Default                                           |
+| ----------------- | ------------------------ | --------- | -------- | ------------------------------------------------- |
+| id                | integer                  |           | not null | nextval('sub_tournament_groups_id_seq'::regclass) |
+| sub_tournament_id | integer                  |           | not null |                                                   |
+| name              | integer                  |           | not null |                                                   |
+| updated_by        | integer                  |           | not null |                                                   |
+| created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
+| updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                                 |
+
+Indexes:
+
+- "sub_tournament_groups_pkey" PRIMARY KEY, btree (id)
+
+Foreign-key constraints:
+
+- "sub_tournament_groups_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES sub_tournaments(id)
+- "sub_tournament_groups_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
+
 ### teams
 
-| Column            | Type                     | Collation | Nullable | Default                           |
-| ----------------- | ------------------------ | --------- | -------- | --------------------------------- |
-| id                | integer                  |           | not null | nextval('teams_id_seq'::regclass) |
-| name              | character varying(255)   |           | not null |                                   |
-| logo              | text                     |           |          |                                   |
-| sub_tournament_id | integer                  |           | not null |                                   |
-| updated_by        | integer                  |           | not null |                                   |
-| created_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                 |
-| updated_at        | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                 |
+| Column                  | Type                     | Collation | Nullable | Default                           |
+| ----------------------- | ------------------------ | --------- | -------- | --------------------------------- |
+| id                      | integer                  |           | not null | nextval('teams_id_seq'::regclass) |
+| name                    | character varying(255)   |           | not null |                                   |
+| logo                    | text                     |           |          |                                   |
+| sub_tournament_id       | integer                  |           | not null |                                   |
+| sub_tournament_group_id | integer                  |           |          |                                   |
+| updated_by              | integer                  |           | not null |                                   |
+| created_at              | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                 |
+| updated_at              | timestamp with time zone |           | not null | CURRENT_TIMESTAMP                 |
 
 Indexes:
 
@@ -265,6 +287,7 @@ Indexes:
 
 Foreign-key constraints:
 
+- "teams_sub_tournament_group_id_foreign" FOREIGN KEY (sub_tournament_group_id) REFERENCES sub_tournament_groups(id)
 - "teams_sub_tournament_id_foreign" FOREIGN KEY (sub_tournament_id) REFERENCES sub_tournaments(id)
 - "teams_updated_by_foreign" FOREIGN KEY (updated_by) REFERENCES user_accounts(id)
 
