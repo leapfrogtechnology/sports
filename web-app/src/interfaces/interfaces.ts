@@ -98,6 +98,8 @@ export interface FixtureInterface {
   categoryType: string;
   round: string;
   winnerTeam?: TeamInterface;
+  homeTeamParentFixtureId: number;
+  awayTeamParentFixtureId: number;
 }
 
 export interface RecentsInterface {

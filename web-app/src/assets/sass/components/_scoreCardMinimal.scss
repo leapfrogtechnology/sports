@@ -1,0 +1,59 @@
+.score-card-minimal {
+  background-color: $color-white;
+  border-radius: $space--2;
+  color: $color-text--score-card;
+  display: flex;
+  flex-direction: row;
+  padding: $space;
+  width: $score-card-width--minimal;
+
+  @include themify($themes) {
+    color: theme-property(color-text--score-card);
+  }
+
+  .minimal-fixture-id {
+    align-items: center;
+    display: flex;
+    font-size: $font-size--12;
+    padding: $space;
+  }
+
+  .minimal-teams {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .minimal-team {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: $space $space--2;
+
+    &:first-child {
+      border-bottom: 1px solid rgba($color-black, 0.05);
+    }
+
+    &.winner {
+      font-weight: 600;
+    }
+  }
+
+  .minimal-team-name {
+    flex-grow: 1;
+  }
+
+  .minimal-team-score {
+    align-items: center;
+    color: $color-score-result;
+    display: flex;
+
+    @include themify($themes) {
+      color: theme-property(color-score-result);
+    }
+  }
+
+  .fa-trophy {
+    font-size: $font-size--16;
+  }
+}

@@ -37,19 +37,26 @@ export function isTeamTBD(team: TeamInterface): boolean {
  *
  * @export
  * @param {TeamInterface} team
+ * @param parentFixtureId
  * @returns {TeamInterface}
  */
-export function getTeamInfo(team: TeamInterface): TeamInterface {
+export function getTeamInfo(team: TeamInterface, parentFixtureId: number | null = null): TeamInterface {
   // Check if team is TBD. Set a default TBD team.
   if (isTeamTBD(team)) {
+    let teamName = 'TBD';
+
+    if (parentFixtureId) {
+      teamName = `Winner of ${parentFixtureId}`;
+    }
+
     return {
       id: 0,
-      name: 'TBD',
+      name: teamName,
       category: '',
       players: [
         {
           id: 0,
-          name: 'TBD'
+          name: teamName
         }
       ]
     };

@@ -24,6 +24,7 @@ import Results from '@/views/common/results/Results.vue';
 import FutsalStats from '@/views/futsal/FutsalStats.vue';
 import FutsalPoints from '@/views/futsal/FutsalPoints.vue';
 import Fixtures from '@/views/common/fixtures/Fixtures.vue';
+import Knockouts from '@/views/common/knockouts/Knockouts.vue';
 import CarromBoard from '@/views/carrom-board/CarromBoard.vue';
 import TableTennis from '@/views/table-tennis/TableTennis.vue';
 import CounterStrike from '@/views/counter-strike/CounterStrike.vue';
@@ -77,6 +78,13 @@ const router = new Router({
           }
         },
         {
+          path: TABLE_TENNIS_ROUTES.KNOCKOUTS,
+          component: Knockouts,
+          meta: {
+            title: 'Table Tennis - Knockouts'
+          }
+        },
+        {
           path: '*',
           redirect: TABLE_TENNIS_ROUTES.HOME
         }
@@ -115,6 +123,13 @@ const router = new Router({
           component: Teams,
           meta: {
             title: 'Chess - Teams'
+          }
+        },
+        {
+          path: CHESS_ROUTES.KNOCKOUTS,
+          component: Knockouts,
+          meta: {
+            title: 'Chess - Knockouts'
           }
         },
         {
@@ -213,13 +228,13 @@ const router = new Router({
             title: 'Carrom Board - Teams'
           }
         },
-        //   /* {
-        //     path: CARROM_BOARD_ROUTES.FIXTURE,
-        //     component: TableTennisScoreModal,
-        //     meta: {
-        //       title: 'Carrom Board - Fixture'
-        //     }
-        //   }, */
+        {
+          path: CARROM_BOARD_ROUTES.KNOCKOUTS,
+          component: Knockouts,
+          meta: {
+            title: 'Carrom Board - Knockouts'
+          }
+        },
         {
           path: '*',
           redirect: CARROM_BOARD_ROUTES.HOME
@@ -268,13 +283,13 @@ const router = new Router({
             title: 'Counter Strike - Teams'
           }
         },
-        //   /* {
-        //     path: COUNTER_STRIKE_ROUTES.FIXTURE,
-        //     component: TableTennisScoreModal,
-        //     meta: {
-        //       title: 'Counter Strike - Fixture'
-        //     }
-        //   }, */
+        {
+          path: COUNTER_STRIKE_ROUTES.KNOCKOUTS,
+          component: Knockouts,
+          meta: {
+            title: 'Counter Strike - Knockouts'
+          }
+        },
         {
           path: '*',
           redirect: COUNTER_STRIKE_ROUTES.HOME
@@ -323,13 +338,13 @@ const router = new Router({
             title: 'FIFA - Teams'
           }
         },
-        //   /* {
-        //     path: FIFA_ROUTES.FIXTURE,
-        //     component: TableTennisScoreModal,
-        //     meta: {
-        //       title: 'FIFA - Fixture'
-        //     }
-        //   }, */
+        {
+          path: FIFA_ROUTES.KNOCKOUTS,
+          component: Knockouts,
+          meta: {
+            title: 'FIFA - Knockouts'
+          }
+        },
         {
           path: '*',
           redirect: FIFA_ROUTES.HOME
@@ -376,6 +391,13 @@ const router = new Router({
           component: Teams,
           meta: {
             title: 'Dota - Teams'
+          }
+        },
+        {
+          path: DOTA_ROUTES.KNOCKOUTS,
+          component: Knockouts,
+          meta: {
+            title: 'Dota - Knockouts'
           }
         },
         {
