@@ -3,7 +3,7 @@
   border-radius: $space--2;
   color: $color-text--score-card;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: $space;
   width: $score-card-width--minimal;
 
@@ -14,8 +14,8 @@
   .minimal-fixture-id {
     align-items: center;
     display: flex;
-    font-size: $font-size--12;
-    padding: $space;
+    font-size: $font-size--10;
+    padding: $space/2 $space--2;
   }
 
   .minimal-teams {

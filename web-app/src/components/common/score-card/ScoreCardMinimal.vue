@@ -1,6 +1,6 @@
 <template>
   <div class="score-card-minimal">
-    <div class="minimal-fixture-id">{{ fixture.id }}.</div>
+    <div class="minimal-fixture-id">{{ `Match ${fixture.id} - ${fixture.roundInfo.description}` }}</div>
     <div class="minimal-teams">
       <div :class="['minimal-team', isHomeTeamWinner ? 'winner' : '']">
         <div class="minimal-team-name">{{ homeTeam.name }}</div>
