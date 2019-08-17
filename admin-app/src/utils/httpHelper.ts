@@ -24,11 +24,11 @@ export async function getResponse(queryAPI: string, query: string) {
     }
   });
 
-  const data = response && response.data && response.data.data && response.data.data[queryAPI];
+  const errors = response && response.data && response.data.errors;
 
-  if (data && data.code === httpStatusCodes.OK) {
-    return data;
+  if (errors) {
+    throw new Error(errors[0].message);
   }
 
-  throw new Error(data.message || 'An error occurred');
+  return response && response.data && response.data.data && response.data.data[queryAPI];
 }
