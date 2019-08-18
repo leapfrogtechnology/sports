@@ -9,7 +9,7 @@ export async function createGame(payload: { name: string; shortName: string }) {
   const newGame = await new Game({
     name: payload.name,
     shortName: payload.shortName.toLowerCase(),
-    updatedBy: 1
+    updatedBy: 3
   }).save();
 
   return newGame.serialize();

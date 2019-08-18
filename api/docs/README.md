@@ -1,5 +1,6 @@
 # Sports API
 
-## Auth documentation
+## API documentation
 
 - [Auth](./auth.md)
+- [Games](./games.md)
