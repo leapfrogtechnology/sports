@@ -7,31 +7,32 @@ import { ApolloServer } from 'apollo-server-express';
 import schema from './schema';
 import routes from './routes';
 import knex from './config/knex';
+import { getTokenFromHeaders } from './authenticator';
 import { validateToken } from './middlewares/validateToken';
-
-const HEADER_NAME = 'authorization';
 
 const app = express();
 const server = new ApolloServer({
   schema,
   validationRules: [depthLimit(7)],
   context: async ({ req }) => {
-    let authToken = null;
+    let token = null;
     let data;
 
     try {
-      authToken = req.headers[HEADER_NAME];
+      const headerResponse = getTokenFromHeaders(req);
 
-      if (authToken) {
-        data = await validateToken(authToken);
+      if (headerResponse.token) {
+        token = headerResponse.token;
+
+        data = await validateToken(token);
       }
     } catch (e) {
       // Just logging for now. Lets add a dedicated logger here later
-      console.warn(`Unable to authenticate using auth token: ${authToken}`);
+      console.warn(`Unable to authenticate using auth token: ${token}`);
     }
 
     return {
-      authToken,
+      token,
       ...data,
       db: knex
     };
