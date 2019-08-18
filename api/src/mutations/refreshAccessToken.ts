@@ -1,7 +1,6 @@
 import HttpStatus from 'http-status-codes';
 
 import Context from '../models/Context';
-import { buildError } from '../utils/errors';
 import * as tokenService from '../services/token';
 
 /**
@@ -13,11 +12,7 @@ import * as tokenService from '../services/token';
  * @returns {Object}
  */
 export const refreshAccessToken = async (parent: any, { refreshToken }: { refreshToken: string }, context: Context) => {
-  try {
-    const { accessToken, message } = await tokenService.getNewAccessToken(refreshToken);
+  const { accessToken, message } = await tokenService.getNewAccessToken(refreshToken);
 
-    return { accessToken, message, code: HttpStatus.OK };
-  } catch (err) {
-    return buildError(err);
-  }
+  return { accessToken, message, code: HttpStatus.OK };
 };
