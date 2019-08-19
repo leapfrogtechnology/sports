@@ -1,7 +1,6 @@
 import HttpStatus from 'http-status-codes';
 import { ApolloError } from 'apollo-server-express';
 
-import { en } from '../lang/en';
 import Game from '../models/Game';
 import Context from '../models/Context';
 import * as gameServices from '../services/game';

@@ -1,23 +1,3 @@
-type User {
-  id: Int
-  username: String
-  email: String
-}
-
-type Project {
-  id: Int
-  title: String
-  description: String
-  creator: User
-}
-
-type Query {
-  projects: [Project]
-  project(id: Int): Project
-  users: [User]
-  user(id: Int): User
-}
-
 type SignUpResponse {
   message: String
   code: Int
@@ -47,4 +27,8 @@ type Mutation {
   login(email: String, password: String): LoginResponse
   createGame(name: String!, shortName: String!): GameResponse
   refreshAccessToken(refreshToken: String): RefreshAccessTokenResponse
+}
+
+type Query {
+  games: [GameResponse]
 }

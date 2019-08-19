@@ -14,3 +14,15 @@ export async function createGame(payload: { name: string; shortName: string }) {
 
   return newGame.serialize();
 }
+
+/**
+ * Fetch list of all games.
+ *
+ * @export
+ * @returns
+ */
+export async function fetchAllGames() {
+  const games = await new Game().fetchAll();
+
+  return games.serialize();
+}
