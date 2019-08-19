@@ -1,6 +1,6 @@
-import { allGames } from './games';
+import { games } from './games';
 
 export default {
   // games
-  games: allGames
+  games
 };

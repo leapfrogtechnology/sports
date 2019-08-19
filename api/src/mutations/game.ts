@@ -19,6 +19,10 @@ export const createGame = async (
   { name, shortName }: { name: string; shortName: string },
   context: Context
 ) => {
+  if (context.error) {
+    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+  }
+
   if (!name || !name.length) {
     throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
