@@ -1,5 +1,5 @@
-import axios from 'axios';
 import * as dotenv from 'dotenv';
+import axios, { AxiosRequestConfig } from 'axios';
 
 import { getUserSession } from '../services/storage';
 
@@ -19,16 +19,21 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
 export async function getResponse(queryAPI: string, query: string) {
   const userSession: any = getUserSession();
 
-  const response = await axios({
+  const config: AxiosRequestConfig = {
     url: baseUrl,
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${userSession.accessToken}`
-    },
     data: {
       query
     }
-  });
+  };
+
+  if (userSession) {
+    config.headers = {
+      Authorization: `Bearer ${userSession.accessToken}`
+    };
+  }
+
+  const response = await axios(config);
 
   const errors = response && response.data && response.data.errors;
 
