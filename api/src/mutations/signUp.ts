@@ -1,5 +1,3 @@
-import HttpStatus from 'http-status-codes';
-
 import { en } from '../lang/en';
 import Context from '../models/Context';
 import * as userService from '../services/user';
@@ -25,5 +23,5 @@ export const signUp = async (
 
   await userService.createUser(password, email);
 
-  return { message: en.SUCCESS, code: HttpStatus.CREATED };
+  return { message: en.SUCCESS };
 };

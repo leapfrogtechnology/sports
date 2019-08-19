@@ -4,7 +4,7 @@
 
 ### Request
 
-```JSON
+```gql
 query {
   games {
     id,
@@ -39,7 +39,7 @@ query {
 
 ### Request
 
-```JSON
+```gql
 mutation {
   createGame (name: String!, shortName: String!) {
     id,
