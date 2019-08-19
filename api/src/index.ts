@@ -25,8 +25,10 @@ const server = new ApolloServer({
         token = headerResponse.token;
 
         data = await validateToken(token);
-      } else {
-        data = { error: new Error('Token not present') };
+      }
+
+      if (headerResponse.error) {
+        data = headerResponse;
       }
     } catch (e) {
       // Just logging for now. Lets add a dedicated logger here later
