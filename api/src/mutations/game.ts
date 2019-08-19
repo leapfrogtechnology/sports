@@ -20,18 +20,18 @@ export const createGame = async (
   context: Context
 ) => {
   if (!name || !name.length) {
-    throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.getStatusText(HttpStatus.BAD_REQUEST));
+    throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
   if (!shortName || !shortName.length) {
-    throw new ApolloError(`Field "shortName" cannot be empty`, HttpStatus.getStatusText(HttpStatus.BAD_REQUEST));
+    throw new ApolloError(`Field "shortName" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
   // Check if the game already exists
   const existingGame = await new Game().where({ shortName }).fetch();
 
   if (existingGame) {
-    throw new ApolloError('The game already exists', HttpStatus.getStatusText(HttpStatus.BAD_REQUEST));
+    throw new ApolloError('The game already exists', HttpStatus.BAD_REQUEST.toString());
   }
 
   const newGame = await gameServices.createGame({ name, shortName });
