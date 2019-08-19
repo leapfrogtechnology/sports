@@ -52,7 +52,9 @@ export function createRefreshToken(data: RefreshTokenData) {
  */
 export function verify(token: string) {
   try {
-    jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.verifyOptions);
+    const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.verifyOptions);
+    //  tslint:disable:no-console
+    console.log({ data });
   } catch (err) {
     if (err.name === TOKEN_EXPIRED_ERROR) {
       throw new JWTExpiredError(en.TOKEN_EXPIRED, err, HttpStatus.UNAUTHORIZED);
