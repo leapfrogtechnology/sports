@@ -14,9 +14,6 @@ export async function checkIfLoggedIn(userEmail: string, userPassword: string) {
   const mutation = `
     mutation {
       ${queryAPI} (email: "${userEmail}", password: "${userPassword}") {
-        message,
-        code,
-        data,
         refreshToken,
         accessToken
       }

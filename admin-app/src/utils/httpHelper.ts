@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as dotenv from 'dotenv';
-import httpStatusCodes from 'http-status-codes';
+
+import { getUserSession } from '../services/storage';
 
 dotenv.config();
 
@@ -16,9 +17,14 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
  * @throws {Error}
  */
 export async function getResponse(queryAPI: string, query: string) {
+  const userSession: any = getUserSession();
+
   const response = await axios({
     url: baseUrl,
     method: 'POST',
+    headers: {
+      Authorization: `Bearer ${userSession.accessToken}`
+    },
     data: {
       query
     }
