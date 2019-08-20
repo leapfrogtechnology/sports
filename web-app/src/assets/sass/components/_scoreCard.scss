@@ -304,15 +304,5 @@
     &:hover {
       cursor: pointer;
     }
-
-    .fa-trophy {
-      color: $color-trophy;
-      font-size: $font-size--16;
-      padding: 0 $space;
-
-      @include mq(md) {
-        font-size: $font-size--20;
-      }
-    }
   }
 }
