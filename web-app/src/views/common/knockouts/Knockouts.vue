@@ -34,25 +34,18 @@ export default class Knockouts extends Vue {
 
   get hasLastRoundFixtures(): boolean {
     // No rounds for this competition
-    if (!this.data.rounds.length) {
-      return false;
-    }
-
-    // The last round is league which is also the first round
-    if (this.groupedFixtures[0].round.description.toLowerCase() === 'league') {
+    // Or, the last round is league which is also the first round
+    if (!this.data.rounds.length || this.groupedFixtures[0].round.description.toLowerCase() === 'league') {
       return false;
     }
 
     const lastRoundFixtures = this.groupedFixtures && this.groupedFixtures.length && this.groupedFixtures[0].fixtures;
 
-    if (lastRoundFixtures && lastRoundFixtures.length > 1) {
-      return true;
-    }
-
     if (
       lastRoundFixtures &&
-      lastRoundFixtures.length === 1 &&
-      (lastRoundFixtures[0].homeTeamParentFixtureId || lastRoundFixtures[0].awayTeamParentFixtureId)
+      (lastRoundFixtures.length > 1 ||
+        (lastRoundFixtures.length === 1 &&
+          (lastRoundFixtures[0].homeTeamParentFixtureId || lastRoundFixtures[0].awayTeamParentFixtureId)))
     ) {
       return true;
     }
@@ -61,16 +54,16 @@ export default class Knockouts extends Vue {
   }
 
   get latestRoundFixtureIds() {
-    const ids = this.groupedFixtures[0].fixtures.map((a) => a.id);
+    const ids = this.groupedFixtures[0].fixtures.map(a => a.id);
 
     return ids[0];
   }
 
   get groupedFixtures() {
     const rFixtures = chain(this.data.allFixtures)
-      .map((fixture) => Object.assign(fixture, { roundInfo: this.getRoundInfoByName(fixture.round) }))
+      .map(fixture => Object.assign(fixture, { roundInfo: this.getRoundInfoByName(fixture.round) }))
       .groupBy('round')
-      .map((roundFixtures) => ({
+      .map(roundFixtures => ({
         round: roundFixtures[0].roundInfo,
         fixtures: chain(roundFixtures).value()
       }))
