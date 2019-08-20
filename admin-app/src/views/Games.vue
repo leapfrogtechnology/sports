@@ -3,20 +3,32 @@
     <h2 class="custom-page-title">GAMES</h2>
     <AddButton buttonText="Add new game" :handleClick="handleAddGame" />
     <ItemsList :data="data" :loading="loading" :pagination="pagination" :columns="columns" />
+    <AddGameFormModal
+      :visible="isAddModalVisible"
+      :submitForm="submitForm"
+      :handleCancel="handleFormCancel"
+      :errorMessage="addFormErrorMessage"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
-import { fetchAllGames } from '@/services/games';
 import ItemsList from '@/components/common/ItemsList.vue';
 import AddButton from '@/components/common/AddButton.vue';
+import { fetchAllGames, createGame } from '@/services/games';
+import AddGameFormModal from '@/components/games/AddGameFormModal.vue';
 
 @Component({
-  components: { ItemsList, AddButton }
+  components: { ItemsList, AddButton, AddGameFormModal }
 })
 export default class Games extends Vue {
+  // Form
+  private isAddModalVisible: boolean = false;
+  private addFormErrorMessage: string = '';
+
+  // Table
   private data: [] = [];
   private loading: boolean = true;
   private pagination: object = {};
@@ -43,11 +55,33 @@ export default class Games extends Vue {
     }
   ];
 
+  protected submitForm(payload: { name: string, shortName: string }) {
+    createGame(payload)
+      .then(() => {
+        this.fetchData();
+
+        this.isAddModalVisible = false;
+
+        this.$message.success('New game added successfully.');
+      })
+      .catch(err => {
+        this.addFormErrorMessage = err.toString();
+      });
+  }
+
+  protected handleFormCancel(e: any) {
+    e.preventDefault();
+
+    this.isAddModalVisible = false;
+  }
+
   private mounted() {
     this.fetchData();
   }
 
   private fetchData() {
+    this.loading = true;
+
     fetchAllGames()
       .then(response => {
         this.data = response;
@@ -58,6 +92,10 @@ export default class Games extends Vue {
       });
   }
 
-  private handleAddGame() {}
+  private handleAddGame(e: any) {
+    e.preventDefault();
+
+    this.isAddModalVisible = true;
+  }
 }
 </script>

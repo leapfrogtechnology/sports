@@ -21,3 +21,26 @@ export async function fetchAllGames() {
 
   return await httpHelper.getResponse(queryAPI, query);
 }
+
+/**
+ * Create a new game.
+ *
+ * @export
+ * @param {{ name: string; shortName: string }} payload
+ * @returns
+ */
+export async function createGame(payload: { name: string; shortName: string }) {
+  const queryAPI = `createGame`;
+
+  const mutation = `
+    mutation {
+      ${queryAPI} (name: "${payload.name}", shortName: "${payload.shortName}") {
+        id,
+        name,
+        shortName
+      }
+    }
+  `;
+
+  return await httpHelper.getResponse(queryAPI, mutation);
+}
