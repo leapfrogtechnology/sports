@@ -1,6 +1,11 @@
 <template>
   <div v-if="buttonText.length">
-    <a-button type="primary" icon="plus" @click="handleClick">{{buttonText}}</a-button>
+    <a-button
+      :style="{ margin: '8px 0' }"
+      type="primary"
+      icon="plus"
+      @click="handleClick"
+    >{{buttonText}}</a-button>
   </div>
 </template>
 
