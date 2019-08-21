@@ -93,9 +93,9 @@ export default class RecentFixtures extends Vue {
     let rangeFixtures: FixtureInterface[] = [];
 
     if (dateFns.isSameDay(firstDay, lastDay)) {
-      rangeFixtures = fixtures.filter((fixture) => dateFns.isSameDay(new Date(fixture.date), firstDay));
+      rangeFixtures = fixtures.filter(fixture => dateFns.isSameDay(new Date(fixture.date), firstDay));
     } else {
-      rangeFixtures = fixtures.filter((fixture) => dateFns.isWithinRange(new Date(fixture.date), firstDay, lastDay));
+      rangeFixtures = fixtures.filter(fixture => dateFns.isWithinRange(new Date(fixture.date), firstDay, lastDay));
     }
 
     return rangeFixtures.sort((a, b) => {
@@ -165,7 +165,7 @@ export default class RecentFixtures extends Vue {
 
     if (this.checkIfFixturesListIsEmpty(recentFixturesList)) {
       const comingFixtures = recentFixtures.filter(
-        (fixture) => !(isFixturePlayed(fixture) || isFixtureCancelled(fixture))
+        fixture => !(isFixturePlayed(fixture) || isFixtureCancelled(fixture))
       );
 
       recentFixturesList = Object.assign(recentFixturesList, {

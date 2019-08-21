@@ -28,7 +28,7 @@ export default class CategoriesFilter extends Vue {
   private selectedCateogoryId: number = this.selectedCategory.id;
 
   private handleChangeSelectedCategoryId() {
-    const category = this.categories.find((cat) => {
+    const category = this.categories.find(cat => {
       return cat.id === this.selectedCateogoryId;
     });
 

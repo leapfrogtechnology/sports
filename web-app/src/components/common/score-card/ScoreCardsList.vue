@@ -82,7 +82,7 @@ export default class ScoreCardList extends Vue {
     if (this.selectedRound && this.selectedRound.id !== 0) {
       fixturesList = filter(
         fixturesList,
-        (fx) => fx.round.toLowerCase() === (this.selectedRound && this.selectedRound.description.toLowerCase())
+        fixture => fixture.round.toLowerCase() === (this.selectedRound && this.selectedRound.description.toLowerCase())
       );
     }
 
@@ -90,7 +90,7 @@ export default class ScoreCardList extends Vue {
     if (this.selectedTeam && this.selectedTeam.id !== 0) {
       fixturesList = filter(
         fixturesList,
-        (fixture) =>
+        fixture =>
           fixture.homeTeam.id === (this.selectedTeam && this.selectedTeam.id) ||
           fixture.awayTeam.id === (this.selectedTeam && this.selectedTeam.id)
       );
@@ -103,9 +103,9 @@ export default class ScoreCardList extends Vue {
     const fixtures = cloneDeep(this.fixturesList);
 
     return chain(fixtures)
-      .map((fixture) => Object.assign(fixture, { roundInfo: this.getRoundInfoByName(fixture.round) }))
+      .map(fixture => Object.assign(fixture, { roundInfo: this.getRoundInfoByName(fixture.round) }))
       .groupBy('round')
-      .map((roundFixtures) => ({
+      .map(roundFixtures => ({
         round: roundFixtures[0].roundInfo,
         fixtures: chain(roundFixtures)
           .sortBy('date')

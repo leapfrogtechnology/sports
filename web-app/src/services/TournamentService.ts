@@ -71,8 +71,8 @@ export function getRecentTournaments(tournaments: TournamentInterface[]): Recent
   let seasons: SeasonInterface[] = [];
   const today = new Date();
 
-  tournaments.forEach((tournament) => {
-    tournament.seasons.forEach((season) => {
+  tournaments.forEach(tournament => {
+    tournament.seasons.forEach(season => {
       season.parentTournament = {
         id: tournament.id,
         name: tournament.name,
@@ -85,7 +85,7 @@ export function getRecentTournaments(tournaments: TournamentInterface[]): Recent
 
   seasons.sort((a, b) => differenceInDays(new Date(a.startDate), new Date(b.startDate))).reverse();
 
-  seasons.forEach((season) => {
+  seasons.forEach(season => {
     // Currently running
     if (!season.endDate && isAfter(today, new Date(season.startDate))) {
       recentTournaments.current.push(season);

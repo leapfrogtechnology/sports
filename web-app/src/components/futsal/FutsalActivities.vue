@@ -32,7 +32,7 @@ export default class FutsalActivities extends Vue {
   @Prop() private activities!: ActivityInterface[];
 
   get sortedActivities() {
-    return this.activities.sort((activity) => activity.id);
+    return this.activities.sort(activity => activity.id);
   }
 }
 </script>
