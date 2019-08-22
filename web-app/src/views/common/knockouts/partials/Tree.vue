@@ -21,6 +21,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import ScoreCardMinimal from '@/components/common/score-card/ScoreCardMinimal.vue';
 
 @Component({
+  name: 'Tree',
   components: { ScoreCardMinimal }
 })
 export default class Tree extends Vue {
