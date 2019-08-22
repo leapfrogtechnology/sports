@@ -22,7 +22,7 @@
           />
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-          <a-button type="primary" html-type="submit">Submit</a-button>
+          <a-button type="primary" html-type="submit">Save</a-button>
           <a-button :style="{ marginLeft: '8px' }" @click="handleCancel">Cancel</a-button>
         </a-form-item>
       </a-form>
@@ -54,6 +54,10 @@ export default class AddGameFormModal extends Vue {
         this.submitForm(values);
       }
     });
+  }
+
+  private hasErrors(fieldsError: any): boolean {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 }
 </script>
