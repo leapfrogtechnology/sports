@@ -2,8 +2,16 @@
   <div>
     <h2 class="custom-page-title">GAMES</h2>
     <AddButton buttonText="Add new game" :handleClick="handleAddGame" />
-    <ItemsList :data="data" :loading="loading" :pagination="pagination" :columns="columns" />
+    <ItemsList
+      :data="data"
+      :loading="loading"
+      :pagination="pagination"
+      :columns="columns"
+      :handleEdit="handleEdit"
+      :handleDelete="handleDelete"
+    />
     <AddGameFormModal
+      v-if="isAddModalVisible"
       :visible="isAddModalVisible"
       :submitForm="submitForm"
       :handleCancel="handleFormCancel"
@@ -55,7 +63,7 @@ export default class Games extends Vue {
     }
   ];
 
-  protected submitForm(payload: { name: string, shortName: string }) {
+  protected submitForm(payload: { name: string; shortName: string }) {
     createGame(payload)
       .then(() => {
         this.fetchData();
@@ -73,6 +81,16 @@ export default class Games extends Vue {
     e.preventDefault();
 
     this.isAddModalVisible = false;
+  }
+
+  protected handleEdit(a: any) {
+    //tslint:disable
+    console.log(`Edit form`, a);
+  }
+
+  protected handleDelete(a: any) {
+    //tslint:disable
+    console.log(`Delete record`, a);
   }
 
   private mounted() {

@@ -7,11 +7,11 @@
     :loading="loading"
     @change="handleTableChange"
   >
-    <template slot="actions">
+    <template slot="actions" slot-scope="record">
       <span>
-        <a href="javascript:;">Edit</a>
+        <a href="javascript:;" @click="() => handleEdit(record)">Edit</a>
         <a-divider type="vertical" />
-        <a href="javascript:;">Delete</a>
+        <a href="javascript:;" @click="() => handleDelete(record)">Delete</a>
       </span>
     </template>
   </a-table>
@@ -28,14 +28,22 @@ export default class ItemsList extends Vue {
   @Prop() private columns!: object[];
   @Prop() private pagination!: object;
 
+  @Prop() private handleEdit!: any;
+  @Prop() private handleDelete!: any;
+
   private tableData: any[] = [];
+  private tableDataChanged: boolean = false;
 
   private updated() {
-    this.tableData = this.data;
+    if (!this.tableDataChanged) {
+      this.tableData = this.data;
+    }
   }
 
   private handleTableChange(pagination: any, filters: any, sorter: any) {
     if (sorter) {
+      this.tableDataChanged = true;
+
       // Clone the original data
       const data = JSON.parse(JSON.stringify(this.data));
       const sortedData = sortBy(data, [sorter.fieldName]);
