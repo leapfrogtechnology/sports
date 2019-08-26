@@ -8,17 +8,65 @@ import * as gameServices from '../services/game';
 /**
  * Mutation for creating a new game.
  *
- * @param {Object} parent
- * @param {Object} mutationParams
+ * @export
+ * @param {*} parent
+ * @param {{ name: string; shortName: string }} { name, shortName }
  * @param {Context} context
- * @returns {Object}
- * @throws {MissingUserNameOrPasswordError}
+ * @returns
  */
-export const createGame = async (
+export async function createGame(
   parent: any,
   { name, shortName }: { name: string; shortName: string },
   context: Context
-) => {
+) {
+  // Validate
+  await validate(context, name, shortName);
+
+  const newGame = await gameServices.createGame({ name, shortName });
+
+  return newGame;
+}
+
+/**
+ * Mutation for editing an existing game by id.
+ *
+ * @export
+ * @param {*} parent
+ * @param {{ id: number; name: string; shortName: string }} { id, name, shortName }
+ * @param {Context} context
+ * @returns {object}
+ * @throws ApolloError
+ */
+export async function editGame(
+  parent: any,
+  { id, name, shortName }: { id: number; name: string; shortName: string },
+  context: Context
+) {
+  if (!id) {
+    throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
+  }
+
+  await validate(context, name, shortName);
+
+  const payload = {
+    name,
+    shortName
+  };
+
+  const updatedGame = await gameServices.editGame(id, payload);
+
+  return updatedGame;
+}
+
+/**
+ * Validate the payload.
+ * Throw an error if any of the validation fails.
+ *
+ * @param {Context} context
+ * @param {string} name
+ * @param {string} shortName
+ */
+async function validate(context: Context, name: string, shortName: string) {
   if (context.error) {
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
@@ -37,8 +85,4 @@ export const createGame = async (
   if (existingGame) {
     throw new ApolloError('The game already exists', HttpStatus.BAD_REQUEST.toString());
   }
-
-  const newGame = await gameServices.createGame({ name, shortName });
-
-  return newGame;
-};
+}
