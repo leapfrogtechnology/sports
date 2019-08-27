@@ -59,6 +59,30 @@ export async function editGame(
 }
 
 /**
+ * Mutation to delete an existing game.
+ *
+ * @export
+ * @param {*} parent
+ * @param {{ id: number; }} { id }
+ * @param {Context} context
+ * @returns
+ * @throws ApolloError
+ */
+export async function deleteGame(parent: any, { id }: { id: number }, context: Context) {
+  if (context.error) {
+    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+  }
+
+  if (!id) {
+    throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
+  }
+
+  const deletedGame = await gameServices.deleteGame(id);
+
+  return deletedGame;
+}
+
+/**
  * Validate the payload.
  * Throw an error if any of the validation fails.
  *

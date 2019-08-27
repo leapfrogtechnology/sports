@@ -49,6 +49,29 @@ export async function editGame(id: number, payload: { name: string; shortName: s
 }
 
 /**
+ * Delete an existing game.
+ *
+ * @export
+ * @param {number} id
+ * @returns
+ */
+export async function deleteGame(id: number) {
+  // Check if the game exists
+  const game = await new Game({ id }).fetch();
+
+  if (!game) {
+    throw new ApolloError(`Game does not exist`, HttpStatus.BAD_REQUEST.toString());
+  }
+
+  // Delete the record from the database.
+  await game.destroy();
+
+  return {
+    message: `Game successfully deleted`
+  };
+}
+
+/**
  * Fetch list of all games.
  *
  * @export

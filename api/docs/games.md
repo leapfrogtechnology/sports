@@ -62,3 +62,55 @@ mutation {
   }
 }
 ```
+
+## Edit an existing game
+
+### Request
+
+```gql
+mutation {
+  editGame (id: Int!, name: String!, shortName: String!) {
+    id,
+    name,
+    shortName
+  }
+}
+```
+
+### Response
+
+```JSON
+{
+  "data": {
+    "editGame": {
+      "id": 15,
+      "name": "Carrom",
+      "shortName": "carrom"
+    }
+  }
+}
+```
+
+## Delete an existing game
+
+### Request
+
+```gql
+mutation {
+  deleteGame (id: Int!) {
+    message
+  }
+}
+```
+
+### Response
+
+```JSON
+{
+  "data": {
+    "deleteGame": {
+      "message": "Game successfully deleted"
+    }
+  }
+}
+```
