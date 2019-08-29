@@ -1,4 +1,5 @@
 import * as httpHelper from '../utils/httpHelper';
+import GameInterface from '@/domains/models/Game';
 
 /**
  * Fetch the list of all games.
@@ -35,6 +36,29 @@ export async function createGame(payload: { name: string; shortName: string }) {
   const mutation = `
     mutation {
       ${queryAPI} (name: "${payload.name}", shortName: "${payload.shortName}") {
+        id,
+        name,
+        shortName
+      }
+    }
+  `;
+
+  return await httpHelper.getResponse(queryAPI, mutation);
+}
+
+/**
+ * Edit an existing game.
+ *
+ * @export
+ * @param {GameInterface} payload
+ * @returns
+ */
+export async function editGame(payload: GameInterface) {
+  const queryAPI = `editGame`;
+
+  const mutation = `
+    mutation {
+      ${queryAPI} (id: ${payload.id}, name: "${payload.name}", shortName: "${payload.shortName}") {
         id,
         name,
         shortName

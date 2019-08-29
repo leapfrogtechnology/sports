@@ -4,20 +4,25 @@
       <a-form-item v-if="errorMessage.length">
         <a-alert type="error" :message="errorMessage" />
       </a-form-item>
+      <a-form-item>
+        <a-input v-decorator="[
+            'id'
+          ]" hidden />
+      </a-form-item>
       <a-form-item label="Name" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
         <a-input
           v-decorator="[
-          'name',
-          {rules: [{ required: true, message: 'Please input the name of the game!' }]}
-        ]"
+            'name',
+            {rules: [{ required: true, message: 'Please input the name of the game!' }]}
+          ]"
         />
       </a-form-item>
       <a-form-item label="Short name" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
         <a-input
           v-decorator="[
-          'shortName',
-          {rules: [{ required: true, message: 'Please input the short name of the game!' }]}
-        ]"
+            'shortName',
+            {rules: [{ required: true, message: 'Please input the short name of the game!' }]}
+          ]"
         />
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
@@ -29,17 +34,46 @@
 </template>
 
 <script lang="ts">
+import { mapState } from 'vuex';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import { createGame } from '@/services/games';
+import GameInterface from '@/domains/models/Game';
 
-@Component
+@Component({
+  computed: mapState('games', ['editData'])
+})
 export default class AddGameFormModal extends Vue {
+  public editData!: GameInterface;
   private form: any;
   private errorMessage: string = '';
 
-  private beforeCreate() {
-    this.form = this.$form.createForm(this);
+  private created() {
+    this.form = this.$form.createForm(this, {
+      mapPropsToFields: () => {
+        let id = 0;
+        let name = '';
+        let shortName = '';
+
+        if (this.editData) {
+          id = this.editData.id;
+          name = this.editData.name;
+          shortName = this.editData.shortName;
+        }
+
+        return {
+          id: this.$form.createFormField({
+            value: id
+          }),
+          name: this.$form.createFormField({
+            value: name
+          }),
+          shortName: this.$form.createFormField({
+            value: shortName
+          })
+        };
+      }
+    });
   }
 
   private handleSubmitAction(e: any) {
@@ -60,16 +94,33 @@ export default class AddGameFormModal extends Vue {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  private submitForm(payload: { name: string; shortName: string }) {
-    createGame(payload)
-      .then(() => {
-        this.$message.success('New game added successfully.', 10);
-        this.$store.dispatch(`games/fetchList`);
-        this.closeForm();
-      })
-      .catch(err => {
-        this.errorMessage = err.toString();
-      });
+  private submitForm(payload: GameInterface) {
+    // Check if it's an edit or add action
+    if (this.editData && this.editData.id) {
+      // Edit action
+      this.$store
+        .dispatch('games/edit', payload)
+        .then(() => {
+          this.$message.success('Game updated successfully.', 10);
+          this.$store.dispatch(`games/fetchList`);
+          this.closeForm();
+        })
+        .catch(err => {
+          this.errorMessage = err.toString();
+        });
+    } else {
+      // Add new action
+      this.$store
+        .dispatch('games/create', payload)
+        .then(() => {
+          this.$message.success('New game added successfully.', 10);
+          this.$store.dispatch(`games/fetchList`);
+          this.closeForm();
+        })
+        .catch(err => {
+          this.errorMessage = err.toString();
+        });
+    }
   }
 
   private closeForm() {

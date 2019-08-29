@@ -56,9 +56,13 @@ export default class Games extends Vue {
     this.$store.dispatch(`games/fetchList`);
   }
 
-  private handleEdit(a: any) {
-    //tslint:disable
-    console.log(`Edit form`, a);
+  private handleEdit(data: {id: number, name: string, shortName: string}) {
+    this.$store.dispatch('games/setEditData', data);
+
+    this.$store.dispatch(`modal/showModal`, {
+      title: 'Add a new game',
+      component: GAMES_ADD_FORM_MODAL
+    });
   }
 
   private handleDelete(a: any) {
