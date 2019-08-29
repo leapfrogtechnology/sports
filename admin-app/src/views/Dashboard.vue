@@ -11,6 +11,7 @@
         </div>
       </a-layout-content>
     </a-layout>
+    <Modal />
   </a-layout>
 </template>
 
@@ -18,9 +19,10 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import SideBar from '@/components/SideBar.vue';
+import Modal from '@/components/common/Modal.vue';
 
 @Component({
-  components: { SideBar }
+  components: { Modal, SideBar }
 })
 export default class Dashboard extends Vue {}
 </script>

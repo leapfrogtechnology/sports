@@ -2,7 +2,9 @@
   <div>
     <h2 class="custom-page-title">GAMES</h2>
     <AddButton buttonText="Add new game" :handleClick="handleAddGame" />
+    <a-alert v-if="errorMessage.length" :message="errorMessage" type="error" showIcon />
     <ItemsList
+      v-else
       :data="data"
       :loading="loading"
       :pagination="pagination"
@@ -10,35 +12,24 @@
       :handleEdit="handleEdit"
       :handleDelete="handleDelete"
     />
-    <AddGameFormModal
-      v-if="isAddModalVisible"
-      :visible="isAddModalVisible"
-      :submitForm="submitForm"
-      :handleCancel="handleFormCancel"
-      :errorMessage="addFormErrorMessage"
-    />
   </div>
 </template>
 
 <script lang="ts">
+import { mapState } from 'vuex';
 import { Vue, Component } from 'vue-property-decorator';
 
+import { GAMES_ADD_FORM_MODAL } from '@/enums/modals';
 import ItemsList from '@/components/common/ItemsList.vue';
 import AddButton from '@/components/common/AddButton.vue';
 import { fetchAllGames, createGame } from '@/services/games';
-import AddGameFormModal from '@/components/games/AddGameFormModal.vue';
 
 @Component({
-  components: { ItemsList, AddButton, AddGameFormModal }
+  components: { ItemsList, AddButton },
+  computed: mapState('games', ['data', 'loading', 'errorMessage'])
 })
 export default class Games extends Vue {
-  // Form
-  private isAddModalVisible: boolean = false;
-  private addFormErrorMessage: string = '';
-
   // Table
-  private data: [] = [];
-  private loading: boolean = true;
   private pagination: object = {};
   private columns: object[] = [
     {
@@ -48,13 +39,11 @@ export default class Games extends Vue {
     },
     {
       title: 'Name',
-      dataIndex: 'name',
-      sorter: true
+      dataIndex: 'name'
     },
     {
       title: 'Short/route name',
-      dataIndex: 'shortName',
-      sorter: true
+      dataIndex: 'shortName'
     },
     {
       title: 'Actions',
@@ -63,57 +52,27 @@ export default class Games extends Vue {
     }
   ];
 
-  protected submitForm(payload: { name: string; shortName: string }) {
-    createGame(payload)
-      .then(() => {
-        this.fetchData();
-
-        this.isAddModalVisible = false;
-
-        this.$message.success('New game added successfully.');
-      })
-      .catch(err => {
-        this.addFormErrorMessage = err.toString();
-      });
+  private mounted() {
+    this.$store.dispatch(`games/fetchList`);
   }
 
-  protected handleFormCancel(e: any) {
-    e.preventDefault();
-
-    this.isAddModalVisible = false;
-  }
-
-  protected handleEdit(a: any) {
+  private handleEdit(a: any) {
     //tslint:disable
     console.log(`Edit form`, a);
   }
 
-  protected handleDelete(a: any) {
+  private handleDelete(a: any) {
     //tslint:disable
     console.log(`Delete record`, a);
-  }
-
-  private mounted() {
-    this.fetchData();
-  }
-
-  private fetchData() {
-    this.loading = true;
-
-    fetchAllGames()
-      .then(response => {
-        this.data = response;
-      })
-      .catch()
-      .then(() => {
-        this.loading = false;
-      });
   }
 
   private handleAddGame(e: any) {
     e.preventDefault();
 
-    this.isAddModalVisible = true;
+    this.$store.dispatch(`modal/showModal`, {
+      title: 'Add a new game',
+      component: GAMES_ADD_FORM_MODAL
+    });
   }
 }
 </script>
