@@ -1,5 +1,8 @@
 const SESSION_KEY = 'userSession';
 
+
+interface Session{accessToken:string,refreshToken:string}
+
 /**
  * Set user session to the storage.
  *
@@ -18,9 +21,9 @@ export function setUserSession(userSession: object) {
  * Get user session from the storage.
  *
  * @export
- * @returns {(object | null)}
+ * @returns {(Session | null)}
  */
-export function getUserSession(): object | null {
+export function getUserSession(): Session | null {
   const session = localStorage.getItem(SESSION_KEY);
 
   if (!session) {

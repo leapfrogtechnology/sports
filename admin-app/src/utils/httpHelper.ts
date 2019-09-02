@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as dotenv from 'dotenv';
-import httpStatusCodes from 'http-status-codes';
+
+import http from './http';
 
 dotenv.config();
 
@@ -16,13 +17,7 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
  * @throws {Error}
  */
 export async function getResponse(queryAPI: string, query: string) {
-  const response = await axios({
-    url: baseUrl,
-    method: 'POST',
-    data: {
-      query
-    }
-  });
+  const response = http.post(baseUrl,query);
 
   const errors = response && response.data && response.data.errors;
 
@@ -32,3 +27,4 @@ export async function getResponse(queryAPI: string, query: string) {
 
   return response && response.data && response.data.data && response.data.data[queryAPI];
 }
+
