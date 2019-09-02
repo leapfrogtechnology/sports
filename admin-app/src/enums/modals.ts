@@ -1,3 +1,3 @@
-import AddGameFormModal from '../components/games/AddGameFormModal.vue';
+import AddEditGameFormModal from '../components/games/AddEditGameFormModal.vue';
 
-export const GAMES_ADD_FORM_MODAL = AddGameFormModal;
+export const GAMES_ADD_EDIT_FORM_MODAL = AddEditGameFormModal;

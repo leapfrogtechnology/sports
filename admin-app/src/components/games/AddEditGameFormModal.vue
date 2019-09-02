@@ -43,7 +43,7 @@ import GameInterface from '@/domains/models/Game';
 @Component({
   computed: mapState('games', ['editData'])
 })
-export default class AddGameFormModal extends Vue {
+export default class AddEditGameFormModal extends Vue {
   public editData!: GameInterface;
   private form: any;
   private errorMessage: string = '';

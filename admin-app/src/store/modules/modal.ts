@@ -1,5 +1,5 @@
 // Initial state
-const state = {
+const stateData = {
   title: '',
   visible: false,
   bodyComponent: null
@@ -40,8 +40,8 @@ const getters = {};
 
 export default {
   namespaced: true,
-  state,
   mutations,
   actions,
-  getters
+  getters,
+  state: stateData,
 };

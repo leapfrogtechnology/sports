@@ -19,9 +19,10 @@
 import { mapState } from 'vuex';
 import { Vue, Component } from 'vue-property-decorator';
 
-import { GAMES_ADD_FORM_MODAL } from '@/enums/modals';
+import GameInterface from '../domains/models/Game';
 import ItemsList from '@/components/common/ItemsList.vue';
 import AddButton from '@/components/common/AddButton.vue';
+import { GAMES_ADD_EDIT_FORM_MODAL } from '@/enums/modals';
 import { fetchAllGames, createGame } from '@/services/games';
 
 @Component({
@@ -56,18 +57,30 @@ export default class Games extends Vue {
     this.$store.dispatch(`games/fetchList`);
   }
 
-  private handleEdit(data: {id: number, name: string, shortName: string}) {
+  private handleEdit(data: GameInterface) {
     this.$store.dispatch('games/setEditData', data);
 
     this.$store.dispatch(`modal/showModal`, {
       title: 'Add a new game',
-      component: GAMES_ADD_FORM_MODAL
+      component: GAMES_ADD_EDIT_FORM_MODAL
     });
   }
 
-  private handleDelete(a: any) {
-    //tslint:disable
-    console.log(`Delete record`, a);
+  private handleDelete(data: GameInterface) {
+    const store = this.$store;
+    const message = this.$message;
+
+    this.$confirm({
+      title: 'Do you want to delete this game?',
+      onOk() {
+        store.dispatch('games/delete', data).then(() => {
+          store.dispatch(`games/fetchList`);
+          message.success('Game deleted successfully.', 10);
+        }).catch(err => {
+          message.error('Unable to delete the game.', 10);
+        });
+      }
+    });
   }
 
   private handleAddGame(e: any) {
@@ -75,7 +88,7 @@ export default class Games extends Vue {
 
     this.$store.dispatch(`modal/showModal`, {
       title: 'Add a new game',
-      component: GAMES_ADD_FORM_MODAL
+      component: GAMES_ADD_EDIT_FORM_MODAL
     });
   }
 }

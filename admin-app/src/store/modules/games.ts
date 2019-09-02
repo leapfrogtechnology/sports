@@ -1,8 +1,8 @@
 import GameInterface from '@/domains/models/Game';
-import { fetchAllGames, editGame, createGame } from '@/services/games';
+import { fetchAllGames, editGame, createGame, deleteGame } from '@/services/games';
 
 // Initial state
-const state = {
+const stateData = {
   data: [],
   loading: true,
   errorMessage: '',
@@ -51,6 +51,10 @@ const actions = {
     return editGame(payload);
   },
 
+  delete(context: any, payload: GameInterface) {
+    return deleteGame(payload);
+  },
+
   setEditData(context: any, payload: any) {
     const data = {
       editData: payload
@@ -65,8 +69,8 @@ const getters = {};
 
 export default {
   namespaced: true,
-  state,
   mutations,
   actions,
-  getters
+  getters,
+  state: stateData
 };

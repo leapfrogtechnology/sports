@@ -68,3 +68,24 @@ export async function editGame(payload: GameInterface) {
 
   return await httpHelper.getResponse(queryAPI, mutation);
 }
+
+/**
+ * Delete an existing game.
+ *
+ * @export
+ * @param {{ id: number }} payload
+ * @returns
+ */
+export async function deleteGame(payload: { id: number }) {
+  const queryAPI = `deleteGame`;
+
+  const mutation = `
+    mutation {
+      ${queryAPI} (id: ${payload.id}) {
+        message
+      }
+    }
+  `;
+
+  return await httpHelper.getResponse(queryAPI, mutation);
+}
