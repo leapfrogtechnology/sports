@@ -95,32 +95,26 @@ export default class AddEditGameFormModal extends Vue {
   }
 
   private submitForm(payload: GameInterface) {
+    let dispatchAction = 'games/create';
+    let successMessage = 'New game added successfully';
+
     // Check if it's an edit or add action
     if (this.editData && this.editData.id) {
       // Edit action
-      this.$store
-        .dispatch('games/edit', payload)
-        .then(() => {
-          this.$message.success('Game updated successfully.', 10);
-          this.$store.dispatch(`games/fetchList`);
-          this.closeForm();
-        })
-        .catch(err => {
-          this.errorMessage = err.toString();
-        });
-    } else {
-      // Add new action
-      this.$store
-        .dispatch('games/create', payload)
-        .then(() => {
-          this.$message.success('New game added successfully.', 10);
-          this.$store.dispatch(`games/fetchList`);
-          this.closeForm();
-        })
-        .catch(err => {
-          this.errorMessage = err.toString();
-        });
+      dispatchAction = 'games/edit';
+      successMessage = 'Game updated successfully';
     }
+
+    this.$store
+      .dispatch(dispatchAction, payload)
+      .then(() => {
+        this.$message.success(successMessage, 10);
+        this.$store.dispatch(`games/fetchList`);
+        this.closeForm();
+      })
+      .catch(err => {
+        this.errorMessage = err.toString();
+      });
   }
 
   private closeForm() {
