@@ -46,7 +46,7 @@ export async function editGame(
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  await validate(context, name, shortName);
+  await validate(context, name, shortName, id);
 
   const payload = {
     name,
@@ -84,13 +84,14 @@ export async function deleteGame(parent: any, { id }: { id: number }, context: C
 
 /**
  * Validate the payload.
- * Throw an error if any of the validation fails.
+ * Throws an error if any of the validation fails.
  *
  * @param {Context} context
  * @param {string} name
  * @param {string} shortName
+ * @param {(number | null)} [id=null]
  */
-async function validate(context: Context, name: string, shortName: string) {
+async function validate(context: Context, name: string, shortName: string, id: number | null = null) {
   if (context.error) {
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
@@ -103,10 +104,20 @@ async function validate(context: Context, name: string, shortName: string) {
     throw new ApolloError(`Field "shortName" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
+  // Short name should be alphanumeric
+  const pattern = /^[A-Za-z0-9-]*$/;
+
+  if (!pattern.test(shortName)) {
+    throw new ApolloError(
+      `Field "shortName" should be a combination of alphanumeric and "-" only without any blank space`,
+      HttpStatus.BAD_REQUEST.toString()
+    );
+  }
+
   // Check if the game already exists
   const existingGame = await new Game().where({ shortName }).fetch();
 
-  if (existingGame) {
+  if ((id && existingGame && existingGame.id !== id) || (!id && existingGame)) {
     throw new ApolloError('The game already exists', HttpStatus.BAD_REQUEST.toString());
   }
 }

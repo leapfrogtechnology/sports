@@ -86,6 +86,9 @@ export default class Games extends Vue {
   private handleAddGame(e: any) {
     e.preventDefault();
 
+    // Remove editData, if any
+    this.$store.dispatch('games/setEditData', null);
+
     this.$store.dispatch(`modal/showModal`, {
       title: 'Add a new game',
       component: GAMES_ADD_EDIT_FORM_MODAL
