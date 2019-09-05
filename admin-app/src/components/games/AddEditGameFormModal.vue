@@ -21,7 +21,9 @@
         <a-input
           v-decorator="[
             'shortName',
-            {rules: [{ required: true, message: 'Please input the short name of the game!' }]}
+            {
+              rules: [{ required: true, message: 'Please input the short name of the game!' }]
+            }
           ]"
         />
       </a-form-item>
