@@ -61,7 +61,7 @@ export default class Games extends Vue {
     this.$store.dispatch('games/setEditData', data);
 
     this.$store.dispatch(`modal/showModal`, {
-      title: 'Add a new game',
+      title: 'Update game',
       component: GAMES_ADD_EDIT_FORM_MODAL
     });
   }
