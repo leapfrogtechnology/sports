@@ -14,7 +14,7 @@ import GeneralResponse from '../domains/responses/general';
  * @param {LoggedInUser} loggedInUser
  * @returns {Promise<Game>}
  */
-export async function createGame(payload: GamePayload, loggedInUser: LoggedInUser): Promise<Game> {
+export async function create(payload: GamePayload, loggedInUser: LoggedInUser): Promise<Game> {
   const newGame = await new Game({
     name: payload.name,
     shortName: payload.shortName.toLowerCase(),
@@ -33,7 +33,7 @@ export async function createGame(payload: GamePayload, loggedInUser: LoggedInUse
  * @param {LoggedInUser} loggedInUser
  * @returns {Promise<Game>}
  */
-export async function editGame(id: number, payload: GamePayload, loggedInUser: LoggedInUser): Promise<Game> {
+export async function edit(id: number, payload: GamePayload, loggedInUser: LoggedInUser): Promise<Game> {
   // Check if the game exists
   const game = await new Game({ id }).fetch();
 
@@ -62,7 +62,7 @@ export async function editGame(id: number, payload: GamePayload, loggedInUser: L
  * @param {number} id
  * @returns {Promise<GeneralResponse>}
  */
-export async function deleteGame(id: number): Promise<GeneralResponse> {
+export async function remove(id: number): Promise<GeneralResponse> {
   // Check if the game exists
   const game = await new Game({ id }).fetch();
 
@@ -84,7 +84,7 @@ export async function deleteGame(id: number): Promise<GeneralResponse> {
  * @export
  * @returns {Promise<Game[]>}
  */
-export async function fetchAllGames(): Promise<Game[]> {
+export async function fetchAll(): Promise<Game[]> {
   const games = await new Game().fetchAll();
 
   return games.serialize();
