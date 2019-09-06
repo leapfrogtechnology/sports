@@ -39,7 +39,6 @@
 import { mapState } from 'vuex';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { createGame } from '@/services/games';
 import GameInterface from '@/domains/models/Game';
 
 @Component({

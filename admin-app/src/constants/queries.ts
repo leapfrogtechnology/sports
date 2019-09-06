@@ -1,5 +1,5 @@
 export const GAMES = {
-  ALL: `categories`,
+  ALL: `games`,
   CREATE: `createGame`,
   EDIT: `editGame`,
   DELETE: `deleteGame`

@@ -1,5 +1,5 @@
+import * as gamesService from '@/services/games';
 import GameInterface from '@/domains/models/Game';
-import { fetchAllGames, editGame, createGame, deleteGame } from '@/services/games';
 
 // Initial state
 const stateData = {
@@ -25,7 +25,8 @@ const actions = {
   fetchList(context: any) {
     context.commit('setLoading', false);
 
-    fetchAllGames()
+    gamesService
+      .fetchAll()
       .then(response => {
         context.commit('setData', {
           data: response,
@@ -44,15 +45,15 @@ const actions = {
   },
 
   create(context: any, payload: GameInterface) {
-    return createGame(payload);
+    return gamesService.create(payload);
   },
 
   edit(context: any, payload: GameInterface) {
-    return editGame(payload);
+    return gamesService.edit(payload);
   },
 
   delete(context: any, payload: GameInterface) {
-    return deleteGame(payload);
+    return gamesService.remove(payload);
   },
 
   setEditData(context: any, payload: any) {

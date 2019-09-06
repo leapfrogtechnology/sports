@@ -1,14 +1,15 @@
+import { GAMES } from '../constants/queries';
 import * as httpHelper from '../utils/httpHelper';
-import GameInterface from '@/domains/models/Game';
+import GameInterface from '../domains/models/Game';
 
 /**
  * Fetch the list of all games.
  *
  * @export
- * @returns
+ * @returns {Promise<any>}
  */
-export async function fetchAllGames() {
-  const queryAPI = `games`;
+export async function fetchAll(): Promise<any> {
+  const queryAPI = GAMES.ALL;
 
   const query = `
     query {
@@ -27,11 +28,11 @@ export async function fetchAllGames() {
  * Create a new game.
  *
  * @export
- * @param {{ name: string; shortName: string }} payload
- * @returns
+ * @param {GameInterface} payload
+ * @returns {Promise<any>}
  */
-export async function createGame(payload: { name: string; shortName: string }) {
-  const queryAPI = `createGame`;
+export async function create(payload: GameInterface): Promise<any> {
+  const queryAPI = GAMES.CREATE;
 
   const mutation = `
     mutation {
@@ -51,10 +52,10 @@ export async function createGame(payload: { name: string; shortName: string }) {
  *
  * @export
  * @param {GameInterface} payload
- * @returns
+ * @returns {Promise<any>}
  */
-export async function editGame(payload: GameInterface) {
-  const queryAPI = `editGame`;
+export async function edit(payload: GameInterface): Promise<any> {
+  const queryAPI = GAMES.EDIT;
 
   const mutation = `
     mutation {
@@ -74,10 +75,10 @@ export async function editGame(payload: GameInterface) {
  *
  * @export
  * @param {{ id: number }} payload
- * @returns
+ * @returns {Promise<any>}
  */
-export async function deleteGame(payload: { id: number }) {
-  const queryAPI = `deleteGame`;
+export async function remove(payload: { id: number }): Promise<any> {
+  const queryAPI = GAMES.DELETE;
 
   const mutation = `
     mutation {
