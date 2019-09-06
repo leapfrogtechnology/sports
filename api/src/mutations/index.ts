@@ -2,6 +2,7 @@ import { login } from './login';
 import { signUp } from './signUp';
 import { createGame, editGame, deleteGame } from './game';
 import { refreshAccessToken } from './refreshAccessToken';
+import { createCategory, editCategory, deleteCategory } from './category';
 
 export default {
   // Users
@@ -10,7 +11,12 @@ export default {
   signUp,
 
   // Games
-  createGame,
   editGame,
-  deleteGame
+  createGame,
+  deleteGame,
+
+  // Categories
+  editCategory,
+  createCategory,
+  deleteCategory
 };
