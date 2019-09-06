@@ -11,7 +11,8 @@ import * as gameServices from '../services/game';
  * @param {*} parent
  * @param {{ name: string; shortName: string }} { name, shortName }
  * @param {Context} context
- * @returns
+ * @returns {object}
+ * @throws ApolloError
  */
 export async function games(parent: any, { name, shortName }: { name: string; shortName: string }, context: Context) {
   if (context.error) {

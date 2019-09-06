@@ -22,8 +22,8 @@ import { Vue, Component } from 'vue-property-decorator';
 import GameInterface from '../domains/models/Game';
 import ItemsList from '@/components/common/ItemsList.vue';
 import AddButton from '@/components/common/AddButton.vue';
-import { GAMES_ADD_EDIT_FORM_MODAL } from '@/enums/modals';
 import { fetchAllGames, createGame } from '@/services/games';
+import { GAMES_ADD_EDIT_FORM_MODAL } from '@/constants/modals';
 
 @Component({
   components: { ItemsList, AddButton },

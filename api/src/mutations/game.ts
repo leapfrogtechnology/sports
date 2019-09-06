@@ -12,7 +12,7 @@ import * as gameServices from '../services/game';
  * @param {*} parent
  * @param {{ name: string; shortName: string }} { name, shortName }
  * @param {Context} context
- * @returns
+ * @returns {object}
  */
 export async function createGame(
   parent: any,
@@ -65,7 +65,7 @@ export async function editGame(
  * @param {*} parent
  * @param {{ id: number; }} { id }
  * @param {Context} context
- * @returns
+ * @returns {object}
  * @throws ApolloError
  */
 export async function deleteGame(parent: any, { id }: { id: number }, context: Context) {

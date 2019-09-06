@@ -6,7 +6,9 @@ import Game from '../models/Game';
 /**
  * Create a new game.
  *
- * @param payload
+ * @export
+ * @param {{ name: string; shortName: string }} payload
+ * @returns {object}
  */
 export async function createGame(payload: { name: string; shortName: string }) {
   const newGame = await new Game({
@@ -24,9 +26,9 @@ export async function createGame(payload: { name: string; shortName: string }) {
  * @export
  * @param {number} id
  * @param {{ name: string; shortName: string }} payload
- * @returns {Promise<void>}
+ * @returns {object}
  */
-export async function editGame(id: number, payload: { name: string; shortName: string }): Promise<void> {
+export async function editGame(id: number, payload: { name: string; shortName: string }) {
   // Check if the game exists
   const game = await new Game({ id }).fetch();
 
@@ -53,7 +55,7 @@ export async function editGame(id: number, payload: { name: string; shortName: s
  *
  * @export
  * @param {number} id
- * @returns
+ * @returns{{message: string}}
  */
 export async function deleteGame(id: number) {
   // Check if the game exists
