@@ -1,10 +1,10 @@
 import BaseModel from './BaseModel';
 import TABLES from '../constants/tables';
 
-class Game extends BaseModel<Game> {
+class Category extends BaseModel<Category> {
   get tableName() {
     return TABLES.CATEGORIES;
   }
 }
 
-export default Game;
+export default Category;
