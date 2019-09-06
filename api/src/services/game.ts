@@ -2,19 +2,23 @@ import * as HttpStatus from 'http-status-codes';
 import { ApolloError } from 'apollo-server-core';
 
 import Game from '../models/Game';
+import { GamePayload } from '../domains/game';
+import { LoggedInUser } from '../domains/user';
+import GeneralResponse from '../domains/responses/general';
 
 /**
  * Create a new game.
  *
  * @export
- * @param {{ name: string; shortName: string }} payload
- * @returns {object}
+ * @param {GamePayload} payload
+ * @param {LoggedInUser} loggedInUser
+ * @returns {Promise<Game>}
  */
-export async function createGame(payload: { name: string; shortName: string }) {
+export async function createGame(payload: GamePayload, loggedInUser: LoggedInUser): Promise<Game> {
   const newGame = await new Game({
     name: payload.name,
     shortName: payload.shortName.toLowerCase(),
-    updatedBy: 3
+    updatedBy: loggedInUser.id
   }).save();
 
   return newGame.serialize();
@@ -25,10 +29,11 @@ export async function createGame(payload: { name: string; shortName: string }) {
  *
  * @export
  * @param {number} id
- * @param {{ name: string; shortName: string }} payload
- * @returns {object}
+ * @param {GamePayload} payload
+ * @param {LoggedInUser} loggedInUser
+ * @returns {Promise<Game>}
  */
-export async function editGame(id: number, payload: { name: string; shortName: string }) {
+export async function editGame(id: number, payload: GamePayload, loggedInUser: LoggedInUser): Promise<Game> {
   // Check if the game exists
   const game = await new Game({ id }).fetch();
 
@@ -39,7 +44,7 @@ export async function editGame(id: number, payload: { name: string; shortName: s
   const updatedGame = await game.save(
     {
       ...payload,
-      updatedBy: 3,
+      updatedBy: loggedInUser.id,
       updatedAt: new Date().toISOString()
     },
     {
@@ -55,9 +60,9 @@ export async function editGame(id: number, payload: { name: string; shortName: s
  *
  * @export
  * @param {number} id
- * @returns{{message: string}}
+ * @returns {Promise<GeneralResponse>}
  */
-export async function deleteGame(id: number) {
+export async function deleteGame(id: number): Promise<GeneralResponse> {
   // Check if the game exists
   const game = await new Game({ id }).fetch();
 
@@ -77,9 +82,9 @@ export async function deleteGame(id: number) {
  * Fetch list of all games.
  *
  * @export
- * @returns
+ * @returns {Promise<Game[]>}
  */
-export async function fetchAllGames() {
+export async function fetchAllGames(): Promise<Game[]> {
   const games = await new Game().fetchAll();
 
   return games.serialize();

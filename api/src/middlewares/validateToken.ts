@@ -9,9 +9,9 @@ import { withOnlyAttrs } from '../utils/object';
  */
 export async function validateToken(token: string): Promise<any> {
   try {
-    const user = await verify(token);
+    const verifiedUser: any = await verify(token);
 
-    return { user: withOnlyAttrs(user, ['id', 'employeeId']) };
+    return { user: withOnlyAttrs(verifiedUser.user, ['id', 'employeeId']) };
   } catch (error) {
     return { error };
   }

@@ -3,6 +3,8 @@ import { ApolloError } from 'apollo-server-express';
 
 import Game from '../models/Game';
 import Context from '../models/Context';
+import { GamePayload } from '../domains/game';
+import { IdPayload } from '../domains/general';
 import * as gameServices from '../services/game';
 
 /**
@@ -10,19 +12,15 @@ import * as gameServices from '../services/game';
  *
  * @export
  * @param {*} parent
- * @param {{ name: string; shortName: string }} { name, shortName }
+ * @param {GamePayload} payload
  * @param {Context} context
- * @returns {object}
+ * @returns {Promise<object>}
  */
-export async function createGame(
-  parent: any,
-  { name, shortName }: { name: string; shortName: string },
-  context: Context
-) {
+export async function createGame(parent: any, payload: GamePayload, context: Context): Promise<object> {
   // Validate
-  await validate(context, name, shortName);
+  await validate(context, payload);
 
-  const newGame = await gameServices.createGame({ name, shortName });
+  const newGame = await gameServices.createGame(payload, context.user);
 
   return newGame;
 }
@@ -32,28 +30,25 @@ export async function createGame(
  *
  * @export
  * @param {*} parent
- * @param {{ id: number; name: string; shortName: string }} { id, name, shortName }
+ * @param {GamePayload} payload
  * @param {Context} context
- * @returns {object}
- * @throws ApolloError
+ * @returns {Promise<object>}
  */
-export async function editGame(
-  parent: any,
-  { id, name, shortName }: { id: number; name: string; shortName: string },
-  context: Context
-) {
+export async function editGame(parent: any, payload: GamePayload, context: Context): Promise<object> {
+  const { id, name, shortName } = payload;
+
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  await validate(context, name, shortName, id);
+  await validate(context, payload);
 
-  const payload = {
+  const updateData = {
     name,
     shortName
   };
 
-  const updatedGame = await gameServices.editGame(id, payload);
+  const updatedGame = await gameServices.editGame(id, updateData, context.user);
 
   return updatedGame;
 }
@@ -63,12 +58,13 @@ export async function editGame(
  *
  * @export
  * @param {*} parent
- * @param {{ id: number; }} { id }
+ * @param {IdPayload} payload
  * @param {Context} context
- * @returns {object}
- * @throws ApolloError
+ * @returns {Promise<object>}
  */
-export async function deleteGame(parent: any, { id }: { id: number }, context: Context) {
+export async function deleteGame(parent: any, payload: IdPayload, context: Context): Promise<object> {
+  const { id } = payload;
+
   if (context.error) {
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
@@ -87,11 +83,11 @@ export async function deleteGame(parent: any, { id }: { id: number }, context: C
  * Throws an error if any of the validation fails.
  *
  * @param {Context} context
- * @param {string} name
- * @param {string} shortName
- * @param {(number | null)} [id=null]
+ * @param {GamePayload} payload
  */
-async function validate(context: Context, name: string, shortName: string, id: number | null = null) {
+async function validate(context: Context, payload: GamePayload) {
+  const { id = null, name, shortName } = payload;
+
   if (context.error) {
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
