@@ -1,5 +1,27 @@
 # Sports API
 
-## Auth documentation
+## API documentation
+
+### Error format
+
+```JSON
+{
+  "errors": [
+    {
+      "message": "<ERROR_MESSAGE>",
+      "locations": [...],
+      "path": [
+        "<QUERY | MUTATION>"
+      ],
+      "extensions": {
+        "code": "<HTTP_STATUS_CODE | HTTP_STATUS_MESSAGE>"
+      }
+    }
+  ]
+}
+```
+
+### Queries and mutations
 
 - [Auth](./auth.md)
+- [Games](./games.md)

@@ -79,6 +79,7 @@ export async function getEmployeeFromEmail(email: string): Promise<Employee> {
  */
 export async function getUserFromId(id: number): Promise<User> {
   const user = await new UserModel().where({ employeeId: id }).fetch();
+
   if (!user) {
     throw new NotFoundError(en.USER_NOT_FOUND);
   }

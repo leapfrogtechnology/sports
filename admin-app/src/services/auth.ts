@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import * as httpHelper from '../utils/httpHelper';
 
 /**
@@ -16,9 +14,6 @@ export async function checkIfLoggedIn(userEmail: string, userPassword: string) {
   const mutation = `
     mutation {
       ${queryAPI} (email: "${userEmail}", password: "${userPassword}") {
-        message,
-        code,
-        data,
         refreshToken,
         accessToken
       }

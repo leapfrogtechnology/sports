@@ -59,6 +59,7 @@ export function verify(token: string) {
     if (err.name === TOKEN_EXPIRED_ERROR) {
       throw new JWTExpiredError(en.TOKEN_EXPIRED, err, HttpStatus.UNAUTHORIZED);
     }
+
     throw new JWTError(en.INVALID_TOKEN, err);
   }
 }
