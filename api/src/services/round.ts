@@ -86,7 +86,7 @@ export async function remove(id: number): Promise<GeneralResponse> {
  * @returns {Promise<Round[]>}
  */
 export async function fetchAll(): Promise<Round[]> {
-  const rounds = await new Round().fetchAll();
+  const rounds = await new Round().orderBy('sort_order', 'ASC').fetchAll();
 
   return rounds.serialize();
 }
