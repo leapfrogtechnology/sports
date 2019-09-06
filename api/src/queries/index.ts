@@ -1,4 +1,5 @@
 import { games } from './game';
+import { rounds } from './round';
 import { categories } from './category';
 
 export default {
@@ -6,5 +7,8 @@ export default {
   games,
 
   // categories
-  categories
+  categories,
+
+  // rounds
+  rounds
 };
