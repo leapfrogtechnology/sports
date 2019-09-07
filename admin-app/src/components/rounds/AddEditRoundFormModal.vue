@@ -13,7 +13,7 @@
         <a-input
           v-decorator="[
             'name',
-            {rules: [{ required: true, message: 'Please input the name of the game!' }]}
+            {rules: [{ required: true, message: 'Please input the name!' }]}
           ]"
         />
       </a-form-item>
@@ -21,9 +21,15 @@
         <a-input
           v-decorator="[
             'shortName',
-            {
-              rules: [{ required: true, message: 'Please input the short name of the game!' }]
-            }
+            {rules: [{ required: true, message: 'Please input the short name!' }]}
+          ]"
+        />
+      </a-form-item>
+      <a-form-item label="Sort order" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-input-number :min="1"
+          v-decorator="[
+            'sortOrder',
+            {rules: [{ required: true, message: 'Please input the sort order!' }]}
           ]"
         />
       </a-form-item>
@@ -39,13 +45,13 @@
 import { mapState } from 'vuex';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import GameInterface from '@/domains/models/Game';
+import RoundInterface from '@/domains/models/Round';
 
 @Component({
-  computed: mapState('games', ['editData'])
+  computed: mapState('rounds', ['editData'])
 })
-export default class AddEditGameFormModal extends Vue {
-  public editData!: GameInterface;
+export default class AddEditRoundFormModal extends Vue {
+  public editData!: RoundInterface;
   private form: any;
   private errorMessage: string = '';
 
@@ -55,11 +61,13 @@ export default class AddEditGameFormModal extends Vue {
         let id = 0;
         let name = '';
         let shortName = '';
+        let sortOrder = 0;
 
         if (this.editData) {
           id = this.editData.id;
           name = this.editData.name;
           shortName = this.editData.shortName;
+          sortOrder = this.editData.sortOrder;
         }
 
         return {
@@ -71,6 +79,9 @@ export default class AddEditGameFormModal extends Vue {
           }),
           shortName: this.$form.createFormField({
             value: shortName
+          }),
+          sortOrder: this.$form.createFormField({
+            value: sortOrder
           })
         };
       }
@@ -95,22 +106,22 @@ export default class AddEditGameFormModal extends Vue {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  private submitForm(payload: GameInterface) {
-    let dispatchAction = 'games/create';
-    let successMessage = 'New game added successfully';
+  private submitForm(payload: RoundInterface) {
+    let dispatchAction = 'rounds/create';
+    let successMessage = 'New round added successfully';
 
     // Check if it's an edit or add action
     if (this.editData && this.editData.id) {
       // Edit action
-      dispatchAction = 'games/edit';
-      successMessage = 'Game updated successfully';
+      dispatchAction = 'rounds/edit';
+      successMessage = 'Round updated successfully';
     }
 
     this.$store
       .dispatch(dispatchAction, payload)
       .then(() => {
         this.$message.success(successMessage, 10);
-        this.$store.dispatch(`games/fetchList`);
+        this.$store.dispatch(`rounds/fetchList`);
         this.closeForm();
       })
       .catch(err => {

@@ -1,5 +1,6 @@
-import * as gamesService from '@/services/games';
-import GameInterface from '@/domains/models/Game';
+import { IDInterface } from '@/domains/General';
+import * as roundsService from '@/services/rounds';
+import RoundInterface from '@/domains/models/Round';
 
 // Initial state
 const stateData = {
@@ -25,8 +26,7 @@ const actions = {
   fetchList(context: any) {
     context.commit('setLoading', false);
 
-    gamesService
-      .fetchAll()
+    roundsService.fetchAll()
       .then(response => {
         context.commit('setData', {
           data: response,
@@ -44,16 +44,16 @@ const actions = {
       });
   },
 
-  create(context: any, payload: GameInterface) {
-    return gamesService.create(payload);
+  create(context: any, payload: RoundInterface) {
+    return roundsService.create(payload);
   },
 
-  edit(context: any, payload: GameInterface) {
-    return gamesService.edit(payload);
+  edit(context: any, payload: RoundInterface) {
+    return roundsService.edit(payload);
   },
 
-  delete(context: any, payload: GameInterface) {
-    return gamesService.remove(payload);
+  delete(context: any, payload: IDInterface) {
+    return roundsService.remove(payload);
   },
 
   setEditData(context: any, payload: any) {

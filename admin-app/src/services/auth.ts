@@ -20,5 +20,5 @@ export async function checkIfLoggedIn(userEmail: string, userPassword: string) {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }

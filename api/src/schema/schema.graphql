@@ -18,6 +18,23 @@ type GameResponse {
   shortName: String
 }
 
+type CategoryResponse {
+  id: Int
+  name: String
+}
+
+type RoundResponse {
+  id: Int
+  name: String
+  shortName: String
+  sortOrder: Int
+}
+
+type StatusResponse {
+  id: Int
+  name: String
+}
+
 type GeneralResponse {
   message: String
 }
@@ -30,8 +47,23 @@ type Mutation {
   createGame(name: String!, shortName: String!): GameResponse
   editGame(id: Int!, name: String!, shortName: String!): GameResponse
   deleteGame(id: Int!): GeneralResponse
+
+  createCategory(name: String!): CategoryResponse
+  editCategory(id: Int!, name: String!): CategoryResponse
+  deleteCategory(id: Int!): GeneralResponse
+
+  createRound(name: String!, shortName: String!, sortOrder: Int!): RoundResponse
+  editRound(id: Int!, name: String!, shortName: String!, sortOrder: Int!): RoundResponse
+  deleteRound(id: Int!): GeneralResponse
+
+  createStatus(name: String!): StatusResponse
+  editStatus(id: Int!, name: String!): StatusResponse
+  deleteStatus(id: Int!): GeneralResponse
 }
 
 type Query {
   games: [GameResponse]
+  categories: [CategoryResponse]
+  rounds: [RoundResponse]
+  statuses: [StatusResponse]
 }

@@ -25,3 +25,6 @@
 
 - [Auth](./auth.md)
 - [Games](./games.md)
+- [Categories](./categories.md)
+- [Rounds](./rounds.md)
+- [Statuses](./statuses.md)

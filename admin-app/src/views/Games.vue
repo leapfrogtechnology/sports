@@ -22,7 +22,6 @@ import { Vue, Component } from 'vue-property-decorator';
 import GameInterface from '../domains/models/Game';
 import ItemsList from '@/components/common/ItemsList.vue';
 import AddButton from '@/components/common/AddButton.vue';
-import { fetchAllGames, createGame } from '@/services/games';
 import { GAMES_ADD_EDIT_FORM_MODAL } from '@/constants/modals';
 
 @Component({
@@ -61,7 +60,7 @@ export default class Games extends Vue {
     this.$store.dispatch('games/setEditData', data);
 
     this.$store.dispatch(`modal/showModal`, {
-      title: 'Add a new game',
+      title: 'Update game',
       component: GAMES_ADD_EDIT_FORM_MODAL
     });
   }

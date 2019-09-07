@@ -1,6 +1,18 @@
-import { games } from './games';
+import { games } from './game';
+import { rounds } from './round';
+import { statuses } from './status';
+import { categories } from './category';
 
 export default {
   // games
-  games
+  games,
+
+  // categories
+  categories,
+
+  // rounds
+  rounds,
+
+  // statuses
+  statuses
 };
