@@ -1,4 +1,4 @@
-import { IdInterface } from '@/domains/General';
+import { IDInterface } from '@/domains/General';
 import * as roundsService from '@/services/rounds';
 import RoundInterface from '@/domains/models/Round';
 
@@ -52,7 +52,7 @@ const actions = {
     return roundsService.edit(payload);
   },
 
-  delete(context: any, payload: IdInterface) {
+  delete(context: any, payload: IDInterface) {
     return roundsService.remove(payload);
   },
 
