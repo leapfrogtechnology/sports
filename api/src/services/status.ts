@@ -84,7 +84,7 @@ export async function remove(id: number): Promise<GeneralResponse> {
  * @returns {Promise<Status[]>}
  */
 export async function fetchAll(): Promise<Status[]> {
-  const rounds = await new Status().orderBy('updated_at', 'DESC').fetchAll();
+  const rounds = await new Status().orderBy('created_at', 'DESC').fetchAll();
 
   return rounds.serialize();
 }
