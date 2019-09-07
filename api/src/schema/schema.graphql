@@ -23,6 +23,13 @@ type CategoryResponse {
   name: String
 }
 
+type RoundResponse {
+  id: Int
+  name: String
+  shortName: String
+  sortOrder: Int
+}
+
 type GeneralResponse {
   message: String
 }
@@ -39,9 +46,14 @@ type Mutation {
   createCategory(name: String!): CategoryResponse
   editCategory(id: Int!, name: String!): CategoryResponse
   deleteCategory(id: Int!): GeneralResponse
+
+  createRound(name: String!, shortName: String!, sortOrder: Int!): RoundResponse
+  editRound(id: Int!, name: String!, shortName: String!, sortOrder: Int!): RoundResponse
+  deleteRound(id: Int!): GeneralResponse
 }
 
 type Query {
   games: [GameResponse]
   categories: [CategoryResponse]
+  rounds: [RoundResponse]
 }

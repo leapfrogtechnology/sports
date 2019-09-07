@@ -11,3 +11,10 @@ export const CATEGORIES = {
   EDIT: `editCategory`,
   DELETE: `deleteCategory`
 };
+
+export const ROUNDS = {
+  ALL: `rounds`,
+  CREATE: `createRound`,
+  EDIT: `editRound`,
+  DELETE: `deleteRound`
+};

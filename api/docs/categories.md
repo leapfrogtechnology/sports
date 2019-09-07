@@ -7,7 +7,7 @@
 ```gql
 query {
   categories {
-    id
+    id,
     name
   }
 }
