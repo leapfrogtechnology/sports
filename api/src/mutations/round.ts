@@ -102,9 +102,9 @@ async function validate(context: Context, payload: RoundPayload) {
   // Check if the game already exists with the given properties
   const existingRound = await new Round()
     .query(qb => {
-      qb.where('name', name)
-        .orWhere('shortName', shortName)
-        .orWhere('sortOrder', sortOrder);
+      qb.where({ name })
+        .orWhere({ shortName })
+        .orWhere({ sortOrder });
     })
     .fetch();
 
