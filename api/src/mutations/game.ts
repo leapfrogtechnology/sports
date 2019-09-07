@@ -20,9 +20,7 @@ export async function createGame(parent: any, payload: GamePayload, context: Con
   // Validate
   await validate(context, payload);
 
-  const newGame = await gameServices.create(payload, context.user);
-
-  return newGame;
+  return gameServices.create(payload, context.user);
 }
 
 /**
@@ -48,9 +46,7 @@ export async function editGame(parent: any, payload: GamePayload, context: Conte
     shortName
   };
 
-  const updatedGame = await gameServices.edit(id, updateData, context.user);
-
-  return updatedGame;
+  return gameServices.edit(id, updateData, context.user);
 }
 
 /**
@@ -73,9 +69,7 @@ export async function deleteGame(parent: any, payload: IDPayload, context: Conte
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  const deletedGame = await gameServices.remove(id);
-
-  return deletedGame;
+  return gameServices.remove(id);
 }
 
 /**

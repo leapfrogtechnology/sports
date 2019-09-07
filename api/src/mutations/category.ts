@@ -20,9 +20,7 @@ export async function createCategory(parent: any, payload: CategoryPayload, cont
   // Validate
   await validate(context, payload);
 
-  const newCategory = await categoryService.create(payload, context.user);
-
-  return newCategory;
+  return categoryService.create(payload, context.user);
 }
 
 /**
@@ -47,9 +45,7 @@ export async function editCategory(parent: any, payload: CategoryPayload, contex
     name
   };
 
-  const updatedGame = await categoryService.edit(id, updateData, context.user);
-
-  return updatedGame;
+  return categoryService.edit(id, updateData, context.user);
 }
 
 /**
@@ -72,9 +68,7 @@ export async function deleteCategory(parent: any, payload: IDPayload, context: C
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  const deletedGame = await categoryService.remove(id);
-
-  return deletedGame;
+  return categoryService.remove(id);
 }
 
 /**
