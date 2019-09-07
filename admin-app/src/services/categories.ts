@@ -1,4 +1,4 @@
-import { IdInterface } from '../domains/General';
+import { IDInterface } from '../domains/General';
 import * as httpHelper from '../utils/httpHelper';
 import { CATEGORIES } from '../constants/queries';
 import CategoryInterface from '../domains/models/Category';
@@ -21,7 +21,7 @@ export async function fetchAll(): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, query);
+  return httpHelper.getResponse(queryAPI, query);
 }
 
 /**
@@ -43,7 +43,7 @@ export async function create(payload: CategoryInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }
 
 /**
@@ -65,17 +65,17 @@ export async function edit(payload: CategoryInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }
 
 /**
  * Delete an existing category.
  *
  * @export
- * @param {IdInterface} payload
+ * @param {IDInterface} payload
  * @returns {Promise<any>}
  */
-export async function remove(payload: IdInterface): Promise<any> {
+export async function remove(payload: IDInterface): Promise<any> {
   const queryAPI = CATEGORIES.DELETE;
 
   const mutation = `
@@ -86,5 +86,5 @@ export async function remove(payload: IdInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }

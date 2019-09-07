@@ -1,4 +1,4 @@
-import { IdInterface } from '@/domains/General';
+import { IDInterface } from '@/domains/General';
 import CategoryInterface from '@/domains/models/Category';
 import * as categoriesService from '@/services/categories';
 
@@ -52,7 +52,7 @@ const actions = {
     return categoriesService.edit(payload);
   },
 
-  delete(context: any, payload: IdInterface) {
+  delete(context: any, payload: IDInterface) {
     return categoriesService.remove(payload);
   },
 

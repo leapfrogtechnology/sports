@@ -4,7 +4,7 @@ import { ApolloError } from 'apollo-server-express';
 import Game from '../models/Game';
 import Context from '../models/Context';
 import { GamePayload } from '../domains/game';
-import { IdPayload } from '../domains/general';
+import { IDPayload } from '../domains/general';
 import * as gameServices from '../services/game';
 
 /**
@@ -58,11 +58,11 @@ export async function editGame(parent: any, payload: GamePayload, context: Conte
  *
  * @export
  * @param {*} parent
- * @param {IdPayload} payload
+ * @param {IDPayload} payload
  * @param {Context} context
  * @returns {Promise<object>}
  */
-export async function deleteGame(parent: any, payload: IdPayload, context: Context): Promise<object> {
+export async function deleteGame(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
   if (context.error) {

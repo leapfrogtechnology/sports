@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-express';
 
 import Context from '../models/Context';
 import Category from '../models/Category';
-import { IdPayload } from '../domains/general';
+import { IDPayload } from '../domains/general';
 import { CategoryPayload } from '../domains/category';
 import * as categoryService from '../services/category';
 
@@ -57,11 +57,11 @@ export async function editCategory(parent: any, payload: CategoryPayload, contex
  *
  * @export
  * @param {*} parent
- * @param {IdPayload} payload
+ * @param {IDPayload} payload
  * @param {Context} context
  * @returns {Promise<object>}
  */
-export async function deleteCategory(parent: any, payload: IdPayload, context: Context): Promise<object> {
+export async function deleteCategory(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
   if (context.error) {
