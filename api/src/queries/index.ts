@@ -1,6 +1,10 @@
-import { games } from './games';
+import { games } from './game';
+import { categories } from './category';
 
 export default {
   // games
-  games
+  games,
+
+  // categories
+  categories
 };

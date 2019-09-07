@@ -19,7 +19,7 @@ export async function games(parent: any, { name, shortName }: { name: string; sh
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
 
-  const allGames = await gameServices.fetchAllGames();
+  const allGames = await gameServices.fetchAll();
 
   return allGames;
 }

@@ -13,17 +13,7 @@
         <a-input
           v-decorator="[
             'name',
-            {rules: [{ required: true, message: 'Please input the name of the game!' }]}
-          ]"
-        />
-      </a-form-item>
-      <a-form-item label="Short name" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-        <a-input
-          v-decorator="[
-            'shortName',
-            {
-              rules: [{ required: true, message: 'Please input the short name of the game!' }]
-            }
+            {rules: [{ required: true, message: 'Please input the name of the category!' }]}
           ]"
         />
       </a-form-item>
@@ -39,13 +29,13 @@
 import { mapState } from 'vuex';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import GameInterface from '@/domains/models/Game';
+import CategoryInterface from '@/domains/models/Category';
 
 @Component({
-  computed: mapState('games', ['editData'])
+  computed: mapState('categories', ['editData'])
 })
-export default class AddEditGameFormModal extends Vue {
-  public editData!: GameInterface;
+export default class AddEditCategoryFormModal extends Vue {
+  public editData!: CategoryInterface;
   private form: any;
   private errorMessage: string = '';
 
@@ -54,12 +44,10 @@ export default class AddEditGameFormModal extends Vue {
       mapPropsToFields: () => {
         let id = 0;
         let name = '';
-        let shortName = '';
 
         if (this.editData) {
           id = this.editData.id;
           name = this.editData.name;
-          shortName = this.editData.shortName;
         }
 
         return {
@@ -68,9 +56,6 @@ export default class AddEditGameFormModal extends Vue {
           }),
           name: this.$form.createFormField({
             value: name
-          }),
-          shortName: this.$form.createFormField({
-            value: shortName
           })
         };
       }
@@ -95,22 +80,22 @@ export default class AddEditGameFormModal extends Vue {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
 
-  private submitForm(payload: GameInterface) {
-    let dispatchAction = 'games/create';
-    let successMessage = 'New game added successfully';
+  private submitForm(payload: CategoryInterface) {
+    let dispatchAction = 'categories/create';
+    let successMessage = 'New category added successfully';
 
     // Check if it's an edit or add action
     if (this.editData && this.editData.id) {
       // Edit action
-      dispatchAction = 'games/edit';
-      successMessage = 'Game updated successfully';
+      dispatchAction = 'categories/edit';
+      successMessage = 'Category updated successfully';
     }
 
     this.$store
       .dispatch(dispatchAction, payload)
       .then(() => {
         this.$message.success(successMessage, 10);
-        this.$store.dispatch(`games/fetchList`);
+        this.$store.dispatch(`categories/fetchList`);
         this.closeForm();
       })
       .catch(err => {

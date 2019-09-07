@@ -1,6 +1,6 @@
 # Games
 
-## List all games
+## List all
 
 ### Request
 
@@ -35,7 +35,7 @@ query {
 }
 ```
 
-## Create a new game
+## Create
 
 ### Request
 
@@ -63,7 +63,7 @@ mutation {
 }
 ```
 
-## Edit an existing game
+## Edit
 
 ### Request
 
@@ -91,7 +91,7 @@ mutation {
 }
 ```
 
-## Delete an existing game
+## Delete
 
 ### Request
 

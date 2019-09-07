@@ -25,3 +25,4 @@
 
 - [Auth](./auth.md)
 - [Games](./games.md)
+- [Categories](./categories.md)

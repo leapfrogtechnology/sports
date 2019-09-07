@@ -18,6 +18,11 @@ type GameResponse {
   shortName: String
 }
 
+type CategoryResponse {
+  id: Int
+  name: String
+}
+
 type GeneralResponse {
   message: String
 }
@@ -30,8 +35,13 @@ type Mutation {
   createGame(name: String!, shortName: String!): GameResponse
   editGame(id: Int!, name: String!, shortName: String!): GameResponse
   deleteGame(id: Int!): GeneralResponse
+
+  createCategory(name: String!): CategoryResponse
+  editCategory(id: Int!, name: String!): CategoryResponse
+  deleteCategory(id: Int!): GeneralResponse
 }
 
 type Query {
   games: [GameResponse]
+  categories: [CategoryResponse]
 }

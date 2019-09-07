@@ -1,5 +1,6 @@
-import * as gamesService from '@/services/games';
-import GameInterface from '@/domains/models/Game';
+import { IDInterface } from '@/domains/General';
+import CategoryInterface from '@/domains/models/Category';
+import * as categoriesService from '@/services/categories';
 
 // Initial state
 const stateData = {
@@ -25,8 +26,7 @@ const actions = {
   fetchList(context: any) {
     context.commit('setLoading', false);
 
-    gamesService
-      .fetchAll()
+    categoriesService.fetchAll()
       .then(response => {
         context.commit('setData', {
           data: response,
@@ -44,16 +44,16 @@ const actions = {
       });
   },
 
-  create(context: any, payload: GameInterface) {
-    return gamesService.create(payload);
+  create(context: any, payload: CategoryInterface) {
+    return categoriesService.create(payload);
   },
 
-  edit(context: any, payload: GameInterface) {
-    return gamesService.edit(payload);
+  edit(context: any, payload: CategoryInterface) {
+    return categoriesService.edit(payload);
   },
 
-  delete(context: any, payload: GameInterface) {
-    return gamesService.remove(payload);
+  delete(context: any, payload: IDInterface) {
+    return categoriesService.remove(payload);
   },
 
   setEditData(context: any, payload: any) {
