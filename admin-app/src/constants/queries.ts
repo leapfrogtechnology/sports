@@ -18,3 +18,10 @@ export const ROUNDS = {
   EDIT: `editRound`,
   DELETE: `deleteRound`
 };
+
+export const STATUSES = {
+  ALL: `statuses`,
+  CREATE: `createStatus`,
+  EDIT: `editStatus`,
+  DELETE: `deleteStatus`
+};
