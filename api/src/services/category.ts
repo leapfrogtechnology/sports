@@ -84,7 +84,7 @@ export async function remove(id: number): Promise<GeneralResponse> {
  * @returns {Promise<Category[]>}
  */
 export async function fetchAll(): Promise<Category[]> {
-  const games = await new Category().fetchAll();
+  const categories = await new Category().fetchAll();
 
-  return games.serialize();
+  return categories.serialize();
 }
