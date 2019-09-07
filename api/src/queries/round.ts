@@ -19,7 +19,5 @@ export async function rounds(parent: any, payload: Round, context: Context): Pro
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
 
-  const allRounds = await roundServices.fetchAll();
-
-  return allRounds;
+  return roundServices.fetchAll();
 }

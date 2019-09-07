@@ -1,5 +1,5 @@
 import { ROUNDS } from '../constants/queries';
-import { IdInterface } from '../domains/General';
+import { IDInterface } from '../domains/General';
 import * as httpHelper from '../utils/httpHelper';
 import RoundInterface from '../domains/models/Round';
 
@@ -23,7 +23,7 @@ export async function fetchAll(): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, query);
+  return httpHelper.getResponse(queryAPI, query);
 }
 
 /**
@@ -47,7 +47,7 @@ export async function create(payload: RoundInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }
 
 /**
@@ -76,17 +76,17 @@ export async function edit(payload: RoundInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }
 
 /**
  * Delete an existing round.
  *
  * @export
- * @param {IdInterface} payload
+ * @param {IDInterface} payload
  * @returns {Promise<any>}
  */
-export async function remove(payload: IdInterface): Promise<any> {
+export async function remove(payload: IDInterface): Promise<any> {
   const queryAPI = ROUNDS.DELETE;
 
   const mutation = `
@@ -97,5 +97,5 @@ export async function remove(payload: IdInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }

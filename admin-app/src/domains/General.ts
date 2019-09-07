@@ -1,3 +1,3 @@
-export interface IdInterface {
+export interface IDInterface {
   id: number;
 }

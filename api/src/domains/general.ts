@@ -1,3 +1,3 @@
-export interface IdPayload {
+export interface IDPayload {
   id: number;
 }

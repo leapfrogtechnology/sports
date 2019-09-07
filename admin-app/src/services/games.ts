@@ -21,7 +21,7 @@ export async function fetchAll(): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, query);
+  return httpHelper.getResponse(queryAPI, query);
 }
 
 /**
@@ -44,7 +44,7 @@ export async function create(payload: GameInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }
 
 /**
@@ -67,7 +67,7 @@ export async function edit(payload: GameInterface): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }
 
 /**
@@ -88,5 +88,5 @@ export async function remove(payload: { id: number }): Promise<any> {
     }
   `;
 
-  return await httpHelper.getResponse(queryAPI, mutation);
+  return httpHelper.getResponse(queryAPI, mutation);
 }

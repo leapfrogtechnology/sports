@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-express';
 
 import Context from '../models/Context';
 import Category from '../models/Category';
-import { IdPayload } from '../domains/general';
+import { IDPayload } from '../domains/general';
 import { CategoryPayload } from '../domains/category';
 import * as categoryService from '../services/category';
 
@@ -20,9 +20,7 @@ export async function createCategory(parent: any, payload: CategoryPayload, cont
   // Validate
   await validate(context, payload);
 
-  const newCategory = await categoryService.create(payload, context.user);
-
-  return newCategory;
+  return categoryService.create(payload, context.user);
 }
 
 /**
@@ -47,9 +45,7 @@ export async function editCategory(parent: any, payload: CategoryPayload, contex
     name
   };
 
-  const updatedGame = await categoryService.edit(id, updateData, context.user);
-
-  return updatedGame;
+  return categoryService.edit(id, updateData, context.user);
 }
 
 /**
@@ -57,11 +53,11 @@ export async function editCategory(parent: any, payload: CategoryPayload, contex
  *
  * @export
  * @param {*} parent
- * @param {IdPayload} payload
+ * @param {IDPayload} payload
  * @param {Context} context
  * @returns {Promise<object>}
  */
-export async function deleteCategory(parent: any, payload: IdPayload, context: Context): Promise<object> {
+export async function deleteCategory(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
   if (context.error) {
@@ -72,9 +68,7 @@ export async function deleteCategory(parent: any, payload: IdPayload, context: C
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  const deletedGame = await categoryService.remove(id);
-
-  return deletedGame;
+  return categoryService.remove(id);
 }
 
 /**
