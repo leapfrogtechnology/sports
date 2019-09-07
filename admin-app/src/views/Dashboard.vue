@@ -5,7 +5,7 @@
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
       <a-layout-header :style="{ background: '#fff', padding: 0 }">
-        <div :style="{ padding: '4px 24px', background: '#fff' }">
+        <div :style="{ padding: '8px 24px', background: '#fff' }">
           <TopBar />
         </div>
       </a-layout-header>
