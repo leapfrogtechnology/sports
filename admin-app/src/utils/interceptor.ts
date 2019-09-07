@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import HttpStatusCodes from 'http-status-codes';
 
 import http from './http';
-import {getUserSession,setUserSession} from '../services/storage';
+import {getUserSession, setUserSession} from '../services/storage';
 
 
 const AUTHORIZATION_HEADER = 'authorization';
@@ -32,7 +32,7 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
     err.response.config &&
     err.response.config.url === baseURI
   ) {
-    setUserSession({refreshToken:null,accessToken:null});
+    setUserSession({refreshToken: null, accessToken: null});
 
     return Promise.reject(err);
   }
@@ -42,15 +42,15 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
   const sessionInfo = getUserSession();
 
 
-  if (code === HttpStatusCodes.UNAUTHORIZED && !originalRequest['__isRetryRequest']) {
+  if (code === HttpStatusCodes.UNAUTHORIZED && !originalRequest.__isRetryRequest) {
     originalRequest.__isRetryRequest = true;
 
     try {
       // Hit api to get new access token using refresh token
 
-      const accessToken=await apiRequ(sessionInfo&&sessionInfo.refreshToken)
+      const accessToken = await apiRequ(sessionInfo && sessionInfo.refreshToken);
 
-      setUserSession({refreshToken:sessionInfo&&sessionInfo.refreshToken,accessToken});
+      setUserSession({refreshToken: sessionInfo && sessionInfo.refreshToken, accessToken});
 
 
       originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(accessToken.value);
@@ -61,7 +61,7 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
     }
   }
 
-  originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(sessionInfo?sessionInfo.accessToken:'');
+  originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(sessionInfo ? sessionInfo.accessToken : '');
 
   return Promise.reject(err);
 }
@@ -74,7 +74,7 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
  */
 export function authorizationInterceptor(request: Request): Request {
   const sessionInfo = getUserSession();
-  const accessToken=sessionInfo&&sessionInfo.accessToken;
+  const accessToken = sessionInfo && sessionInfo.accessToken;
 
   // If the access token is not present in the local storage,
   // but isn't set in the request authorization header; set it.
@@ -90,7 +90,7 @@ export default function setup() {
     /**
      * Leave response as it is.
      */
-    (response:any) => response,
+    (response: any) => response,
     /**
      * This interceptor checks if the response had a 401 status code, which means
      * that the access token used for the request has expired. It then refreshes

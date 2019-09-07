@@ -1,4 +1,3 @@
-import axios from 'axios';
 import * as dotenv from 'dotenv';
 
 import http from './http';
@@ -17,7 +16,7 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
  * @throws {Error}
  */
 export async function getResponse(queryAPI: string, query: string) {
-  const response = http.post(baseUrl,query);
+  const response = http.post(baseUrl, query);
 
   const errors = response && response.data && response.data.errors;
 

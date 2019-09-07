@@ -1,7 +1,7 @@
 const SESSION_KEY = 'userSession';
 
 
-interface Session{accessToken:string,refreshToken:string}
+interface Session {accessToken: string; refreshToken: string; }
 
 /**
  * Set user session to the storage.

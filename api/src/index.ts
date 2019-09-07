@@ -45,7 +45,7 @@ const server = new ApolloServer({
   debug: process.env.NODE_ENV !== 'production',
   formatError: err => {
     // Don't give the specific errors to the client.
-    if (err.message.startsWith('Database Error: ')) {
+    if (err.message.startsWith('Database Error: ') || err.message.startsWith('connect')) {
       return new Error('Internal server error');
     }
 
