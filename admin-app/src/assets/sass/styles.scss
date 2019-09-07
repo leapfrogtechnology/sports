@@ -10,6 +10,22 @@ textarea {
   font-weight: bold;
 }
 
+.custom-top-bar {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  .custom-top-bar--item {
+    padding: 0 10px;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
 .ant-table {
   .ant-btn {
     margin: 0 5px;
