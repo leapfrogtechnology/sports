@@ -3,6 +3,7 @@ import { signUp } from './signUp';
 import { createGame, editGame, deleteGame } from './game';
 import { refreshAccessToken } from './refreshAccessToken';
 import { createRound, editRound, deleteRound } from './round';
+import { createStatus, editStatus, deleteStatus } from './status';
 import { createCategory, editCategory, deleteCategory } from './category';
 
 export default {
@@ -24,5 +25,10 @@ export default {
   // Rounds
   editRound,
   createRound,
-  deleteRound
+  deleteRound,
+
+  // Statuses
+  editStatus,
+  createStatus,
+  deleteStatus
 };
