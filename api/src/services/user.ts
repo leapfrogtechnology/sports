@@ -2,18 +2,19 @@ import bcrypt from 'bcrypt';
 import HttpStatus from 'http-status-codes';
 
 import { en } from '../lang/en';
+import knex from '../config/knex';
 import { verify } from '../utils/jwt';
 import { User } from '../domains/user';
-import USER_ROLES from '../enums/userRoles';
+import TABLES from '../constants/tables';
 import generateHash from '../utils/bcrypt';
+import USER_ROLES from '../enums/userRoles';
 import UserModel from '../models/UserAccount';
 import EmployeeModel from '../models/Employee';
 import { Employee } from '../domains/employee';
-import { generateAccessAndRefreshTokens } from './token';
-import UserAccountTokens from '../models/UserAccountToken';
-
 import NotFoundError from '../error/NotFoundError';
 import JWTExpiredError from '../error/JWTExpiredError';
+import { generateAccessAndRefreshTokens } from './token';
+import UserAccountTokens from '../models/UserAccountToken';
 import DuplicateEntryError from '../error/DuplicateEntryError';
 import InvalidPasswordError from '../error/InvalidPasswordError';
 
@@ -143,4 +144,23 @@ export function loginUser(password: string, email: string) {
       reject(err);
     }
   });
+}
+
+/**
+ * Fetch information of a user.
+ *
+ * @export
+ * @param {string} refreshToken
+ * @returns {Promise<object>}
+ */
+export async function getUserInfo(refreshToken: string): Promise<object> {
+  const user = await getUserFromRefreshToken(refreshToken);
+
+  const userInfo = await knex(`${TABLES.USER_ACCOUNTS} AS ua`)
+    .join(`${TABLES.EMPLOYEES} as e`, `e.ems_employee_id`, `ua.employee_id`)
+    .where('ua.id', user.id)
+    .select('ua.id', 'e.first_name', 'e.last_name', 'e.profile_picture_url')
+    .first();
+
+  return userInfo;
 }
