@@ -47,13 +47,13 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
 
     try {
       // Hit api to get new access token using refresh token
-
-      const accessToken = await apiRequ(sessionInfo && sessionInfo.refreshToken);
+      // const accessToken = await apiRequ(sessionInfo && sessionInfo.refreshToken);
+      const accessToken = 'sasas';
 
       setUserSession({refreshToken: sessionInfo && sessionInfo.refreshToken, accessToken});
 
 
-      originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(accessToken.value);
+      originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(accessToken);
 
       return http.request(originalRequest);
     } catch (error) {
@@ -72,7 +72,7 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
  * @param {Request} request
  * @returns {Request}
  */
-export function authorizationInterceptor(request: Request): Request {
+export function authorizationInterceptor(request: any): any {
   const sessionInfo = getUserSession();
   const accessToken = sessionInfo && sessionInfo.accessToken;
 
