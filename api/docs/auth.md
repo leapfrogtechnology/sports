@@ -75,3 +75,33 @@ mutation {
   }
 }
 ```
+
+## User Info
+
+### Request
+
+```gql
+mutation {
+  userInfo (refreshToken: String!) {
+    id,
+    firstName,
+    lastName,
+    profilePictureUrl
+  }
+}
+```
+
+#### Response
+
+```JSON
+{
+  "data": {
+    "userInfo": {
+        "id": 3,
+        "firstName": "Super",
+        "lastName": "Admin",
+        "profilePictureUrl": ""
+      }
+  }
+}
+```
