@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-express';
 
 import Status from '../models/Status';
 import Context from '../models/Context';
-import { IdPayload } from '../domains/general';
+import { IDPayload } from '../domains/general';
 import { StatusPayload } from '../domains/status';
 import * as statusService from '../services/status';
 
@@ -20,9 +20,7 @@ export async function createStatus(parent: any, payload: StatusPayload, context:
   // Validate
   await validate(context, payload);
 
-  const newCategory = await statusService.create(payload, context.user);
-
-  return newCategory;
+  return statusService.create(payload, context.user);
 }
 
 /**
@@ -47,9 +45,7 @@ export async function editStatus(parent: any, payload: StatusPayload, context: C
     name
   };
 
-  const updatedGame = await statusService.edit(id, updateData, context.user);
-
-  return updatedGame;
+  return statusService.edit(id, updateData, context.user);
 }
 
 /**
@@ -57,11 +53,11 @@ export async function editStatus(parent: any, payload: StatusPayload, context: C
  *
  * @export
  * @param {*} parent
- * @param {IdPayload} payload
+ * @param {IDPayload} payload
  * @param {Context} context
  * @returns {Promise<object>}
  */
-export async function deleteStatus(parent: any, payload: IdPayload, context: Context): Promise<object> {
+export async function deleteStatus(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
   if (context.error) {
@@ -72,9 +68,7 @@ export async function deleteStatus(parent: any, payload: IdPayload, context: Con
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  const deletedGame = await statusService.remove(id);
-
-  return deletedGame;
+  return statusService.remove(id);
 }
 
 /**

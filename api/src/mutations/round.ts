@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-express';
 
 import Round from '../models/Round';
 import Context from '../models/Context';
-import { IdPayload } from '../domains/general';
+import { IDPayload } from '../domains/general';
 import { RoundPayload } from '../domains/round';
 import * as roundService from '../services/round';
 
@@ -20,9 +20,7 @@ export async function createRound(parent: any, payload: RoundPayload, context: C
   // Validate
   await validate(context, payload);
 
-  const newCategory = await roundService.create(payload, context.user);
-
-  return newCategory;
+  return roundService.create(payload, context.user);
 }
 
 /**
@@ -49,9 +47,7 @@ export async function editRound(parent: any, payload: RoundPayload, context: Con
     sortOrder
   };
 
-  const updatedGame = await roundService.edit(id, updateData, context.user);
-
-  return updatedGame;
+  return roundService.edit(id, updateData, context.user);
 }
 
 /**
@@ -59,11 +55,11 @@ export async function editRound(parent: any, payload: RoundPayload, context: Con
  *
  * @export
  * @param {*} parent
- * @param {IdPayload} payload
+ * @param {IDPayload} payload
  * @param {Context} context
  * @returns {Promise<object>}
  */
-export async function deleteRound(parent: any, payload: IdPayload, context: Context): Promise<object> {
+export async function deleteRound(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
   if (context.error) {
@@ -74,9 +70,7 @@ export async function deleteRound(parent: any, payload: IdPayload, context: Cont
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
   }
 
-  const deletedGame = await roundService.remove(id);
-
-  return deletedGame;
+  return roundService.remove(id);
 }
 
 /**
@@ -108,9 +102,9 @@ async function validate(context: Context, payload: RoundPayload) {
   // Check if the game already exists with the given properties
   const existingRound = await new Round()
     .query(qb => {
-      qb.where('name', name)
-        .orWhere('shortName', shortName)
-        .orWhere('sortOrder', sortOrder);
+      qb.where({ name })
+        .orWhere({ shortName })
+        .orWhere({ sortOrder });
     })
     .fetch();
 

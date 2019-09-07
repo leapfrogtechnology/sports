@@ -1,4 +1,4 @@
-import { IdInterface } from '@/domains/General';
+import { IDInterface } from '@/domains/General';
 import StatusInterface from '@/domains/models/Status';
 import * as statusesService from '@/services/statuses';
 
@@ -52,7 +52,7 @@ const actions = {
     return statusesService.edit(payload);
   },
 
-  delete(context: any, payload: IdInterface) {
+  delete(context: any, payload: IDInterface) {
     return statusesService.remove(payload);
   },
 

@@ -19,7 +19,5 @@ export async function categories(parent: any, payload: Category, context: Contex
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
 
-  const allCategories = await categoryServices.fetchAll();
-
-  return allCategories;
+  return categoryServices.fetchAll();
 }

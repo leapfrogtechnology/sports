@@ -19,7 +19,5 @@ export async function statuses(parent: any, payload: Status, context: Context): 
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
 
-  const allStatuses = await statusServices.fetchAll();
-
-  return allStatuses;
+  return statusServices.fetchAll();
 }
