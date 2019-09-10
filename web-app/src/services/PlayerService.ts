@@ -11,5 +11,5 @@ import { TeamInterface } from '@/interfaces/interfaces';
 export function checkIfPlayerIsInTeam(team: TeamInterface, playerName: string): boolean {
   const players = team.players || [];
 
-  return players.some((player) => player.name.toLowerCase().indexOf(playerName.toLowerCase()) >= 0);
+  return players.some(player => player.name.toLowerCase().indexOf(playerName.toLowerCase()) >= 0);
 }

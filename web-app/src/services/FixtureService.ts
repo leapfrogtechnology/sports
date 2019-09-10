@@ -15,7 +15,7 @@ import FIXTURE_STATUSES from '../constants/fixtureStatuses';
 
 export function getFixtures(fixturesList: FixtureInterface[], limit: number = 0): FixtureInterface[] {
   let fixtures = fixturesList
-    .filter((fixture) => ['played', 'forfeited'].indexOf(fixture.status.toLowerCase()) < 0)
+    .filter(fixture => ['played', 'forfeited'].indexOf(fixture.status.toLowerCase()) < 0)
     .sort((a, b) => {
       return dateFns.compareAsc(a.date, b.date);
     });
@@ -29,7 +29,7 @@ export function getFixtures(fixturesList: FixtureInterface[], limit: number = 0)
 
 export function getResults(fixturesList: FixtureInterface[], limit: number = 0): FixtureInterface[] {
   let results = fixturesList
-    .filter((fixture) => ['played', 'forfeited'].indexOf(fixture.status.toLowerCase()) >= 0)
+    .filter(fixture => ['played', 'forfeited'].indexOf(fixture.status.toLowerCase()) >= 0)
     .sort((a, b) => {
       return dateFns.compareDesc(a.date, b.date);
     });
@@ -98,7 +98,7 @@ export function searchFixturesByKeyword(allFixtures: FixtureInterface[], keyword
   let searchResults: FixtureInterface[] = [];
   keyword = keyword.trim().toLowerCase();
 
-  searchResults = allFixtures.filter((fixture) => {
+  searchResults = allFixtures.filter(fixture => {
     const homeTeamName = fixture.homeTeam.name.trim().toLowerCase();
     const awayTeamName = fixture.awayTeam.name.trim().toLowerCase();
 
@@ -260,7 +260,7 @@ export function sortFixturesByDate(fixtures: FixtureInterface[], order: string =
 export function getFixturesRounds(fixtures: FixtureInterface[], rounds: RoundInterface[]): RoundInterface[] {
   const distinctRounds: RoundInterface[] = [];
 
-  forEach(fixtures, (fixture) => {
+  forEach(fixtures,fixture => {
     const round = findRoundByName(rounds, fixture.round);
 
     if (round && !some(distinctRounds, round)) {
@@ -293,7 +293,7 @@ export function getFixturesRounds(fixtures: FixtureInterface[], rounds: RoundInt
  */
 function filterFixturesByCategory(fixtures: FixtureInterface[], category: CategoryInterface) {
   if (category.id !== 0) {
-    return fixtures.filter((fixture) => fixture.categoryType.toLowerCase() === category.description.toLowerCase());
+    return fixtures.filter(fixture => fixture.categoryType.toLowerCase() === category.description.toLowerCase());
   }
 
   return fixtures;
@@ -311,7 +311,7 @@ function filterTeamsByCategory(teams: TeamInterface[], category: CategoryInterfa
   let teamsList = cloneDeep(teams);
 
   if (category && category.id !== 0) {
-    teamsList = teams.filter((team) => team.category.toLowerCase() === category.description.toLowerCase());
+    teamsList = teams.filter(team => team.category.toLowerCase() === category.description.toLowerCase());
   }
 
   return sortBy(teamsList, ['category', 'name']);
@@ -326,7 +326,7 @@ function filterTeamsByCategory(teams: TeamInterface[], category: CategoryInterfa
  */
 function filterWinnersByCategory(winners: any[], category: CategoryInterface) {
   if (category && category.id !== 0) {
-    return winners.filter((winner) => winner.category.toLowerCase() === category.description.toLowerCase());
+    return winners.filter(winner => winner.category.toLowerCase() === category.description.toLowerCase());
   }
 
   return winners;
@@ -359,5 +359,5 @@ function filterRecentsByCategory(recents: RecentsInterface, category: CategoryIn
  * @returns {(RoundInterface|null)}
  */
 function findRoundByName(rounds: RoundInterface[], roundName: string): RoundInterface|null {
-  return find(rounds, (round) => round.description === roundName) || null;
+  return find(rounds,round => round.description === roundName) || null;
 }
