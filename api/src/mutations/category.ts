@@ -61,7 +61,7 @@ export async function deleteCategory(parent: any, payload: IDPayload, context: C
   const { id } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+    throw new ApolloError(context.error, context.error.code.toString());
   }
 
   if (!id) {
@@ -82,7 +82,7 @@ async function validate(context: Context, payload: CategoryPayload) {
   const { id = null, name } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+    throw new ApolloError(context.error, context.error.code.toString());
   }
 
   if (!name || !name.length) {

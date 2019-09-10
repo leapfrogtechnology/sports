@@ -50,9 +50,13 @@ export function createRefreshToken(data: RefreshTokenData) {
  * @returns {Object}
  * @throws {JWTError|JWTExpiredError}
  */
-export function verify(token: string) {
+export function verify(token: string, isRefreshToken: boolean = false) {
   try {
-    const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.verifyOptions);
+    const data = jwt.verify(
+      token,
+      appConfig.jwt.secret || '',
+      isRefreshToken ? appConfig.jwt.verifyRefreshTokenOptions : appConfig.jwt.verifyAccessTokenOptions
+    );
 
     return data;
   } catch (err) {
