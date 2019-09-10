@@ -3,10 +3,11 @@ import * as dotenv from 'dotenv';
 import HttpStatusCodes from 'http-status-codes';
 
 import http from './http';
-import {getUserSession, setUserSession} from '../services/storage';
-
+import { getResponse } from './httpHelper';
+import { getUserSession, setUserSession, clearUserSession } from '../services/storage';
 
 const AUTHORIZATION_HEADER = 'authorization';
+
 dotenv.config();
 
 const baseURI = process.env.VUE_APP_API_BASE_URL;
@@ -32,7 +33,7 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
     err.response.config &&
     err.response.config.url === baseURI
   ) {
-    setUserSession({refreshToken: null, accessToken: null});
+    setUserSession({ refreshToken: null, accessToken: null });
 
     return Promise.reject(err);
   }
@@ -41,19 +42,37 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
   const code = err.response && err.response.data && err.response.data.code;
   const sessionInfo = getUserSession();
 
-
-  if (code === HttpStatusCodes.UNAUTHORIZED && !originalRequest.__isRetryRequest) {
+  if (
+    code === HttpStatusCodes.UNAUTHORIZED &&
+    !originalRequest.__isRetryRequest
+  ) {
     originalRequest.__isRetryRequest = true;
 
     try {
       // Hit api to get new access token using refresh token
-      // const accessToken = await apiRequ(sessionInfo && sessionInfo.refreshToken);
-      const accessToken = 'sasas';
 
-      setUserSession({refreshToken: sessionInfo && sessionInfo.refreshToken, accessToken});
+      const queryAPI = 'refreshAccessToken';
 
+      const mutation = `
+        mutation {
+          ${queryAPI} (refreshToken: ${sessionInfo &&
+        sessionInfo.refreshToken}) {
+            message,
+            accessToken
+          }
+        }
+      `;
 
-      originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(accessToken);
+      const accessToken = await getResponse(queryAPI, mutation);
+
+      setUserSession({
+        refreshToken: sessionInfo && sessionInfo.refreshToken,
+        accessToken
+      });
+
+      originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
+        accessToken
+      );
 
       return http.request(originalRequest);
     } catch (error) {
@@ -61,7 +80,9 @@ export async function unauthorizedResponseHandlerInterceptor(err: any) {
     }
   }
 
-  originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(sessionInfo ? sessionInfo.accessToken : '');
+  originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
+    sessionInfo ? sessionInfo.accessToken : ''
+  );
 
   return Promise.reject(err);
 }
@@ -90,13 +111,86 @@ export default function setup() {
     /**
      * Leave response as it is.
      */
-    (response: any) => response,
-    /**
-     * This interceptor checks if the response had a 401 status code, which means
-     * that the access token used for the request has expired. It then refreshes
-     * the access token and resends the original request.
-     */
-    unauthorizedResponseHandlerInterceptor
+    async (response: any) => {
+
+      if (
+        response &&
+        response.data &&
+        response.data.errors &&
+        response.data.errors[0] &&
+        response.data.errors[0].extensions &&
+        response.data.errors[0].extensions.code === '401'
+      ) {
+
+        const originalRequest = response.config;
+        const code = parseInt(
+          response && response.data && response.data.errors[0].extensions.code,
+          10
+        );
+        const sessionInfo = getUserSession();
+
+        if (
+          code === HttpStatusCodes.UNAUTHORIZED &&
+          !originalRequest.__isRetryRequest
+        ) {
+          originalRequest.__isRetryRequest = true;
+
+          try {
+            // Hit api to get new access token using refresh token
+
+            const queryAPI = 'refreshAccessToken';
+
+            const mutation = `
+              mutation {
+                ${queryAPI} (refreshToken: "${sessionInfo &&
+              sessionInfo.refreshToken}") {
+                  message,
+                  accessToken
+                }
+              }
+            `;
+
+            const refreshAccessTokenResponse: any = await getResponse(
+              queryAPI,
+              mutation
+            );
+
+            //  tslint:disable:no-console
+            console.log({refreshAccessTokenResponse});
+            
+
+            setUserSession({
+              refreshToken: sessionInfo && sessionInfo.refreshToken,
+              accessToken: refreshAccessTokenResponse.accessToken
+            });
+
+            originalRequest.headers[
+              AUTHORIZATION_HEADER
+            ] = getAuthorizationHeader(refreshAccessTokenResponse.accessToken);
+
+            return http.request(originalRequest);
+          } catch (error) {
+
+            
+
+            throw error;
+          }
+        }
+
+        if(          originalRequest.__isRetryRequest          ){
+          clearUserSession()
+        }
+
+        originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
+          sessionInfo ? sessionInfo.accessToken : ''
+        );
+
+        return Promise.reject(response);
+      }
+
+
+      return response;
+    }
   );
 
   http.interceptors.request.use(authorizationInterceptor);
