@@ -1,4 +1,3 @@
-import HttpStatus from 'http-status-codes';
 import { ApolloError } from 'apollo-server-core';
 
 import Context from '../models/Context';
@@ -16,7 +15,7 @@ import * as gameServices from '../services/game';
  */
 export async function games(parent: any, { name, shortName }: { name: string; shortName: string }, context: Context) {
   if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+    throw new ApolloError(context.error, context.error.code.toString());
   }
 
   const allGames = await gameServices.fetchAll();

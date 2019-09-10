@@ -1,4 +1,3 @@
-import HttpStatus from 'http-status-codes';
 import { ApolloError } from 'apollo-server-core';
 
 import Round from '../domains/round';
@@ -16,7 +15,7 @@ import * as roundServices from '../services/round';
  */
 export async function rounds(parent: any, payload: Round, context: Context): Promise<object> {
   if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+    throw new ApolloError(context.error, context.error.code.toString());
   }
 
   return roundServices.fetchAll();

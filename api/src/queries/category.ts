@@ -1,4 +1,4 @@
-import HttpStatus from 'http-status-codes';
+// import HttpStatus from 'http-status-codes';
 import { ApolloError } from 'apollo-server-core';
 
 import Context from '../models/Context';
@@ -16,7 +16,7 @@ import * as categoryServices from '../services/category';
  */
 export async function categories(parent: any, payload: Category, context: Context): Promise<object> {
   if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+    throw new ApolloError(context.error, context.error.code.toString());
   }
 
   return categoryServices.fetchAll();
