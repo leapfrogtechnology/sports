@@ -13,9 +13,13 @@ const appConfig = {
       algorithm: 'HS256',
       expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRE
     },
-    verifyOptions: {
+    verifyAccessTokenOptions: {
       algorithms: ['HS256'],
       maxAge: process.env.JWT_EXPIRE || '12h'
+    },
+    verifyRefreshTokenOptions: {
+      algorithms: ['HS256'],
+      maxAge: process.env.JWT_REFRESH_TOKEN_EXPIRE || '12h'
     }
   }
 };

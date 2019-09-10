@@ -34,3 +34,8 @@ export function getUserSession(): Session | null {
 
   return userSession;
 }
+
+
+export function clearUserSession() {
+    localStorage.removeItem(SESSION_KEY);
+}
