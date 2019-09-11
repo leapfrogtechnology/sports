@@ -14,12 +14,10 @@ import { UserInfoPayload } from '../domains/user';
  * @param {Context} context
  * @returns {Promise<object>}
  */
-export async function userInfo(parent: any, payload: UserInfoPayload, context: Context): Promise<object> {
+export function userInfo(parent: any, payload: UserInfoPayload, context: Context): Promise<object> {
   if (context.error) {
     throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
   }
 
-  const info = await userService.getUserInfo(payload.refreshToken);
-
-  return info;
+  return userService.getUserInfo(payload.refreshToken);
 }

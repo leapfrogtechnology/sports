@@ -19,8 +19,7 @@ const actions = {
       .getUserInfo()
       .then(response => {
         context.commit('setUserInfo', response);
-      })
-      .catch();
+      });
   },
 
   logout(context: any) {
