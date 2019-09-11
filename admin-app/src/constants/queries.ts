@@ -1,3 +1,7 @@
+export const AUTH = {
+  USER_INFO: `userInfo`
+};
+
 export const GAMES = {
   ALL: `games`,
   CREATE: `createGame`,

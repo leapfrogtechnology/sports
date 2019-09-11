@@ -9,7 +9,7 @@ import CategoryInterface from '../domains/models/Category';
  * @export
  * @returns {Promise<any>}
  */
-export async function fetchAll(): Promise<any> {
+export function fetchAll(): Promise<any> {
   const queryAPI = CATEGORIES.ALL;
 
   const query = `
@@ -31,7 +31,7 @@ export async function fetchAll(): Promise<any> {
  * @param {CategoryInterface} payload
  * @returns {Promise<any>}
  */
-export async function create(payload: CategoryInterface): Promise<any> {
+export function create(payload: CategoryInterface): Promise<any> {
   const queryAPI = CATEGORIES.CREATE;
 
   const mutation = `
@@ -53,7 +53,7 @@ export async function create(payload: CategoryInterface): Promise<any> {
  * @param {CategoryInterface} payload
  * @returns {Promise<any>}
  */
-export async function edit(payload: CategoryInterface): Promise<any> {
+export function edit(payload: CategoryInterface): Promise<any> {
   const queryAPI = CATEGORIES.EDIT;
 
   const mutation = `
@@ -75,7 +75,7 @@ export async function edit(payload: CategoryInterface): Promise<any> {
  * @param {IDInterface} payload
  * @returns {Promise<any>}
  */
-export async function remove(payload: IDInterface): Promise<any> {
+export function remove(payload: IDInterface): Promise<any> {
   const queryAPI = CATEGORIES.DELETE;
 
   const mutation = `

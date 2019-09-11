@@ -9,7 +9,7 @@ import RoundInterface from '../domains/models/Round';
  * @export
  * @returns {Promise<any>}
  */
-export async function fetchAll(): Promise<any> {
+export function fetchAll(): Promise<any> {
   const queryAPI = ROUNDS.ALL;
 
   const query = `
@@ -33,7 +33,7 @@ export async function fetchAll(): Promise<any> {
  * @param {RoundInterface} payload
  * @returns {Promise<any>}
  */
-export async function create(payload: RoundInterface): Promise<any> {
+export function create(payload: RoundInterface): Promise<any> {
   const queryAPI = ROUNDS.CREATE;
 
   const mutation = `
@@ -57,7 +57,7 @@ export async function create(payload: RoundInterface): Promise<any> {
  * @param {RoundInterface} payload
  * @returns {Promise<any>}
  */
-export async function edit(payload: RoundInterface): Promise<any> {
+export function edit(payload: RoundInterface): Promise<any> {
   const queryAPI = ROUNDS.EDIT;
 
   const mutation = `
@@ -86,7 +86,7 @@ export async function edit(payload: RoundInterface): Promise<any> {
  * @param {IDInterface} payload
  * @returns {Promise<any>}
  */
-export async function remove(payload: IDInterface): Promise<any> {
+export function remove(payload: IDInterface): Promise<any> {
   const queryAPI = ROUNDS.DELETE;
 
   const mutation = `
