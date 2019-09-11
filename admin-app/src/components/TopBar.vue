@@ -31,7 +31,7 @@ export default class TopBar extends Vue {
     e.preventDefault();
 
     this.$store.dispatch('user/logout').then(() => {
-      this.$router.push(ROUTES.DASHBOARD);
+      this.$router.push(ROUTES.LOGIN);
     });
   }
 
