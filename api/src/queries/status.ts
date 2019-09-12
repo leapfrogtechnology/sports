@@ -1,9 +1,7 @@
-import HttpStatus from 'http-status-codes';
-import { ApolloError } from 'apollo-server-core';
-
 import Status from '../domains/status';
 import Context from '../models/Context';
 import * as statusServices from '../services/status';
+import { validateContext } from '../utils/validations';
 
 /**
  * Query for fetching the list of all statuses.
@@ -15,9 +13,7 @@ import * as statusServices from '../services/status';
  * @returns {Promise<object>}
  */
 export async function statuses(parent: any, payload: Status, context: Context): Promise<object> {
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   return statusServices.fetchAll();
 }

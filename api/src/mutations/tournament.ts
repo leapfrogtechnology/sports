@@ -7,6 +7,7 @@ import Context from '../models/Context';
 import Tournament from '../models/Tournament';
 import { IDPayload } from '../domains/general';
 import { isAlphanumeric } from '../utils/helpers';
+import { validateContext } from '../utils/validations';
 import { TournamentPayload } from '../domains/tournament';
 import * as tournamentService from '../services/tournament';
 
@@ -60,9 +61,7 @@ export async function editTournament(parent: any, payload: TournamentPayload, co
 export async function deleteTournament(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
@@ -81,9 +80,7 @@ export async function deleteTournament(parent: any, payload: IDPayload, context:
 async function validate(context: Context, payload: TournamentPayload) {
   const { id = null, name, gameId, season, startDate, finishDate } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!name || !name.length) {
     throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());

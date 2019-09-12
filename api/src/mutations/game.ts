@@ -7,6 +7,7 @@ import { GamePayload } from '../domains/game';
 import { IDPayload } from '../domains/general';
 import * as gameServices from '../services/game';
 import { isAlphanumeric } from '../utils/helpers';
+import { validateContext } from '../utils/validations';
 
 /**
  * Mutation for creating a new game.
@@ -62,9 +63,7 @@ export async function editGame(parent: any, payload: GamePayload, context: Conte
 export async function deleteGame(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
@@ -83,9 +82,7 @@ export async function deleteGame(parent: any, payload: IDPayload, context: Conte
 async function validate(context: Context, payload: GamePayload) {
   const { id = null, name, shortName } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!name || !name.length) {
     throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());

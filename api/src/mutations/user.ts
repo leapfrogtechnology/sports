@@ -1,9 +1,7 @@
-import * as HttpStatus from 'http-status-codes';
-import { ApolloError } from 'apollo-server-core';
-
 import Context from '../models/Context';
 import * as userService from '../services/user';
 import { UserInfoPayload } from '../domains/user';
+import { validateContext } from '../utils/validations';
 
 /**
  * Mutation to get user information.
@@ -15,9 +13,7 @@ import { UserInfoPayload } from '../domains/user';
  * @returns {Promise<object>}
  */
 export function userInfo(parent: any, payload: UserInfoPayload, context: Context): Promise<object> {
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   return userService.getUserInfo(payload.refreshToken);
 }

@@ -6,6 +6,7 @@ import Context from '../models/Context';
 import { IDPayload } from '../domains/general';
 import { StatusPayload } from '../domains/status';
 import * as statusService from '../services/status';
+import { validateContext } from '../utils/validations';
 
 /**
  * Mutation for creating a new status.
@@ -60,9 +61,7 @@ export async function editStatus(parent: any, payload: StatusPayload, context: C
 export async function deleteStatus(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
@@ -79,9 +78,7 @@ export async function deleteStatus(parent: any, payload: IDPayload, context: Con
  * @param {StatusPayload} payload
  */
 async function validate(context: Context, payload: StatusPayload) {
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   const { id = null, name } = payload;
 
