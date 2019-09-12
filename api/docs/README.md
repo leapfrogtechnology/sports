@@ -28,3 +28,4 @@
 - [Categories](./categories.md)
 - [Rounds](./rounds.md)
 - [Statuses](./statuses.md)
+- [Tournaments](./tournaments.md)
