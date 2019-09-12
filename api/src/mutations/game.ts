@@ -6,6 +6,7 @@ import Context from '../models/Context';
 import { GamePayload } from '../domains/game';
 import { IDPayload } from '../domains/general';
 import * as gameServices from '../services/game';
+import { isAlphanumeric } from '../utils/helpers';
 
 /**
  * Mutation for creating a new game.
@@ -94,10 +95,7 @@ async function validate(context: Context, payload: GamePayload) {
     throw new ApolloError(`Field "shortName" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
-  // Short name should be alphanumeric
-  const pattern = /^[A-Za-z0-9-]*$/;
-
-  if (!pattern.test(shortName)) {
+  if (!isAlphanumeric(shortName)) {
     throw new ApolloError(
       `Field "shortName" should be a combination of alphanumeric and "-" only without any blank space`,
       HttpStatus.BAD_REQUEST.toString()

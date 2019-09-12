@@ -89,7 +89,7 @@ async function validate(context: Context, payload: CategoryPayload) {
     throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
-  // Check if the game already exists
+  // Check if the category already exists
   const existingCategory = await new Category().where({ name }).fetch();
 
   if ((id && existingCategory && existingCategory.id !== id) || (!id && existingCategory)) {

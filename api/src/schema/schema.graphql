@@ -42,6 +42,16 @@ type StatusResponse {
   name: String
 }
 
+type TournamentResponse {
+  id: Int
+  game: GameResponse
+  name: String
+  season: String
+  startDate: String
+  finishDate: String
+  registrationFormUrl: String
+}
+
 type GeneralResponse {
   message: String
 }
@@ -67,6 +77,25 @@ type Mutation {
   createStatus(name: String!): StatusResponse
   editStatus(id: Int!, name: String!): StatusResponse
   deleteStatus(id: Int!): GeneralResponse
+
+  createTournament(
+    gameId: Int!
+    name: String!
+    season: String!
+    startDate: String!
+    finishDate: String
+    registrationFormUrl: String
+  ): TournamentResponse
+  editTournament(
+    id: Int!
+    gameId: Int!
+    name: String!
+    season: String!
+    startDate: String!
+    finishDate: String
+    registrationFormUrl: String
+  ): TournamentResponse
+  deleteTournament(id: Int!): GeneralResponse
 }
 
 type Query {
@@ -74,4 +103,6 @@ type Query {
   categories: [CategoryResponse]
   rounds: [RoundResponse]
   statuses: [StatusResponse]
+  tournaments: [TournamentResponse]
+  tournament(id: Int!): TournamentResponse
 }
