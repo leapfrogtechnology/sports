@@ -139,6 +139,7 @@ function getFetchQuery(id: number | null = null): string {
     FROM ${TABLES.TOURNAMENTS} t
       INNER JOIN ${TABLES.GAMES} g ON g.id = t.game_id
     ${!!id ? whereCase : ''}
+    ORDER BY t.updated_at DESC
   `;
 
   return query;
