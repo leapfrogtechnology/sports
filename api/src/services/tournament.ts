@@ -101,7 +101,7 @@ export async function fetchAll(): Promise<Tournament[]> {
   const query = getFetchQuery();
   const tournaments = await knex.raw(query);
 
-  return tournaments.rows;
+  return getParsedData(tournaments.rows);
 }
 
 /**
@@ -114,7 +114,7 @@ export async function fetchAll(): Promise<Tournament[]> {
 export async function fetchOne(id: number): Promise<object> {
   const query = getFetchQuery(id);
   const tournament = await knex.raw(query);
-  const [row] = tournament.rows;
+  const [row] = getParsedData(tournament.rows);
 
   return row;
 }
@@ -142,4 +142,21 @@ function getFetchQuery(id: number | null = null): string {
   `;
 
   return query;
+}
+
+/**
+ * Get parsed data of the response.
+ *
+ * @param {any[]} tournaments
+ * @returns {any[]}
+ */
+function getParsedData(tournaments: any[]): any[] {
+  tournaments.map(tournament => {
+    const { startDate, finishDate } = tournament;
+
+    tournament.startDate = getFormattedDate(startDate);
+    tournament.finishDate = finishDate && getFormattedDate(finishDate);
+  });
+
+  return tournaments;
 }

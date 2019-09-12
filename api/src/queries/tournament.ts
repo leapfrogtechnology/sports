@@ -19,6 +19,15 @@ export function tournaments(parent: any, payload: Tournament, context: Context):
   return tournamentServices.fetchAll();
 }
 
+/**
+ * Query for fetching one tournament.
+ *
+ * @export
+ * @param {*} parent
+ * @param {IDPayload} payload
+ * @param {Context} context
+ * @returns {Promise<object>}
+ */
 export function tournament(parent: any, payload: IDPayload, context: Context): Promise<object> {
   validateContext(context);
 

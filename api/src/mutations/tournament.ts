@@ -135,7 +135,7 @@ async function validate(context: Context, payload: TournamentPayload) {
   }
 
   // Check if the tournament already exists
-  const existingTournament = await new Tournament().where({ name, gameId }).fetch();
+  const existingTournament = await new Tournament().where({ season, gameId }).fetch();
 
   if ((id && existingTournament && existingTournament.id !== id) || (!id && existingTournament)) {
     throw new ApolloError('The tournament already exists', HttpStatus.BAD_REQUEST.toString());
