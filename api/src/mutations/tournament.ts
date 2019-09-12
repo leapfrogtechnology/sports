@@ -109,7 +109,7 @@ async function validate(context: Context, payload: TournamentPayload) {
 
   const parsedFinishedDate = finishDate && finishDate.length && Date.parse(finishDate);
 
-  if (finishDate) {
+  if (finishDate && finishDate.length) {
     if (!parsedFinishedDate || isNaN(parsedFinishedDate)) {
       throw new ApolloError(`Field "finishDate" is not a valid date`, HttpStatus.BAD_REQUEST.toString());
     }

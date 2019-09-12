@@ -23,7 +23,7 @@ export async function create(payload: TournamentPayload, loggedInUser: LoggedInU
     gameId: payload.gameId,
     season: payload.season,
     startDate: getFormattedDate(payload.startDate),
-    finishDate: payload.finishDate && getFormattedDate(payload.finishDate),
+    finishDate: (payload.finishDate && getFormattedDate(payload.finishDate)) || null,
     registrationFormUrl: payload.registrationFormUrl,
     updatedBy: loggedInUser.id
   }).save();

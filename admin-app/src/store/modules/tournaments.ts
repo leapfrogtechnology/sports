@@ -1,12 +1,21 @@
-import * as gamesService from '@/services/games';
-import GameInterface from '@/domains/models/Game';
+import { IDInterface } from '@/domains/General';
+import * as tournamentService from '@/services/tournaments';
+import TournamentInterface, { TournamentPayloadInterface } from '@/domains/models/Tournament';
 
 // Initial state
 const stateData = {
   data: [],
   loading: true,
   errorMessage: '',
-  editData: {}
+  editData: {
+    id: 0,
+    name: '',
+    season: '',
+    gameId: 0,
+    startDate: null,
+    finishDate: null,
+    registrationFormUrl: ''
+  }
 };
 
 // Mutations
@@ -25,7 +34,7 @@ const actions = {
   fetchList(context: any) {
     context.commit('setLoading', false);
 
-    gamesService
+    tournamentService
       .fetchAll()
       .then(response => {
         context.commit('setData', {
@@ -44,19 +53,19 @@ const actions = {
       });
   },
 
-  create(context: any, payload: GameInterface) {
-    return gamesService.create(payload);
+  create(context: any, payload: TournamentPayloadInterface) {
+    return tournamentService.create(payload);
   },
 
-  edit(context: any, payload: GameInterface) {
-    return gamesService.edit(payload);
+  edit(context: any, payload: TournamentPayloadInterface) {
+    return tournamentService.edit(payload);
   },
 
-  delete(context: any, payload: GameInterface) {
-    return gamesService.remove(payload);
+  delete(context: any, payload: IDInterface) {
+    return tournamentService.remove(payload);
   },
 
-  setEditData(context: any, payload: any) {
+  setEditData(context: any, payload: TournamentInterface) {
     const data = {
       editData: payload
     };
@@ -66,11 +75,7 @@ const actions = {
 };
 
 // Getters
-const getters = {
-  games() {
-    return stateData.data;
-  }
-};
+const getters = {};
 
 export default {
   namespaced: true,

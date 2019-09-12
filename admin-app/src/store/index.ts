@@ -7,6 +7,7 @@ import games from './modules/games';
 import rounds from './modules/rounds';
 import statuses from './modules/statuses';
 import categories from './modules/categories';
+import tournaments from './modules/tournaments';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     games,
     rounds,
     statuses,
-    categories
+    categories,
+    tournaments
   },
   strict: debug
 });

@@ -29,3 +29,11 @@ export const STATUSES = {
   EDIT: `editStatus`,
   DELETE: `deleteStatus`
 };
+
+export const TOURNAMENTS = {
+  ONE: `tournament`,
+  ALL: `tournaments`,
+  CREATE: `createTournament`,
+  EDIT: `editTournament`,
+  DELETE: `deleteTournament`
+};
