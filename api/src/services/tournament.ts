@@ -54,7 +54,7 @@ export async function edit(id: number, payload: TournamentPayload, loggedInUser:
     {
       ...payload,
       startDate: getFormattedDate(payload.startDate),
-      finishDate: payload.finishDate && getFormattedDate(payload.finishDate),
+      finishDate: (payload.finishDate && getFormattedDate(payload.finishDate)) || null,
       updatedBy: loggedInUser.id,
       updatedAt: new Date().toISOString()
     },

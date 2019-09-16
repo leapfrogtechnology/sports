@@ -7,11 +7,15 @@ const stateData = {
   data: [],
   loading: true,
   errorMessage: '',
-  editData: {
+  selectedData: null,
+  loadingSelectedData: true,
+  initialData: {
     id: 0,
     name: '',
     season: '',
-    gameId: 0,
+    game: {
+      id: null
+    },
     startDate: null,
     finishDate: null,
     registrationFormUrl: ''
@@ -22,17 +26,13 @@ const stateData = {
 const mutations = {
   setData(state: any, options: any) {
     Object.assign(state, options);
-  },
-
-  setLoading(state: any, loading: boolean) {
-    state.loading = loading;
   }
 };
 
 // Actions
 const actions = {
   fetchList(context: any) {
-    context.commit('setLoading', false);
+    context.commit('setData', { loading: true });
 
     tournamentService
       .fetchAll()
@@ -49,7 +49,29 @@ const actions = {
         });
       })
       .then(() => {
-        context.commit('setLoading', false);
+        context.commit('setData', { loading: false });
+      });
+  },
+
+  fetchOne(context: any, payload: IDInterface) {
+    context.commit('setData', { loadingSelectedData: true });
+
+    tournamentService
+      .fetchOne(payload)
+      .then(response => {
+        context.commit('setData', {
+          selectedData: response,
+          errorMessage: ''
+        });
+      })
+      .catch(() => {
+        context.commit('setData', {
+          selectedData: null,
+          errorMessage: 'Unable to fetch selected data'
+        });
+      })
+      .then(() => {
+        context.commit('setData', { loadingSelectedData: false });
       });
   },
 
@@ -68,6 +90,14 @@ const actions = {
   setEditData(context: any, payload: TournamentInterface) {
     const data = {
       editData: payload
+    };
+
+    context.commit('setData', data);
+  },
+
+  resetSelectedData(context: any) {
+    const data = {
+      selectedData: null
     };
 
     context.commit('setData', data);
