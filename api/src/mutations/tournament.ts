@@ -107,15 +107,15 @@ async function validate(context: Context, payload: TournamentPayload) {
     throw new ApolloError(`Field "startDate" is not a valid date`, HttpStatus.BAD_REQUEST.toString());
   }
 
-  const parsedFinishedDate = finishDate && finishDate.length && Date.parse(finishDate);
+  const parsedFinishDate = finishDate && finishDate.length && Date.parse(finishDate);
 
   if (finishDate && finishDate.length) {
-    if (!parsedFinishedDate || isNaN(parsedFinishedDate)) {
+    if (!parsedFinishDate || isNaN(parsedFinishDate)) {
       throw new ApolloError(`Field "finishDate" is not a valid date`, HttpStatus.BAD_REQUEST.toString());
     }
 
     // Finish date must be after or same as the startDate
-    if (parsedFinishedDate < parsedStartDate) {
+    if (parsedFinishDate < parsedStartDate) {
       throw new ApolloError(
         `"finishDate" must be greater than or equals to the "startDate"`,
         HttpStatus.BAD_REQUEST.toString()

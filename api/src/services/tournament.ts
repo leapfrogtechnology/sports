@@ -157,6 +157,8 @@ function getParsedData(tournaments: any[]): any[] {
 
     tournament.startDate = getFormattedDate(startDate);
     tournament.finishDate = finishDate && getFormattedDate(finishDate);
+
+    return tournament;
   });
 
   return tournaments;
