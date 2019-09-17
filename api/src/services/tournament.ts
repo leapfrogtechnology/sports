@@ -155,10 +155,11 @@ function getParsedData(tournaments: any[]): any[] {
   tournaments.map(tournament => {
     const { startDate, finishDate } = tournament;
 
-    tournament.startDate = getFormattedDate(startDate);
-    tournament.finishDate = finishDate && getFormattedDate(finishDate);
-
-    return tournament;
+    return {
+      ...tournament,
+      startDate: getFormattedDate(startDate),
+      finishDate: finishDate && getFormattedDate(finishDate)
+    };
   });
 
   return tournaments;
