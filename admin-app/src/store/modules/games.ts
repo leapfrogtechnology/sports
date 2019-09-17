@@ -66,7 +66,11 @@ const actions = {
 };
 
 // Getters
-const getters = {};
+const getters = {
+  games() {
+    return stateData.data;
+  }
+};
 
 export default {
   namespaced: true,

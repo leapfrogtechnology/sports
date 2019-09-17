@@ -13,3 +13,5 @@ export const ROUNDS = '/rounds';
 export const STATUSES = '/statuses';
 
 export const LOGIN = '/login';
+
+export const TOURNAMENT = `${TOURNAMENTS}/:id`;

@@ -6,6 +6,7 @@ import { refreshAccessToken } from './refreshAccessToken';
 import { createRound, editRound, deleteRound } from './round';
 import { createStatus, editStatus, deleteStatus } from './status';
 import { createCategory, editCategory, deleteCategory } from './category';
+import { createTournament, editTournament, deleteTournament } from './tournament';
 
 export default {
   // Users
@@ -32,5 +33,10 @@ export default {
   // Statuses
   editStatus,
   createStatus,
-  deleteStatus
+  deleteStatus,
+
+  // Tournament
+  editTournament,
+  createTournament,
+  deleteTournament
 };

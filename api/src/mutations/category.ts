@@ -5,6 +5,7 @@ import Context from '../models/Context';
 import Category from '../models/Category';
 import { IDPayload } from '../domains/general';
 import { CategoryPayload } from '../domains/category';
+import { validateContext } from '../utils/validations';
 import * as categoryService from '../services/category';
 
 /**
@@ -60,9 +61,7 @@ export async function editCategory(parent: any, payload: CategoryPayload, contex
 export async function deleteCategory(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
@@ -81,15 +80,13 @@ export async function deleteCategory(parent: any, payload: IDPayload, context: C
 async function validate(context: Context, payload: CategoryPayload) {
   const { id = null, name } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
-  }
+  validateContext(context);
 
   if (!name || !name.length) {
     throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
-  // Check if the game already exists
+  // Check if the category already exists
   const existingCategory = await new Category().where({ name }).fetch();
 
   if ((id && existingCategory && existingCategory.id !== id) || (!id && existingCategory)) {
