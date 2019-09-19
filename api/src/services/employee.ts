@@ -61,7 +61,13 @@ async function fetchEmployeesFromEMS(): Promise<EMSEmployee[]> {
       Authorization: `APIKEY ${appConfig.ems.apiKey}`
     },
     params: {
-      size: 20
+      size: 1000,
+      'empStatus[0]': 'Probation',
+      'empStatus[1]': 'Intern',
+      'empStatus[2]': 'Trainee',
+      'empStatus[3]': 'Consultant',
+      'empStatus[4]': 'Permanent',
+      'empStatus[5]': 'Terminated'
     }
   });
 
