@@ -26,7 +26,7 @@ before_script:
     then
       STAGE=production
     else
-      STAGE=""
+      STAGE="other"
       echo "Undefined stage"
     fi
 env:
@@ -39,45 +39,57 @@ jobs:
       node_js: '10.16'
       env: PROJECT=web-app
       script: |
-        echo $STAGE
-        echo "Building ${STAGE}:${PROJECT}"
-        cd ${PROJECT}
-        envault list -secret=sports/${PROJECT}/${STAGE} > .env
-        yarn && yarn build
-        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
-        then
-          echo "Pushing changes to ${STAGE}:${PROJECT}"
-          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
-          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo $STAGE
+          echo "Building ${STAGE}:${PROJECT}"
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+          then
+            echo "Pushing changes to ${STAGE}:${PROJECT}"
+            envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
+            envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+          fi
+        else
+          echo "Nothing to deploy for ${STAGE}:${PROJECT}"
         fi
 
     - name: 'Deploy ADMIN_APP'
       node_js: '10.16'
       env: PROJECT=admin-app
       script: |
-        echo "Building ${STAGE}:${PROJECT}"
-        cd ${PROJECT}
-        envault list -secret=sports/${PROJECT}/${STAGE} > .env
-        yarn && yarn build
-        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
-        then
-          echo "Pushing changes to ${STAGE}:${PROJECT}"
-          envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
-          envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building ${STAGE}:${PROJECT}"
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+          then
+            echo "Pushing changes to ${STAGE}:${PROJECT}"
+            envault run 'aws s3 rm  $BUCKET_NAME --recursive' -secret=sports/${PROJECT}/${STAGE}
+            envault run 'aws s3 sync ./dist  $BUCKET_NAME' -secret=sports/${PROJECT}/${STAGE}
+          fi
+        else
+          echo "Nothing to deploy for ${STAGE}:${PROJECT}"
         fi
 
     - name: 'Deploy API'
       node_js: '8.10'
       env: PROJECT=api
       script: |
-        echo "Building ${STAGE}:${PROJECT}"
-        cd ${PROJECT}
-        envault list -secret=sports/${PROJECT}/${STAGE} > .env
-        yarn && yarn build
-        if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
-        then
-          echo "Pushing changes to ${STAGE}:${PROJECT}"
-          up deploy $STAGE
+        if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $PROJECT; then
+          echo "Building ${STAGE}:${PROJECT}"
+          cd ${PROJECT}
+          envault list -secret=sports/${PROJECT}/${STAGE} > .env
+          yarn && yarn build
+          if [ "$STAGE" == "dev" ] || [ "$STAGE" == "production" ]
+          then
+            echo "Pushing changes to ${STAGE}:${PROJECT}"
+            up deploy $STAGE
+          fi
+        else
+          echo "Nothing to deploy for ${STAGE}:${PROJECT}"
         fi
 
 notifications:

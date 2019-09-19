@@ -31,3 +31,12 @@ export function getUserSession(): object | null {
 
   return userSession;
 }
+
+/**
+ * Log out the current session.
+ *
+ * @export
+ */
+export function logOut() {
+  localStorage.removeItem(SESSION_KEY);
+}

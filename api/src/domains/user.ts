@@ -7,3 +7,12 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface LoggedInUser {
+  id: number;
+  employeeId: number;
+}
+
+export interface UserInfoPayload {
+  refreshToken: string;
+}

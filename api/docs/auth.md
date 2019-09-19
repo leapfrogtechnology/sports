@@ -1,206 +1,107 @@
-# Authentication EndPoints
+# Authentication
 
-**Endpoint: api.sports/lftechnology.com/graphql**
+## Sign Up
 
-## **Login**
+### Request
 
-Login an user.
-
-- **Method:**
-
-  `Mutation: login`
-
-- **Params**
-
-  `email*=[string]`
-  `password*=[string]`
-
-- **Success Response:**
-
-  ```json
-  "data": {
-    "login": {
-      "message": "Login successful",
-      "code": null,
-      "data": null,
-      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaXNSZWZyZXNoVG9rZW4iOnRydWUsImlhdCI6MTU2Mjg0MTg4NCwiZXhwIjoxNTYzNDQ2Njg0fQ.umvIkVhJ8bnCjkcBnGdW2dlxw4Wo27tnnzM2sJegTWc",
-      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbXBsb3llZUlkIjoyLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQ5WHcuQ1lLVHN4OUlFMkQzSG1DSFlPd1V3NFlMdnkwTDA3TFpnTUpZRHgybXhaclhhZU1ZMiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkxOVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTA3VDA0OjQ5OjEzLjkyMloifSwiaWF0IjoxNTYyODQxODg0LCJleHAiOjE1NjI4NDU0ODR9.9i5Lg6aVCM9l3O3jYrx8UG529u7Ufq-95H5D2XyO7bg"
-    }
+```gql
+mutation {
+  signUp (email:"admin@sports.com", password:"admin@123") {
+    message
   }
-  ```
+}
+```
 
-- **Error Response:**
+### Response
 
-  - Occurs when the email provided is not registered as a ems employee
-
-  ```json
-  "data": {
-    "login": {
-      "message": "Employee not Found",
-      "code": 404,
-      "data": null,
-      "refreshToken": null,
-      "accessToken": null
-    }
-  }
-  ```
-
-  - Occurs when the password provided is not correct
-
-  ```json
-  "data": {
-    "login": {
-      "message": "Invalid Password",
-      "code": 400,
-      "data": null,
-      "refreshToken": null,
-      "accessToken": null
-    }
-  }
-  ```
-
-  - Occurs when the email provided is not signed onto the system
-
-  ```json
-  "data": {
-    "login": {
-      "message": "User account not found",
-      "code": 404,
-      "data": null,
-      "refreshToken": null,
-      "accessToken": null
-    }
-  }
-  ```
-
-  - Occurs when either username or password is not provided while hitting the mutation
-
-  ```json
-  "data": {
-    "login": {
-      "message": "Either username or password is missing",
-      "code": 400,
-      "data": null,
-      "refreshToken": null,
-      "accessToken": null
-    }
-  }
-  ```
-
-## **SignUp**
-
-SignUp an user.
-
-- **Method:**
-
-  `Mutation: signUp`
-
-- **Params**
-
-  `email*=[string]`
-  `password*=[string]`
-
-- **Success Response:**
-
-  ```json
+```JSON
+{
   "data": {
     "signUp": {
-      "message": "Success",
-      "code": 201,
-      "data": null
+      "message": "Success"
     }
   }
-  ```
+}
+```
 
-- **Error Response:**
+## Login
 
-  - Occurs when the email provided is not registered as a ems employee
+### Request
 
-  ```json
+```gql
+mutation {
+  login (email: String!, password: String!) {
+    refreshToken,
+    accessToken
+  }
+}
+```
+
+### Response
+
+```JSON
+{
   "data": {
     "login": {
-      "message": "Employee not Found",
-      "code": 404,
-      "data": null
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJlbXBsb3llZUlkIjowLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQwNE9Ed2JXYTVST2VCNE5iYVZzdW5lTFgwQ1ZTWWwzTG01ejlwRVZkc0FmR3o5Mjg1ZlViLiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA4LTE4VDEzOjI2OjM4LjU1MVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA4LTE4VDEzOjI2OjM4LjU1MVoifSwiaXNSZWZyZXNoVG9rZW4iOnRydWUsImlhdCI6MTU2NjIxMTQ0NywiZXhwIjoxNTY2ODE2MjQ3fQ.AAQbV8EOH6n9s0A2Ln1V5DbNplUW9PfELzZ8gA5FTW8",
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJlbXBsb3llZUlkIjowLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQwNE9Ed2JXYTVST2VCNE5iYVZzdW5lTFgwQ1ZTWWwzTG01ejlwRVZkc0FmR3o5Mjg1ZlViLiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA4LTE4VDEzOjI2OjM4LjU1MVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA4LTE4VDEzOjI2OjM4LjU1MVoifSwiaWF0IjoxNTY2MjExNDQ3LCJleHAiOjE1NjYyMTUwNDd9.Ak22Odr0cLzU00nOd1iV7jD2a_Wo8n3-nRbICfRKVpg"
     }
   }
-  ```
+}
+```
 
-  - Occurs when a user with the provided email has already been registered
+## Refresh Access Token
 
-  ```json
-  "data": {
-    "signUp": {
-      "message": "Email Already Taken",
-      "code": 409,
-      "data": null
-    }
+### Request
+
+```gql
+mutation {
+  refreshAccessToken (refreshToken: String!) {
+    message,
+    accessToken
   }
-  ```
+}
+```
 
-  - Occurs if either username or password is not provided while signing up
+#### Response
 
-  ```json
-  "data": {
-    "login": {
-      "message": "Either username or password is missing",
-      "code": 400,
-      "data": null,
-      "refreshToken": null,
-      "accessToken": null
-    }
-  }
-  ```
-
-## **Refresh Access Token**
-
-Refreshes access token after it has expired.
-
-- **Method:**
-
-  `Mutation: refreshAccessToken`
-
-- **Params**
-
-  `refreshToken*=[string]`
-
-- **Success Response:**
-
-  ```json
+```JSON
+{
   "data": {
     "refreshAccessToken": {
       "message": "Token created successfully",
-      "code": 200,
-      "data": null,
-      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJlbXBsb3llZUlkIjo2LCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCR5ZTJLVHkzUy5CVHcweXJSYXpYb3VPQTdVNGsxRW1FaWdUbE5yNzFYNy5sZUNrL0xGeThMcSIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA3LTEyVDE3OjQ2OjU3LjY3OVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA3LTEyVDE3OjQ2OjU3LjY5NloifSwiaWF0IjoxNTYyOTU1MzYzLCJleHAiOjE1NjI5NTg5NjN9.wCpvISU_JCsHrdB9eY7fnjKMT7faAMo7GKo6X0scqRA"
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJlbXBsb3llZUlkIjowLCJ1c2VyUm9sZUlkIjozLCJwYXNzd29yZCI6IiQyYiQxMCQwNE9Ed2JXYTVST2VCNE5iYVZzdW5lTFgwQ1ZTWWwzTG01ejlwRVZkc0FmR3o5Mjg1ZlViLiIsImlzQWN0aXZlIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDE5LTA4LTE4VDEzOjI2OjM4LjU1MVoiLCJ1cGRhdGVkQXQiOiIyMDE5LTA4LTE4VDEzOjI2OjM4LjU1MVoifSwiaWF0IjoxNTY2MjE1MjQyLCJleHAiOjE1NjYyMTg4NDJ9.iIRftA3i2DeSeQtATLWyob8JrDMbIbIGHP57IA5dP2Y"
     }
   }
-  ```
+}
+```
 
-- **Error Response:**
+## User Info
 
-  - Occurs if the provided refresh token is not valid
+### Request
 
-  ```json
+```gql
+mutation {
+  userInfo (refreshToken: String!) {
+    id,
+    firstName,
+    lastName,
+    profilePictureUrl
+  }
+}
+```
+
+#### Response
+
+```JSON
+{
   "data": {
-    "refreshAccessToken": {
-      "message": "Invalid token",
-      "code": 400,
-      "data": null,
-      "accessToken": null
-    }
+    "userInfo": {
+        "id": 3,
+        "firstName": "Super",
+        "lastName": "Admin",
+        "profilePictureUrl": ""
+      }
   }
-  ```
-
-  - Occurs when the provided refresh token has expired
-
-  ```json
-  "data": {
-    "refreshAccessToken": {
-      "message": "Token has expired",
-      "code": 401,
-      "data": null,
-      "accessToken": null
-    }
-  }
-  ```
+}
+```

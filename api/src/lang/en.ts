@@ -2,6 +2,7 @@ export const en = {
   SUCCESS: 'Success',
   INVALID_TOKEN: 'Invalid token',
   TOKEN_EXPIRED: 'Token has expired',
+  EMPTY_TOKEN: 'Token cannot be empty',
   LOGIN_SUCCESSFUL: 'Login successful',
   INVALID_PASSWORD: 'Invalid Password',
   EMPLOYEE_NOT_FOUND: 'Employee not Found',

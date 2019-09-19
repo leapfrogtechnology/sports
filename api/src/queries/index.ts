@@ -1,21 +1,23 @@
-import Context from '../models/Context';
-import User from '../models/UserAccount';
+import { games } from './game';
+import { rounds } from './round';
+import { statuses } from './status';
+import { categories } from './category';
+import { tournament, tournaments } from './tournament';
 
 export default {
-  users: async (parent: any, args: any, context: Context, info: any) => {
-    const users = await new User().fetchAll();
+  // games
+  games,
 
-    return users.serialize();
-  },
-  user: async (parent: any, args: any, context: Context, info: any) => {
-    const { id } = args;
+  // categories
+  categories,
 
-    if (!id) {
-      return null;
-    }
+  // rounds
+  rounds,
 
-    const user = await new User().where({ id }).fetch();
+  // statuses
+  statuses,
 
-    return user.serialize();
-  }
+  // tournaments
+  tournament,
+  tournaments
 };

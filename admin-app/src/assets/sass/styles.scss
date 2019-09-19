@@ -1,4 +1,48 @@
+body,
+input,
+select,
+textarea {
+  font-family: 'Titillium Web', sans-serif;
+}
+
 .custom-page-title {
   font-size: 24px;
   font-weight: bold;
+  text-transform: uppercase;
+}
+
+.custom-top-bar {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  color: #FFF;
+
+  .custom-top-bar--item {
+    padding: 0 10px;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.ant-layout-header {
+  height: auto;
+  line-height: 1;
+}
+
+.ant-table {
+  .ant-btn {
+    margin: 0 5px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }

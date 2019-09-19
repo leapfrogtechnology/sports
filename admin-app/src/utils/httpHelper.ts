@@ -1,6 +1,7 @@
-import axios from 'axios';
 import * as dotenv from 'dotenv';
-import httpStatusCodes from 'http-status-codes';
+import axios, { AxiosRequestConfig } from 'axios';
+
+import { getUserSession } from '../services/storage';
 
 dotenv.config();
 
@@ -16,19 +17,29 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL;
  * @throws {Error}
  */
 export async function getResponse(queryAPI: string, query: string) {
-  const response = await axios({
+  const userSession: any = getUserSession();
+
+  const config: AxiosRequestConfig = {
     url: baseUrl,
     method: 'POST',
     data: {
       query
     }
-  });
+  };
 
-  const data = response && response.data && response.data.data && response.data.data[queryAPI];
-
-  if (data && data.code === httpStatusCodes.OK) {
-    return data;
+  if (userSession) {
+    config.headers = {
+      Authorization: `Bearer ${userSession.accessToken}`
+    };
   }
 
-  throw new Error(data.message || 'An error occurred');
+  const response = await axios(config);
+
+  const errors = response && response.data && response.data.errors;
+
+  if (errors) {
+    throw new Error(errors[0].message);
+  }
+
+  return response && response.data && response.data.data && response.data.data[queryAPI];
 }
