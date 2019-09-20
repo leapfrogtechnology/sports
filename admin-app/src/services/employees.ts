@@ -54,3 +54,26 @@ export function fetchOne(): Promise<any> {
 
   return httpHelper.getResponse(queryAPI, query);
 }
+
+/**
+ * Sync the list of employees.
+ *
+ * @export
+ * @returns {Promise<any>}
+ */
+export function sync(): Promise<any> {
+  const queryAPI = EMPLOYEES.SYNC;
+
+  const query = `
+    mutation {
+      ${queryAPI} {
+        count {
+          new
+          updated
+        }
+      }
+    }
+  `;
+
+  return httpHelper.getResponse(queryAPI, query);
+}

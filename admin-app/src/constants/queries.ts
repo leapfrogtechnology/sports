@@ -40,5 +40,6 @@ export const TOURNAMENTS = {
 
 export const EMPLOYEES = {
   ONE: `employee`,
-  ALL: `employees`
+  ALL: `employees`,
+  SYNC: `syncEmployees`
 };

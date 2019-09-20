@@ -1,11 +1,11 @@
 <template>
-  <div v-if="buttonText.length">
+  <div v-if="text.length">
     <a-button
       :style="{ margin: '8px 0' }"
       type="primary"
-      icon="plus"
+      :icon=icon
       @click="handleClick"
-    >{{buttonText}}</a-button>
+    >{{text}}</a-button>
   </div>
 </template>
 
@@ -13,8 +13,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class AddButton extends Vue {
-  @Prop() private buttonText!: string;
+export default class CustomButton extends Vue {
+  @Prop() private text!: string;
+  @Prop({
+    default: 'plus'
+  })
+  private icon!: string;
   @Prop() private handleClick!: any;
 }
 </script>

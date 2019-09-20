@@ -1,5 +1,4 @@
 import * as employeesService from '@/services/employees';
-import EmployeeInterface from '@/domains/models/Employee';
 
 // Initial state
 const stateData = {
@@ -41,6 +40,10 @@ const actions = {
       .then(() => {
         context.commit('setLoading', false);
       });
+  },
+
+  sync(context: any) {
+    return employeesService.sync();
   }
 };
 

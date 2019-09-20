@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="custom-page-title">TOURNAMENTS</h2>
-    <AddButton buttonText="Add new tournament" :handleClick="handleAdd" />
+    <CustomButton text="Add new tournament" :handleClick="handleAdd" />
     <a-alert v-if="errorMessage.length" :message="errorMessage" type="error" showIcon />
     <a-list bordered :loading="loading" :dataSource="data">
       <a-list-item slot="renderItem" slot-scope="item">
@@ -19,13 +19,13 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import * as ROUTES from '@/constants/routes';
 import { IDInterface } from '@/domains/General';
-import AddButton from '@/components/common/AddButton.vue';
 import ItemsList from '@/components/common/ItemsList.vue';
 import TournamentInterface from '@/domains/models/Tournament';
+import CustomButton from '@/components/common/CustomButton.vue';
 import { TOURNAMENTS_ADD_EDIT_FORM_MODAL } from '../constants/modals';
 
 @Component({
-  components: { AddButton, ItemsList },
+  components: { CustomButton, ItemsList },
   computed: {
     ...mapState('tournaments', ['data', 'loading', 'errorMessage'])
   }

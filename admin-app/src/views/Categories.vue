@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="custom-page-title">CATEGORIES</h2>
-    <AddButton buttonText="Add new category" :handleClick="handleAdd" />
+    <CustomButton text="Add new category" :handleClick="handleAdd" />
     <a-alert v-if="errorMessage.length" :message="errorMessage" type="error" showIcon />
     <ItemsList
       v-else
@@ -21,11 +21,11 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import CategoryInterface from '@/domains/models/Category';
 import ItemsList from '@/components/common/ItemsList.vue';
-import AddButton from '@/components/common/AddButton.vue';
+import CustomButton from '@/components/common/CustomButton.vue';
 import { CATEGORIES_ADD_EDIT_FORM_MODAL } from '@/constants/modals';
 
 @Component({
-  components: { ItemsList, AddButton },
+  components: { ItemsList, CustomButton },
   computed: mapState('categories', ['data', 'loading', 'errorMessage'])
 })
 export default class Categories extends Vue {
