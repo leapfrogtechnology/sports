@@ -52,10 +52,6 @@ type TournamentResponse {
   registrationFormUrl: String
 }
 
-type GeneralResponse {
-  message: String
-}
-
 type SyncEmployeesCount {
   new: Int,
   updated: Int
@@ -63,6 +59,23 @@ type SyncEmployeesCount {
 
 type SyncEmployeesResponse {
   count: SyncEmployeesCount
+}
+
+type EmployeeResponse {
+  id: Int
+  email: String
+  status: String
+  updatedAt: String
+  createdAt: String
+  lastName: String
+  firstName: String
+  middleName: String
+  emsEmployeeId: Int
+  profilePictureUrl: String
+}
+
+type GeneralResponse {
+  message: String
 }
 
 type Mutation {
@@ -115,5 +128,7 @@ type Query {
   rounds: [RoundResponse]
   statuses: [StatusResponse]
   tournaments: [TournamentResponse]
-  tournament(id: Int!): TournamentResponse
+  tournament(id: Int!): TournamentResponse,
+  employees: [EmployeeResponse],
+  employee(id: Int!): EmployeeResponse
 }
