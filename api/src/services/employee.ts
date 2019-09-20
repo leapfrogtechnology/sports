@@ -25,13 +25,17 @@ export async function syncEmployees(): Promise<object> {
     const existingEmployeeEmsIds = existingEmployees.map(e => e.emsEmployeeId);
 
     // Filter the new employees
-    const newEmployees = emsEmployees.filter(e => !existingEmployeeEmsIds.includes(e.id));
+    const newEmployees = emsEmployees.filter(
+      employee => !existingEmployeeEmsIds.includes(parseInt(employee.empId, 10))
+    );
 
     // Insert
     await addNewEmployees(newEmployees);
 
     // Filter the existing employees
-    const toBeUpdatedEmployees = emsEmployees.filter(e => existingEmployeeEmsIds.includes(e.id));
+    const toBeUpdatedEmployees = emsEmployees.filter(employee =>
+      existingEmployeeEmsIds.includes(parseInt(employee.empId, 10))
+    );
 
     // Update
     await updateExistingEmployees(toBeUpdatedEmployees, existingEmployees);
@@ -61,13 +65,7 @@ async function fetchEmployeesFromEMS(): Promise<EMSEmployee[]> {
       Authorization: `APIKEY ${appConfig.ems.apiKey}`
     },
     params: {
-      size: 1000,
-      'empStatus[0]': 'Probation',
-      'empStatus[1]': 'Intern',
-      'empStatus[2]': 'Trainee',
-      'empStatus[3]': 'Consultant',
-      'empStatus[4]': 'Permanent',
-      'empStatus[5]': 'Terminated'
+      size: 1000
     }
   });
 
@@ -92,24 +90,22 @@ async function fetchEmployeesFromDB(): Promise<EmployeeInterface[]> {
  * @returns {DBEmployeePayload[]}
  */
 function getMappedEmployeesListFromEMS(emsEmployees: EMSEmployee[]): DBEmployeePayload[] {
-  const parsedEmployees: DBEmployeePayload[] = [];
-
-  emsEmployees.forEach(e => {
-    const element = {
-      email: e.email,
-      status: e.empStatus,
-      emsEmployeeId: e.id,
-      firstName: e.firstName,
-      middleName: e.middleName,
-      lastName: e.lastName,
-      profilePictureUrl: e.avatarUrl,
-      updatedAt: new Date().toISOString()
-    };
-
-    parsedEmployees.push(element);
-  });
-
-  return parsedEmployees;
+  return emsEmployees.reduce(
+    (acc: any, employee: EMSEmployee) => [
+      ...acc,
+      {
+        email: employee.email,
+        status: employee.empStatus,
+        emsEmployeeId: employee.empId,
+        firstName: employee.firstName,
+        middleName: employee.middleName,
+        lastName: employee.lastName,
+        profilePictureUrl: employee.avatarUrl,
+        updatedAt: new Date().toISOString()
+      }
+    ],
+    []
+  );
 }
 
 /**
@@ -134,13 +130,13 @@ async function addNewEmployees(employees: EMSEmployee[]) {
 async function updateExistingEmployees(employees: EMSEmployee[], existingEmployees: EmployeeInterface[]) {
   const mapToBeUpdatedEmployees = getMappedEmployeesListFromEMS(employees);
 
-  mapToBeUpdatedEmployees.forEach(async e => {
-    const emp = existingEmployees.find(em => em.emsEmployeeId === e.emsEmployeeId);
+  mapToBeUpdatedEmployees.forEach(async employee => {
+    const emp = existingEmployees.find(existingEmployee => existingEmployee.emsEmployeeId === employee.emsEmployeeId);
 
     if (emp) {
       const empModel = await new Employee({ id: emp.id }).fetch();
 
-      await empModel.save(e, { patch: true });
+      await empModel.save(employee, { patch: true });
     }
   });
 }
