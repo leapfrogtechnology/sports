@@ -87,12 +87,12 @@ async function fetchEmployeesFromDB(): Promise<EmployeeInterface[]> {
  */
 function getMappedEmployeesListFromEMS(emsEmployees: EMSEmployee[]): DBEmployeePayload[] {
   return emsEmployees.reduce(
-    (acc: any, emp: any) => [
+    (acc: any, emp: EMSEmployee) => [
       ...acc,
       {
         email: emp.email,
         status: emp.empStatus,
-        emsEmployeeId: emp.id,
+        emsEmployeeId: emp.empId,
         firstName: emp.firstName,
         middleName: emp.middleName,
         lastName: emp.lastName,
