@@ -86,24 +86,22 @@ async function fetchEmployeesFromDB(): Promise<EmployeeInterface[]> {
  * @returns {DBEmployeePayload[]}
  */
 function getMappedEmployeesListFromEMS(emsEmployees: EMSEmployee[]): DBEmployeePayload[] {
-  const parsedEmployees: DBEmployeePayload[] = [];
-
-  emsEmployees.forEach(e => {
-    const element = {
-      email: e.email,
-      status: e.empStatus,
-      emsEmployeeId: e.id,
-      firstName: e.firstName,
-      middleName: e.middleName,
-      lastName: e.lastName,
-      profilePictureUrl: e.avatarUrl,
-      updatedAt: new Date().toISOString()
-    };
-
-    parsedEmployees.push(element);
-  });
-
-  return parsedEmployees;
+  return emsEmployees.reduce(
+    (acc: any, emp: any) => [
+      ...acc,
+      {
+        email: emp.email,
+        status: emp.empStatus,
+        emsEmployeeId: emp.id,
+        firstName: emp.firstName,
+        middleName: emp.middleName,
+        lastName: emp.lastName,
+        profilePictureUrl: emp.avatarUrl,
+        updatedAt: new Date().toISOString()
+      }
+    ],
+    []
+  );
 }
 
 /**
