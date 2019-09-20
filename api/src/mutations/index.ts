@@ -1,6 +1,7 @@
 import { login } from './login';
 import { signUp } from './signUp';
 import { userInfo } from './user';
+import { syncEmployees } from './employee';
 import { createGame, editGame, deleteGame } from './game';
 import { refreshAccessToken } from './refreshAccessToken';
 import { createRound, editRound, deleteRound } from './round';
@@ -14,6 +15,9 @@ export default {
   refreshAccessToken,
   signUp,
   userInfo,
+
+  // Employees
+  syncEmployees,
 
   // Games
   editGame,
