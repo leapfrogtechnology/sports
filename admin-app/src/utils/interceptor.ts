@@ -170,6 +170,7 @@ export default function setup() {
         }
 
         if (code === HttpStatusCodes.FORBIDDEN) {
+          // TODO: Logout from the application here
           clearUserSession();
         }
 
