@@ -35,7 +35,11 @@ export function getUserSession(): Session | null {
   return userSession;
 }
 
-
+/**
+ * Log out the current session.
+ *
+ * @export
+ */
 export function clearUserSession() {
-    localStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(SESSION_KEY);
 }

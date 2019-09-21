@@ -6,6 +6,8 @@ import Context from '../models/Context';
 import { GamePayload } from '../domains/game';
 import { IDPayload } from '../domains/general';
 import * as gameServices from '../services/game';
+import { isAlphanumeric } from '../utils/helpers';
+import { validateContext } from '../utils/validations';
 
 /**
  * Mutation for creating a new game.
@@ -61,9 +63,7 @@ export async function editGame(parent: any, payload: GamePayload, context: Conte
 export async function deleteGame(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, context.error.extensions.code.toString());
-  }
+  validateContext(context);
 
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
@@ -82,9 +82,7 @@ export async function deleteGame(parent: any, payload: IDPayload, context: Conte
 async function validate(context: Context, payload: GamePayload) {
   const { id = null, name, shortName } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, context.error.extensions.code.toString());
-  }
+  validateContext(context);
 
   if (!name || !name.length) {
     throw new ApolloError(`Field "name" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
@@ -94,10 +92,7 @@ async function validate(context: Context, payload: GamePayload) {
     throw new ApolloError(`Field "shortName" cannot be empty`, HttpStatus.BAD_REQUEST.toString());
   }
 
-  // Short name should be alphanumeric
-  const pattern = /^[A-Za-z0-9-]*$/;
-
-  if (!pattern.test(shortName)) {
+  if (!isAlphanumeric(shortName)) {
     throw new ApolloError(
       `Field "shortName" should be a combination of alphanumeric and "-" only without any blank space`,
       HttpStatus.BAD_REQUEST.toString()

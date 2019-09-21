@@ -6,6 +6,7 @@ import Context from '../models/Context';
 import { IDPayload } from '../domains/general';
 import { RoundPayload } from '../domains/round';
 import * as roundService from '../services/round';
+import { validateContext } from '../utils/validations';
 
 /**
  * Mutation for creating a new round.
@@ -62,9 +63,7 @@ export async function editRound(parent: any, payload: RoundPayload, context: Con
 export async function deleteRound(parent: any, payload: IDPayload, context: Context): Promise<object> {
   const { id } = payload;
 
-  if (context.error) {
-    throw new ApolloError(context.error, context.error.extensions.code.toString());
-  }
+  validateContext(context);
 
   if (!id) {
     throw new ApolloError(`Field "id" cannot be empty`, HttpStatus.FORBIDDEN.toString());
@@ -81,9 +80,7 @@ export async function deleteRound(parent: any, payload: IDPayload, context: Cont
  * @param {RoundPayload} payload
  */
 async function validate(context: Context, payload: RoundPayload) {
-  if (context.error) {
-    throw new ApolloError(context.error, context.error.extensions.code.toString());
-  }
+  validateContext(context);
 
   const { id = null, name, shortName, sortOrder } = payload;
 

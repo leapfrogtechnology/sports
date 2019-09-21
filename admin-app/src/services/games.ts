@@ -8,7 +8,7 @@ import GameInterface from '../domains/models/Game';
  * @export
  * @returns {Promise<any>}
  */
-export async function fetchAll(): Promise<any> {
+export function fetchAll(): Promise<any> {
   const queryAPI = GAMES.ALL;
 
   const query = `
@@ -31,7 +31,7 @@ export async function fetchAll(): Promise<any> {
  * @param {GameInterface} payload
  * @returns {Promise<any>}
  */
-export async function create(payload: GameInterface): Promise<any> {
+export function create(payload: GameInterface): Promise<any> {
   const queryAPI = GAMES.CREATE;
 
   const mutation = `
@@ -54,7 +54,7 @@ export async function create(payload: GameInterface): Promise<any> {
  * @param {GameInterface} payload
  * @returns {Promise<any>}
  */
-export async function edit(payload: GameInterface): Promise<any> {
+export function edit(payload: GameInterface): Promise<any> {
   const queryAPI = GAMES.EDIT;
 
   const mutation = `
@@ -77,7 +77,7 @@ export async function edit(payload: GameInterface): Promise<any> {
  * @param {{ id: number }} payload
  * @returns {Promise<any>}
  */
-export async function remove(payload: { id: number }): Promise<any> {
+export function remove(payload: { id: number }): Promise<any> {
   const queryAPI = GAMES.DELETE;
 
   const mutation = `

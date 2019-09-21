@@ -9,6 +9,7 @@ import Rounds from './views/Rounds.vue';
 import Statuses from './views/Statuses.vue';
 import Dashboard from './views/Dashboard.vue';
 import Employees from './views/Employees.vue';
+import Tournament from './views/Tournament.vue';
 import Categories from './views/Categories.vue';
 import Tournaments from './views/Tournaments.vue';
 
@@ -60,6 +61,11 @@ const router = new Router({
           path: ROUTES.ROUNDS,
           name: 'rounds',
           component: Rounds
+        },
+        {
+          path: ROUTES.TOURNAMENT,
+          name: 'tournament',
+          component: Tournament
         }
       ]
     }

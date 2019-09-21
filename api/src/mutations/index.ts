@@ -1,16 +1,23 @@
 import { login } from './login';
 import { signUp } from './signUp';
+import { userInfo } from './user';
+import { syncEmployees } from './employee';
 import { createGame, editGame, deleteGame } from './game';
 import { refreshAccessToken } from './refreshAccessToken';
 import { createRound, editRound, deleteRound } from './round';
 import { createStatus, editStatus, deleteStatus } from './status';
 import { createCategory, editCategory, deleteCategory } from './category';
+import { createTournament, editTournament, deleteTournament } from './tournament';
 
 export default {
   // Users
   login,
   refreshAccessToken,
   signUp,
+  userInfo,
+
+  // Employees
+  syncEmployees,
 
   // Games
   editGame,
@@ -30,5 +37,10 @@ export default {
   // Statuses
   editStatus,
   createStatus,
-  deleteStatus
+  deleteStatus,
+
+  // Tournament
+  editTournament,
+  createTournament,
+  deleteTournament
 };

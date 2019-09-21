@@ -123,7 +123,7 @@ export default function setup() {
           HttpStatusCodes.FORBIDDEN.toString() ||
           response.data.errors[0].extensions.code ===
             HttpStatusCodes.UNAUTHORIZED.toString())
-      ){
+      ) {
         const originalRequest = response.config;
         const code = parseInt(
           response && response.data && response.data.errors[0].extensions.code,

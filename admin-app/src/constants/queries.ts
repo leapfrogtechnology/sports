@@ -1,3 +1,7 @@
+export const AUTH = {
+  USER_INFO: `userInfo`
+};
+
 export const GAMES = {
   ALL: `games`,
   CREATE: `createGame`,
@@ -24,4 +28,12 @@ export const STATUSES = {
   CREATE: `createStatus`,
   EDIT: `editStatus`,
   DELETE: `deleteStatus`
+};
+
+export const TOURNAMENTS = {
+  ONE: `tournament`,
+  ALL: `tournaments`,
+  CREATE: `createTournament`,
+  EDIT: `editTournament`,
+  DELETE: `deleteTournament`
 };

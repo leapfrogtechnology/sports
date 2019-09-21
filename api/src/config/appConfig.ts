@@ -21,6 +21,10 @@ const appConfig = {
       algorithms: ['HS256'],
       maxAge: process.env.JWT_REFRESH_TOKEN_EXPIRE || '12h'
     }
+  },
+  ems: {
+    apiURL: process.env.EMS_API_URL,
+    apiKey: process.env.EMS_API_KEY
   }
 };
 
