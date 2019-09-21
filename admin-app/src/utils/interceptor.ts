@@ -119,14 +119,14 @@ export default function setup() {
         response.data.errors &&
         response.data.errors[0] &&
         response.data.errors[0].extensions &&
-        response.data.errors[0].extensions.code === '401'
+        (response.data.errors[0].extensions.code === HttpStatusCodes.FORBIDDEN.toString() || response.data.errors[0].extensions.code === HttpStatusCodes.UNAUTHORIZED.toString())
       ) {
 
         const originalRequest = response.config;
         const code = parseInt(
           response && response.data && response.data.errors[0].extensions.code,
           10
-        );
+          );
         const sessionInfo = getUserSession();
 
         if (
@@ -155,10 +155,6 @@ export default function setup() {
               mutation
             );
 
-            //  tslint:disable:no-console
-            console.log({refreshAccessTokenResponse});
-            
-
             setUserSession({
               refreshToken: sessionInfo && sessionInfo.refreshToken,
               accessToken: refreshAccessTokenResponse.accessToken
@@ -170,15 +166,12 @@ export default function setup() {
 
             return http.request(originalRequest);
           } catch (error) {
-
-            
-
             throw error;
           }
         }
 
-        if(          originalRequest.__isRetryRequest          ){
-          clearUserSession()
+        if (code === HttpStatusCodes.FORBIDDEN) {
+          clearUserSession();
         }
 
         originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
