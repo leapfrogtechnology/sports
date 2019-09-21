@@ -15,7 +15,7 @@ import * as statusServices from '../services/status';
  */
 export async function statuses(parent: any, payload: Status, context: Context): Promise<object> {
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   return statusServices.fetchAll();

@@ -61,7 +61,7 @@ export async function deleteStatus(parent: any, payload: IDPayload, context: Con
   const { id } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   if (!id) {
@@ -80,7 +80,7 @@ export async function deleteStatus(parent: any, payload: IDPayload, context: Con
  */
 async function validate(context: Context, payload: StatusPayload) {
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   const { id = null, name } = payload;

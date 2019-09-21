@@ -15,7 +15,7 @@ import * as roundServices from '../services/round';
  */
 export async function rounds(parent: any, payload: Round, context: Context): Promise<object> {
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   return roundServices.fetchAll();

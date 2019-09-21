@@ -62,7 +62,7 @@ export async function deleteGame(parent: any, payload: IDPayload, context: Conte
   const { id } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   if (!id) {
@@ -83,7 +83,7 @@ async function validate(context: Context, payload: GamePayload) {
   const { id = null, name, shortName } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   if (!name || !name.length) {

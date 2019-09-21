@@ -61,7 +61,10 @@ export async function deleteCategory(parent: any, payload: IDPayload, context: C
   const { id } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(
+      context.error,
+      context.error.extensions ? context.error.extensions.code.toString() : HttpStatus.FORBIDDEN.toString()
+    );
   }
 
   if (!id) {
@@ -82,7 +85,10 @@ async function validate(context: Context, payload: CategoryPayload) {
   const { id = null, name } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(
+      context.error,
+      context.error.extensions ? context.error.extensions.code.toString() : HttpStatus.FORBIDDEN.toString()
+    );
   }
 
   if (!name || !name.length) {

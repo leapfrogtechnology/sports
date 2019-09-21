@@ -63,7 +63,7 @@ export async function deleteRound(parent: any, payload: IDPayload, context: Cont
   const { id } = payload;
 
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   if (!id) {
@@ -82,7 +82,7 @@ export async function deleteRound(parent: any, payload: IDPayload, context: Cont
  */
 async function validate(context: Context, payload: RoundPayload) {
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   const { id = null, name, shortName, sortOrder } = payload;

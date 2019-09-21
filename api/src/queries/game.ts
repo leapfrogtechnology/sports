@@ -15,7 +15,7 @@ import * as gameServices from '../services/game';
  */
 export async function games(parent: any, { name, shortName }: { name: string; shortName: string }, context: Context) {
   if (context.error) {
-    throw new ApolloError(context.error, context.error.code.toString());
+    throw new ApolloError(context.error, context.error.extensions.code.toString());
   }
 
   const allGames = await gameServices.fetchAll();
