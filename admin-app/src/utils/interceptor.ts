@@ -119,9 +119,11 @@ export default function setup() {
         response.data.errors &&
         response.data.errors[0] &&
         response.data.errors[0].extensions &&
-        (response.data.errors[0].extensions.code === HttpStatusCodes.FORBIDDEN.toString() || response.data.errors[0].extensions.code === HttpStatusCodes.UNAUTHORIZED.toString())
-      ) {
-
+        (response.data.errors[0].extensions.code ===
+          HttpStatusCodes.FORBIDDEN.toString() ||
+          response.data.errors[0].extensions.code ===
+            HttpStatusCodes.UNAUTHORIZED.toString())
+      ){
         const originalRequest = response.config;
         const code = parseInt(
           response && response.data && response.data.errors[0].extensions.code,
@@ -137,9 +139,7 @@ export default function setup() {
 
           try {
             // Hit api to get new access token using refresh token
-
             const queryAPI = 'refreshAccessToken';
-
             const mutation = `
               mutation {
                 ${queryAPI} (refreshToken: "${sessionInfo &&
@@ -149,7 +149,6 @@ export default function setup() {
                 }
               }
             `;
-
             const refreshAccessTokenResponse: any = await getResponse(
               queryAPI,
               mutation
@@ -180,7 +179,6 @@ export default function setup() {
 
         return Promise.reject(response);
       }
-
 
       return response;
     }
