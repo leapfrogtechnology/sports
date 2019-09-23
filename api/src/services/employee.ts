@@ -8,6 +8,35 @@ import appConfig from '../config/appConfig';
 import EmployeeInterface, { EMSEmployee, DBEmployeePayload } from '../domains/employee';
 
 /**
+ * Fetch the list of employees.
+ *
+ * @export
+ * @returns {Promise<EmployeeInterface[]>}
+ */
+export async function fetchAll(): Promise<EmployeeInterface[]> {
+  const employees = await fetchEmployeesFromDB();
+
+  return employees;
+}
+
+/**
+ * Fetch employee by ID.
+ *
+ * @export
+ * @param {number} id
+ * @returns {Promise<EmployeeInterface>}
+ */
+export async function fetchOne(id: number): Promise<EmployeeInterface> {
+  const employee = await new Employee({ id }).fetch();
+
+  if (!employee) {
+    throw new ApolloError('Employee not found.');
+  }
+
+  return employee.serialize();
+}
+
+/**
  * Sync the employees list.
  * Fetch list from EMS.
  * Add if they do not exist, update if they exist.

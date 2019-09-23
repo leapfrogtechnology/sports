@@ -13,6 +13,9 @@
         <a href="javascript:;" @click="() => handleDelete(record)">Delete</a>
       </span>
     </template>
+    <template slot="avatar" slot-scope="avatar">
+      <a-avatar size="large" :src="avatar" icon="user" />
+    </template>
   </a-table>
 </template>
 

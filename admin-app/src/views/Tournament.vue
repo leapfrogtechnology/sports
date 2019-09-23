@@ -24,13 +24,13 @@ import { mapState, mapGetters } from 'vuex';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import { IDInterface } from '@/domains/General';
-import AddButton from '@/components/common/AddButton.vue';
 import ItemsList from '@/components/common/ItemsList.vue';
 import TournamentInterface from '@/domains/models/Tournament';
+import CustomButton from '@/components/common/CustomButton.vue';
 import { TOURNAMENTS_ADD_EDIT_FORM_MODAL } from '@/constants/modals';
 
 @Component({
-  components: { AddButton, ItemsList },
+  components: { CustomButton, ItemsList },
   computed: {
     ...mapState('tournaments', ['selectedData', 'loadingSelectedData', 'errorMessage'])
   }

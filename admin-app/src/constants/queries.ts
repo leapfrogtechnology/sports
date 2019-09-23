@@ -37,3 +37,9 @@ export const TOURNAMENTS = {
   EDIT: `editTournament`,
   DELETE: `deleteTournament`
 };
+
+export const EMPLOYEES = {
+  ONE: `employee`,
+  ALL: `employees`,
+  SYNC: `syncEmployees`
+};

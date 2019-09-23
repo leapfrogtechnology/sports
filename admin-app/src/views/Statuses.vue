@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="custom-page-title">STATUSES</h2>
-    <AddButton buttonText="Add new status" :handleClick="handleAdd" />
+    <CustomButton text="Add new status" :handleClick="handleAdd" />
     <a-alert v-if="errorMessage.length" :message="errorMessage" type="error" showIcon />
     <ItemsList
       v-else
@@ -21,11 +21,11 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import StatusInterface from '@/domains/models/Status';
 import ItemsList from '@/components/common/ItemsList.vue';
-import AddButton from '@/components/common/AddButton.vue';
+import CustomButton from '@/components/common/CustomButton.vue';
 import { STATUSES_ADD_EDIT_FORM_MODAL } from '@/constants/modals';
 
 @Component({
-  components: { ItemsList, AddButton },
+  components: { ItemsList, CustomButton },
   computed: mapState('statuses', ['data', 'loading', 'errorMessage'])
 })
 export default class Statuses extends Vue {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="custom-page-title">GAMES</h2>
-    <AddButton buttonText="Add new game" :handleClick="handleAddGame" />
+    <CustomButton text="Add new game" :handleClick="handleAddGame" />
     <a-alert v-if="errorMessage.length" :message="errorMessage" type="error" showIcon />
     <ItemsList
       v-else
@@ -21,11 +21,11 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import GameInterface from '../domains/models/Game';
 import ItemsList from '@/components/common/ItemsList.vue';
-import AddButton from '@/components/common/AddButton.vue';
 import { GAMES_ADD_EDIT_FORM_MODAL } from '@/constants/modals';
+import CustomButton from '@/components/common/CustomButton.vue';
 
 @Component({
-  components: { ItemsList, AddButton },
+  components: { ItemsList, CustomButton },
   computed: mapState('games', ['data', 'loading', 'errorMessage'])
 })
 export default class Games extends Vue {
