@@ -13,12 +13,10 @@ import * as employeeServices from '../services/employee';
  * @param {Context} context
  * @returns {Promise<any>}
  */
-export async function employees(parent: any, payload: EmployeeInterface, context: Context): Promise<any> {
+export function employees(parent: any, payload: EmployeeInterface, context: Context): Promise<any> {
   validateContext(context);
 
-  const allGames = await employeeServices.fetchAll();
-
-  return allGames;
+  return employeeServices.fetchAll();
 }
 
 /**
@@ -30,10 +28,8 @@ export async function employees(parent: any, payload: EmployeeInterface, context
  * @param {Context} context
  * @returns {Promise<any>}
  */
-export async function employee(parent: any, payload: IDPayload, context: Context): Promise<any> {
+export function employee(parent: any, payload: IDPayload, context: Context): Promise<any> {
   validateContext(context);
 
-  const emp = await employeeServices.fetchOne(payload.id);
-
-  return emp;
+  return employeeServices.fetchOne(payload.id);
 }
