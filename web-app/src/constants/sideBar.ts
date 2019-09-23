@@ -4,6 +4,10 @@ export default [
     icon: 'far fa-futbol',
     seasons: [
       {
+        name: 'Dashain Cup 2019',
+        route: '/futsal/dashain-cup-2019'
+      },
+      {
         name: 2019,
         route: '/futsal/2019'
       },
@@ -16,7 +20,7 @@ export default [
         route: '/futsal/valentines-cup-womens'
       },
       {
-        name: 'Dashain Cup',
+        name: 'Dashain Cup 2018',
         route: '/futsal/dashain-cup-2018'
       },
       {
