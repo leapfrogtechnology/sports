@@ -8,9 +8,9 @@ import * as storageService from '../services/storage';
  * @export
  * @param {string} userEmail
  * @param {string} userPassword
- * @returns
+ * @returns {Promise<object>}
  */
-export function checkIfLoggedIn(userEmail: string, userPassword: string) {
+export function checkIfLoggedIn(userEmail: string, userPassword: string): Promise<object> {
   const queryAPI = `login`;
 
   const mutation = `

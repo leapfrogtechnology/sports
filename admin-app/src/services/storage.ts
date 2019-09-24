@@ -9,9 +9,9 @@ interface Session {
  * Set user session to the storage.
  *
  * @export
- * @param {object} userSession
+ * @param {Session} userSession
  */
-export function setUserSession(userSession: object) {
+export function setUserSession(userSession: Session) {
   if (userSession) {
     const session = JSON.stringify(userSession);
 
@@ -32,9 +32,7 @@ export function getUserSession(): Session | null {
     return null;
   }
 
-  const userSession = JSON.parse(session);
-
-  return userSession;
+  return JSON.parse(session);
 }
 
 /**
