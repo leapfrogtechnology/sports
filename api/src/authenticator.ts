@@ -9,9 +9,9 @@ import TokenError from './error/TokenError';
  *
  * @export
  * @param {Request} req
- * @returns {object}
+ * @returns {*}
  */
-export function getTokenFromHeaders(req: Request): object {
+export function getTokenFromHeaders(req: Request): any {
   const {
     headers: { authorization }
   } = req;
