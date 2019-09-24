@@ -1,5 +1,6 @@
 export const AUTH = {
-  USER_INFO: `userInfo`
+  USER_INFO: `userInfo`,
+  REFRESH_ACCESS_TOKEN: 'refreshAccessToken'
 };
 
 export const GAMES = {

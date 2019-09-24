@@ -4,6 +4,7 @@ import HttpStatusCodes from 'http-status-codes';
 
 import http from './http';
 import { getResponse } from './httpHelper';
+import { AUTH } from '../constants/queries';
 import { getUserSession, setUserSession, clearUserSession } from '../services/storage';
 
 const AUTHORIZATION_HEADER = 'authorization';
@@ -23,75 +24,11 @@ function getAuthorizationHeader(accessToken: string): string {
 }
 
 /**
- * Interceptor to catch Unauthorized responses and refresh the access token.
- *
- * @param {any} err - Response error
- */
-export async function unauthorizedResponseHandlerInterceptor(err: any) {
-  if (
-    err.response &&
-    err.response.config &&
-    err.response.config.url === baseURI
-  ) {
-    setUserSession({ refreshToken: null, accessToken: null });
-
-    return Promise.reject(err);
-  }
-
-  const originalRequest = err.config;
-  const code = err.response && err.response.data && err.response.data.code;
-  const sessionInfo = getUserSession();
-
-  if (
-    code === HttpStatusCodes.UNAUTHORIZED &&
-    !originalRequest.__isRetryRequest
-  ) {
-    originalRequest.__isRetryRequest = true;
-
-    try {
-      // Hit api to get new access token using refresh token
-
-      const queryAPI = 'refreshAccessToken';
-
-      const mutation = `
-        mutation {
-          ${queryAPI} (refreshToken: ${sessionInfo &&
-        sessionInfo.refreshToken}) {
-            message,
-            accessToken
-          }
-        }
-      `;
-
-      const accessToken = await getResponse(queryAPI, mutation);
-
-      setUserSession({
-        refreshToken: sessionInfo && sessionInfo.refreshToken,
-        accessToken
-      });
-
-      originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
-        accessToken
-      );
-
-      return http.request(originalRequest);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
-    sessionInfo ? sessionInfo.accessToken : ''
-  );
-
-  return Promise.reject(err);
-}
-
-/**
  * Interceptor to add Access Token header in all requests.
  *
- * @param {Request} request
- * @returns {Request}
+ * @export
+ * @param {*} request
+ * @returns {any}
  */
 export function authorizationInterceptor(request: any): any {
   const sessionInfo = getUserSession();
@@ -139,11 +76,11 @@ export default function setup() {
 
           try {
             // Hit api to get new access token using refresh token
-            const queryAPI = 'refreshAccessToken';
+            const queryAPI = AUTH.REFRESH_ACCESS_TOKEN;
+
             const mutation = `
               mutation {
-                ${queryAPI} (refreshToken: "${sessionInfo &&
-              sessionInfo.refreshToken}") {
+                ${queryAPI} (refreshToken: ${sessionInfo && sessionInfo.refreshToken}) {
                   message,
                   accessToken
                 }
@@ -170,8 +107,10 @@ export default function setup() {
         }
 
         if (code === HttpStatusCodes.FORBIDDEN) {
-          // TODO: Logout from the application here
-          clearUserSession();
+          await clearUserSession();
+
+          // Reload the page and since the tokens are removed, it redirects to login.
+          window.location.reload();
         }
 
         originalRequest.headers[AUTHORIZATION_HEADER] = getAuthorizationHeader(
