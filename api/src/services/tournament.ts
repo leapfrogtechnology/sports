@@ -152,7 +152,7 @@ function getFetchQuery(id: number | null = null): string {
  * @returns {any[]}
  */
 function getParsedData(tournaments: any[]): any[] {
-  tournaments.map(tournament => {
+  return tournaments.map(tournament => {
     const { startDate, finishDate } = tournament;
 
     return {
@@ -161,6 +161,4 @@ function getParsedData(tournaments: any[]): any[] {
       finishDate: finishDate && getFormattedDate(finishDate)
     };
   });
-
-  return tournaments;
 }
