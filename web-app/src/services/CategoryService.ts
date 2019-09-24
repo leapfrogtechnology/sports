@@ -9,7 +9,7 @@ import { CategoryInterface } from './../interfaces/interfaces';
  * @returns
  */
 export function getCategoryById(categories: CategoryInterface[], categoryId: number) {
-  return categories.find((cat) => {
+  return categories.find(cat => {
     return cat.id === categoryId;
   });
 }

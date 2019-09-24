@@ -14,7 +14,7 @@ import { TeamInterface, FixtureInterface } from './../interfaces/interfaces';
 export function searchTeamsByKeyword(allTeams: TeamInterface[], keyword: string): TeamInterface[] {
   let teams: TeamInterface[] = [];
 
-  teams = allTeams.filter((team) => {
+  teams = allTeams.filter(team => {
     return team.name.toLowerCase().indexOf(keyword.toLowerCase()) >= 0 || checkIfPlayerIsInTeam(team, keyword);
   });
 
@@ -102,11 +102,11 @@ export function getTeamCustomStyles(team: TeamInterface): object {
  */
 export function getTeamsFromFixtures(fixtures: FixtureInterface[]): TeamInterface[] {
   const homeTeams = _.chain(fixtures)
-    .map((fixture) => fixture.homeTeam)
+    .map(fixture => fixture.homeTeam)
     .value();
 
   const awayTeams = _.chain(fixtures)
-    .map((fixture) => fixture.awayTeam)
+    .map(fixture => fixture.awayTeam)
     .value();
 
   const bothTeams = homeTeams.concat(awayTeams);

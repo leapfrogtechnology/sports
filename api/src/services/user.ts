@@ -36,7 +36,7 @@ export async function fetchAllUsers(): Promise<User[]> {
  * @returns {Object}
  */
 export async function getUserFromRefreshToken(refreshToken: string): Promise<User> {
-  verify(refreshToken);
+  verify(refreshToken, true);
 
   const userTokenData = await new UserAccountTokens().where({ refreshToken }).fetch();
 

@@ -1,12 +1,17 @@
 const SESSION_KEY = 'userSession';
 
+interface Session {
+  accessToken: string;
+  refreshToken: string;
+}
+
 /**
  * Set user session to the storage.
  *
  * @export
- * @param {object} userSession
+ * @param {Session} userSession
  */
-export function setUserSession(userSession: object) {
+export function setUserSession(userSession: Session) {
   if (userSession) {
     const session = JSON.stringify(userSession);
 
@@ -18,18 +23,16 @@ export function setUserSession(userSession: object) {
  * Get user session from the storage.
  *
  * @export
- * @returns {(object | null)}
+ * @returns {(Session | null)}
  */
-export function getUserSession(): object | null {
+export function getUserSession(): Session | null {
   const session = localStorage.getItem(SESSION_KEY);
 
   if (!session) {
     return null;
   }
 
-  const userSession = JSON.parse(session);
-
-  return userSession;
+  return JSON.parse(session);
 }
 
 /**
@@ -37,6 +40,6 @@ export function getUserSession(): object | null {
  *
  * @export
  */
-export function logOut() {
+export function clearUserSession() {
   localStorage.removeItem(SESSION_KEY);
 }

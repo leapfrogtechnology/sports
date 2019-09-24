@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import HttpStatus from 'http-status-codes';
+import { ApolloError } from 'apollo-server-express';
 
 import { en } from '../lang/en';
 import JWTError from '../error/JWTError';
 import appConfig from '../config/appConfig';
-import JWTExpiredError from '../error/JWTExpiredError';
 import { AccessTokenData, RefreshTokenData } from '../domains/token';
 
 const TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
@@ -50,14 +50,21 @@ export function createRefreshToken(data: RefreshTokenData) {
  * @returns {Object}
  * @throws {JWTError|JWTExpiredError}
  */
-export function verify(token: string) {
+export function verify(token: string, isRefreshToken: boolean = false) {
   try {
-    const data = jwt.verify(token, appConfig.jwt.secret || '', appConfig.jwt.verifyOptions);
+    const data = jwt.verify(
+      token,
+      appConfig.jwt.secret || '',
+      isRefreshToken ? appConfig.jwt.verifyRefreshTokenOptions : appConfig.jwt.verifyAccessTokenOptions
+    );
 
     return data;
   } catch (err) {
     if (err.name === TOKEN_EXPIRED_ERROR) {
-      throw new JWTExpiredError(en.TOKEN_EXPIRED, err, HttpStatus.UNAUTHORIZED);
+      throw new ApolloError(
+        `Jwt error`,
+        isRefreshToken ? HttpStatus.FORBIDDEN.toString() : HttpStatus.UNAUTHORIZED.toString()
+      );
     }
 
     throw new JWTError(en.INVALID_TOKEN, err);

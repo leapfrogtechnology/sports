@@ -13,6 +13,9 @@ import Context from '../models/Context';
 export function validateContext(context: Context) {
   // Check if the user is authenticated.
   if (context.error) {
-    throw new ApolloError(context.error, HttpStatus.FORBIDDEN.toString());
+    throw new ApolloError(
+      context.error,
+      context.error.extensions ? context.error.extensions.code.toString() : HttpStatus.FORBIDDEN.toString()
+    );
   }
 }
