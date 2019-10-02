@@ -105,6 +105,37 @@ export function getRecentTournaments(tournaments: TournamentInterface[]): Recent
 }
 
 /**
+ * Get the icon for a tournament.
+ *
+ * @export
+ * @param {string} name
+ * @returns {string}
+ */
+export function getTournamentIcon(name: string): string {
+  let icon = '';
+
+  switch (name) {
+    case 'futsal':
+      icon = 'far fa-futbol';
+      break;
+    case 'carrom-board':
+      icon = 'fas fa-vector-square';
+      break;
+    case 'table-tennis':
+      icon = 'fas fa-table-tennis';
+      break;
+    case 'chess':
+      icon = 'fas fa-chess';
+      break;
+    default:
+      icon = 'fas fa-gamepad';
+      break;
+  }
+
+  return icon;
+}
+
+/**
  * Get API URL for a specific tournament.
  *
  * @param {string} sport

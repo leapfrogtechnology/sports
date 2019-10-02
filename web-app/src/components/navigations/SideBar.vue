@@ -28,7 +28,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import Logo from '@/components/common/Logo.vue';
-import { fetchTournamentsList } from '@/services/TournamentService';
+import { fetchTournamentsList, getTournamentIcon } from '@/services/TournamentService';
 
 @Component({
   components: { Logo }
@@ -56,25 +56,7 @@ export default class SideBar extends Vue {
         };
       });
 
-      let icon = 'fas fa-gamepad';
-
-      switch (t.shortName) {
-        case 'futsal':
-          icon = 'far fa-futbol';
-          break;
-        case 'carrom-board':
-          icon = 'fas fa-vector-square';
-          break;
-        case 'table-tennis':
-          icon = 'fas fa-table-tennis';
-          break;
-        case 'chess':
-          icon = 'fas fa-chess';
-          break;
-        default:
-          icon = 'fas fa-gamepad';
-          break;
-      }
+      const icon = getTournamentIcon(t.shortName);
 
       return {
         icon,
