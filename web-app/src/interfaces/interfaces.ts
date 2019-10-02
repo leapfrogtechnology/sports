@@ -134,7 +134,6 @@ export interface TournamentDataInterface {
   stats?: StatsInterface[];
 }
 
-
 export interface SeasonInterface {
   id: number;
   name: string;
@@ -156,6 +155,17 @@ export interface TournamentInterface {
   name: string;
   shortName: string;
   seasons: SeasonInterface[];
+}
+
+export interface SideBarTournamentInterface {
+  name: string;
+  icon: string;
+  seasons: [
+    {
+      name: string;
+      route: string;
+    }
+  ];
 }
 
 export interface RecentTournamentsInterface {

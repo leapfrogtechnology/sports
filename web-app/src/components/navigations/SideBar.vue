@@ -28,7 +28,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import Logo from '@/components/common/Logo.vue';
-import { fetchTournamentsList, getTournamentIcon } from '@/services/TournamentService';
+import { fetchTournamentsList, getTournamentIcon, getTournamentsListForSideBar } from '@/services/TournamentService';
 
 @Component({
   components: { Logo }
@@ -46,24 +46,7 @@ export default class SideBar extends Vue {
   private async getSideBarData() {
     const tournaments = await fetchTournamentsList();
 
-    const data = tournaments.map((t: any) => {
-      const seasons = t.seasons.map((s: any) => {
-        const link = s.shortName && s.shortName.length ? s.shortName : s.season;
-
-        return {
-          name: s.season,
-          route: `/${t.shortName}/${link}`
-        };
-      });
-
-      const icon = getTournamentIcon(t.shortName);
-
-      return {
-        icon,
-        seasons,
-        name: t.name
-      };
-    });
+    const data = getTournamentsListForSideBar(tournaments);
 
     return data;
   }
