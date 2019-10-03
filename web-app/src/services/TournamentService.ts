@@ -1,7 +1,12 @@
 import axios from 'axios';
-import { sortBy } from 'lodash';
+import { sortBy, chain } from 'lodash';
 import { isAfter, isBefore, differenceInDays } from 'date-fns';
-import { TournamentInterface, SeasonInterface, RecentTournamentsInterface } from '@/interfaces/interfaces';
+import {
+  SeasonInterface,
+  TournamentInterface,
+  RecentTournamentsInterface,
+  SideBarTournamentInterface
+} from '@/interfaces/interfaces';
 
 /**
  * Fetch sport data for sport type and season.
@@ -68,22 +73,8 @@ export function getRecentTournaments(tournaments: TournamentInterface[]): Recent
     past: []
   };
 
-  let seasons: SeasonInterface[] = [];
+  const seasons = getAllSeasons(tournaments);
   const today = new Date();
-
-  tournaments.forEach(tournament => {
-    tournament.seasons.forEach(season => {
-      season.parentTournament = {
-        id: tournament.id,
-        name: tournament.name,
-        shortName: tournament.shortName
-      };
-    });
-
-    seasons = seasons.concat(tournament.seasons);
-  });
-
-  seasons.sort((a, b) => differenceInDays(new Date(a.startDate), new Date(b.startDate))).reverse();
 
   seasons.forEach(season => {
     // Currently running
@@ -102,6 +93,96 @@ export function getRecentTournaments(tournaments: TournamentInterface[]): Recent
   recentTournaments.upcoming = sortBy(recentTournaments.upcoming, 'startDate');
 
   return recentTournaments;
+}
+
+/**
+ * Get list of tournaments for the sidebar.
+ *
+ * @export
+ * @param {TournamentInterface[]} tournaments
+ * @returns {SideBarTournamentInterface[]}
+ */
+export function getTournamentsListForSideBar(tournaments: TournamentInterface[]): SideBarTournamentInterface[] {
+  const allSeasons = getAllSeasons(tournaments);
+
+  const competitions = chain(allSeasons)
+    .groupBy('parentTournament.shortName')
+    .toArray()
+    .value();
+
+  const data = competitions.map((t: any) => {
+    const seasons = t.map((s: any) => {
+      const link = s.shortName && s.shortName.length ? s.shortName : s.season;
+
+      return {
+        name: s.season,
+        route: `/${s.parentTournament.shortName}/${link}`
+      };
+    });
+
+    const tournament = t[0].parentTournament;
+
+    const icon = getTournamentIcon(tournament.shortName);
+
+    return {
+      icon,
+      seasons,
+      name: tournament.name
+    };
+  });
+
+  return data;
+}
+
+/**
+ * Get the icon for a tournament.
+ *
+ * @export
+ * @param {string} name
+ * @returns {string}
+ */
+export function getTournamentIcon(name: string): string {
+  let icon = '';
+
+  switch (name) {
+    case 'futsal':
+      icon = 'far fa-futbol';
+      break;
+    case 'carrom-board':
+      icon = 'fas fa-vector-square';
+      break;
+    case 'table-tennis':
+      icon = 'fas fa-table-tennis';
+      break;
+    case 'chess':
+      icon = 'fas fa-chess';
+      break;
+    default:
+      icon = 'fas fa-gamepad';
+      break;
+  }
+
+  return icon;
+}
+
+function getAllSeasons(tournaments: TournamentInterface[]): SeasonInterface[] {
+  let seasons: SeasonInterface[] = [];
+
+  tournaments.forEach(tournament => {
+    tournament.seasons.forEach(season => {
+      season.parentTournament = {
+        id: tournament.id,
+        name: tournament.name,
+        shortName: tournament.shortName
+      };
+    });
+
+    seasons = seasons.concat(tournament.seasons);
+  });
+
+  seasons.sort((a, b) => differenceInDays(new Date(a.startDate), new Date(b.startDate))).reverse();
+
+  return seasons;
 }
 
 /**

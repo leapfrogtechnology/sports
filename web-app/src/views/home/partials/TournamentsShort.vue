@@ -8,15 +8,13 @@
         @click.prevent="handleClick(competition)"
         class="recent-tournament"
       >
-        <i :class="getIcon(competition)"/>
+        <i :class="getIcon(competition)" />
         <div class="recent-tournament--info">
-          <p>
-            {{ competition.name }}: {{ competition.season }}
+          <p>{{ competition.name }}: {{ competition.season }}</p>
+          <p v-if="getDaysToGo(competition) >= 0" class="recent-days-to-go">
+            Starting from
+            <span class="recent-days-to-go--date">{{ getStartDate(competition) }}</span>
           </p>
-          <p
-            v-if="getDaysToGo(competition) >= 0"
-            class="recent-days-to-go"
-          >Starting from <span class="recent-days-to-go--date">{{ getStartDate(competition) }}</span></p>
         </div>
       </div>
     </div>
@@ -29,6 +27,7 @@ import { differenceInDays, isBefore } from 'date-fns';
 import { Vue, Prop, Component } from 'vue-property-decorator';
 
 import { SeasonInterface } from '@/interfaces/interfaces';
+import { getTournamentIcon } from '@/services/TournamentService';
 
 @Component
 export default class TournamentsShort extends Vue {
@@ -59,29 +58,10 @@ export default class TournamentsShort extends Vue {
   }
 
   public getIcon(competition: SeasonInterface): string {
-    let icon = 'rt-icon ';
+    const shortName = (competition.parentTournament && competition.parentTournament.shortName) || '';
+    const tournamentIcon = getTournamentIcon(shortName);
 
-    switch (competition.parentTournament && competition.parentTournament.shortName) {
-      case 'futsal':
-        icon += 'far fa-futbol';
-        break;
-      case 'table-tennis':
-        icon += 'fas fa-table-tennis';
-        break;
-      case 'carrom-board':
-        icon += 'fas fa-vector-square';
-        break;
-      case 'chess':
-        icon += 'fas fa-chess';
-        break;
-      case 'counter-strike':
-      case 'fifa':
-      case 'dota2':
-        icon += 'fas fa-gamepad';
-        break;
-    }
-
-    return icon;
+    return `rt-icon ${tournamentIcon}`;
   }
 }
 </script>
