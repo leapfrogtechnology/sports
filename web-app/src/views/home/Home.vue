@@ -9,8 +9,14 @@
         <LoadingIcon />
       </div>
       <div v-else class="home-content-wrapper">
-        <TournamentsShort title="Current ongoing tournaments" :competitions="this.recentTournaments.current" />
-        <TournamentsShort title="Upcoming tournaments" :competitions="this.recentTournaments.upcoming" />
+        <TournamentsShort
+          title="Current ongoing tournaments"
+          :competitions="this.recentTournaments.current"
+        />
+        <TournamentsShort
+          title="Upcoming tournaments"
+          :competitions="this.recentTournaments.upcoming"
+        />
         <TournamentsShort title="Past tournaments" :competitions="this.recentTournaments.past" />
       </div>
     </div>
@@ -22,34 +28,19 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import LoadingIcon from '@/components/common/LoadingIcon.vue';
 import TournamentsShort from './partials/TournamentsShort.vue';
-import { RecentTournamentsInterface } from '@/interfaces/interfaces';
-import { fetchTournamentsList, getRecentTournaments } from '@/services/TournamentService';
 
 @Component({
   components: { LoadingIcon, TournamentsShort }
 })
 export default class Home extends Vue {
   private error: boolean = false;
-  private loading: boolean = true;
-  private recentTournaments: RecentTournamentsInterface = {
-    current: [],
-    upcoming: [],
-    past: []
-  };
 
-  public created() {
-    this.fetchData();
+  get loading(): boolean {
+    return this.$store.state.tournaments.loading;
   }
 
-  private async fetchData() {
-    const tournaments = await fetchTournamentsList();
-    this.recentTournaments = getRecentTournaments(tournaments);
-
-    if (!this.recentTournaments) {
-      this.error = true;
-    }
-
-    this.loading = false;
+  get recentTournaments() {
+    return this.$store.getters['tournaments/recentTournaments'];
   }
 }
 </script>

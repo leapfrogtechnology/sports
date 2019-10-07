@@ -28,7 +28,6 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import Logo from '@/components/common/Logo.vue';
-import { fetchTournamentsList, getTournamentIcon, getTournamentsListForSideBar } from '@/services/TournamentService';
 
 @Component({
   components: { Logo }
@@ -37,18 +36,8 @@ export default class SideBar extends Vue {
   @Prop() public classes!: object;
   @Prop() public showHideSideBar!: any;
 
-  public sideBarData: object[] = [];
-
-  public async mounted() {
-    this.sideBarData = await this.getSideBarData();
-  }
-
-  private async getSideBarData() {
-    const tournaments = await fetchTournamentsList();
-
-    const data = getTournamentsListForSideBar(tournaments);
-
-    return data;
+  get sideBarData() {
+    return this.$store.getters['tournaments/sideBarData'];
   }
 }
 </script>
