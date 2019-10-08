@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <div class="home-wrapper">
-      <div v-if="error" class="home-content-wrapper">
-        <p class="home-sub-title">Oops...something went wrong. Try again later!</p>
-      </div>
-      <div v-else-if="loading" class="home-content-wrapper">
+      <div v-if="loading" class="home-content-wrapper">
         <p class="home-sub-title">Hang on...fetching...</p>
         <LoadingIcon />
       </div>
@@ -33,8 +30,6 @@ import TournamentsShort from './partials/TournamentsShort.vue';
   components: { LoadingIcon, TournamentsShort }
 })
 export default class Home extends Vue {
-  private error: boolean = false;
-
   get loading(): boolean {
     return this.$store.state.tournaments.loading;
   }
