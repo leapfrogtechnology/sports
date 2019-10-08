@@ -27,8 +27,10 @@
   })
   export default class Tournament extends Vue {
     @Watch('$route')
-    public onPropertyChanged() {
-      this.fetchData();
+    public onPropertyChanged(value: any, oldValue: any) {
+      if (value.params.game !== oldValue.params.game || value.params.season !== oldValue.params.season) {
+        this.fetchData();
+      }
     }
 
     public mounted() {
