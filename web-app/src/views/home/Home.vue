@@ -5,6 +5,9 @@
         <p class="home-sub-title">Hang on...fetching...</p>
         <LoadingIcon />
       </div>
+      <div v-else-if="error" class="home-content-wrapper">
+        <p class="home-sub-title">Oops...something went wrong. Try again later!</p>
+      </div>
       <div v-else class="home-content-wrapper">
         <TournamentsShort
           title="Current ongoing tournaments"
@@ -32,6 +35,10 @@ import TournamentsShort from './partials/TournamentsShort.vue';
 export default class Home extends Vue {
   get loading(): boolean {
     return this.$store.state.tournaments.loading;
+  }
+
+  get error(): boolean {
+    return !!this.$store.state.tournaments.errorMessage;
   }
 
   get recentTournaments() {
