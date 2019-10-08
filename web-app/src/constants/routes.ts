@@ -7,6 +7,18 @@ const CARROM_BOARD = '/carrom-board/:season';
 const TABLE_TENNIS = '/table-tennis/:season';
 const COUNTER_STRIKE = '/counter-strike/:season';
 
+export const BASE_ROUTE = '/';
+export const TOURNAMENT = '/:game/:season';
+export const SUB_ROUTES = {
+  HOME: { path: '', name: 'HOME', sortOrder: 1 },
+  RESULTS: { path: 'results', name: 'RESULTS', sortOrder: 2 },
+  FIXTURES: { path: 'fixtures', name: 'FIXTURES', sortOrder: 3 },
+  KNOCKOUTS: { path: 'knockouts', name: 'KNOCKOUTS', sortOrder: 4 },
+  STATS: { path: 'stats', name: 'STATS', sortOrder: 5 },
+  POINTS: { path: 'points', name: 'POINTS', sortOrder: 6 },
+  TEAMS: { path: 'teams', name: 'TEAMS', sortOrder: 7 }
+};
+
 
 export const BASE_ROUTES = {
   HOME,
@@ -27,7 +39,7 @@ export const FUTSAL_ROUTES = {
   POINTS: `${FUTSAL}/points`,
   STATS: `${FUTSAL}/stats`,
   TEAMS: `${FUTSAL}/teams`,
-  FIXTURE: `${FUTSAL}/fixture/:fixtureId`,
+  FIXTURE: `${FUTSAL}/fixture/:fixtureId`
 };
 
 // Order of route declaration appears on the UI.
@@ -47,7 +59,7 @@ export const TABLE_TENNIS_ROUTES = {
   FIXTURES: `${TABLE_TENNIS}/fixtures`,
   KNOCKOUTS: `${TABLE_TENNIS}/knockouts`,
   TEAMS: `${TABLE_TENNIS}/teams`,
-  FIXTURE: `${TABLE_TENNIS}/fixture/:fixtureId`,
+  FIXTURE: `${TABLE_TENNIS}/fixture/:fixtureId`
 };
 
 // Order of route declaration appears on the UI.
@@ -67,7 +79,7 @@ export const COUNTER_STRIKE_ROUTES = {
   KNOCKOUTS: `${COUNTER_STRIKE}/knockouts`,
   POINTS: `${COUNTER_STRIKE}/points`,
   TEAMS: `${COUNTER_STRIKE}/teams`,
-  FIXTURE: `${COUNTER_STRIKE}/fixture/:fixtureId`,
+  FIXTURE: `${COUNTER_STRIKE}/fixture/:fixtureId`
 };
 
 // Order of route declaration appears on the UI.
@@ -78,7 +90,7 @@ export const FIFA_ROUTES = {
   KNOCKOUTS: `${FIFA}/knockouts`,
   POINTS: `${FIFA}/points`,
   TEAMS: `${FIFA}/teams`,
-  FIXTURE: `${FIFA}/fixture/:fixtureId`,
+  FIXTURE: `${FIFA}/fixture/:fixtureId`
 };
 
 // Order of route declaration appears on the UI.
@@ -88,5 +100,5 @@ export const DOTA_ROUTES = {
   FIXTURES: `${DOTA}/fixtures`,
   KNOCKOUTS: `${DOTA}/knockouts`,
   POINTS: `${DOTA}/points`,
-  TEAMS: `${DOTA}/teams`,
+  TEAMS: `${DOTA}/teams`
 };

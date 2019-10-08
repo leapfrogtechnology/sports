@@ -1,10 +1,17 @@
 import * as tournamentService from '../../services/tournaments';
 
-const stateData = {
+const initialState = {
   data: null,
   loading: true,
-  errorMessage: ''
+  errorMessage: '',
+  selectedTournament: {
+    data: null,
+    error: false,
+    loading: true
+  }
 };
+
+const stateData = Object.assign({}, initialState);
 
 const getters = {
   sideBarData: (state: any) => {
@@ -21,17 +28,29 @@ const getters = {
     }
 
     return tournamentService.getRecentTournaments(state.data);
+  },
+
+  selectedTournamentData: (state: any) => {
+    if (!state.selectedTournament.data) {
+      return initialState.selectedTournament;
+    }
+
+    return state.selectedTournament;
   }
 };
 
 const mutations = {
-  setData(state: any, options: any) {
+  setData: (state: any, options: any) => {
     Object.assign(state, options);
+  },
+
+  setSelectedData: (state: any, options: any) => {
+    Object.assign(state.selectedTournament, options);
   }
 };
 
 const actions = {
-  fetchTournaments(context: any) {
+  fetchTournaments: (context: any) => {
     context.commit('setData', { loading: true });
 
     tournamentService
@@ -44,6 +63,24 @@ const actions = {
       })
       .then(() => {
         context.commit('setData', { loading: false });
+      });
+  },
+
+  fetchTournament: (context: any, options: any) => {
+    context.commit('setSelectedData', { loading: true });
+
+    tournamentService
+      .fetchTournament(options.game, options.season)
+      .then(response => {
+        const data = tournamentService.getSanitizedTournamentData(response);
+
+        context.commit('setSelectedData', { data, error: false });
+      })
+      .catch(() => {
+        context.commit('setSelectedData', { data: null, error: true });
+      })
+      .then(() => {
+        context.commit('setSelectedData', { loading: false });
       });
   }
 };

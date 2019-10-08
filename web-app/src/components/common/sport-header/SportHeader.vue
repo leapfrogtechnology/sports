@@ -16,18 +16,17 @@
           </select>
         </div>
       </div>
-      <!-- <drop-down-menu :subRoutes="subRoutes" :rounds="matchRounds"/> -->
-      <ButtonGroupMenu :subRoutes="subRoutes" :rounds="matchRounds"/>
+      <ButtonGroupMenu :subRoutes="subRoutes" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
+import { sortBy } from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
+import { SUB_ROUTES } from '@/constants/routes';
 import DropDownMenu from './partials/DropDownMenu.vue';
-import { RoundInterface } from '@/interfaces/interfaces';
 import { CategoryInterface } from '@/interfaces/interfaces';
 import ButtonGroupMenu from './partials/ButtonGroupMenu.vue';
 
@@ -35,88 +34,27 @@ import ButtonGroupMenu from './partials/ButtonGroupMenu.vue';
   components: { DropDownMenu, ButtonGroupMenu }
 })
 export default class SportHeader extends Vue {
-  @Prop() private routes!: any;
   @Prop() private selectedSportSeason!: any;
   @Prop() private updateDataByCategoryId!: any;
+  @Prop({ default: '' }) private title!: string;
   @Prop({ default: '' }) private subTitle!: string;
-  @Prop({ default: () => [] }) private title!: string;
-  @Prop({ default: () => [] }) private rounds!: RoundInterface[];
   @Prop({ default: () => [] }) private categories!: CategoryInterface[];
 
   private activeCategoryId: number = 0;
-
-  public getRouteName(routeKey: string): string {
-    let routeName = '';
-
-    switch (routeKey.toLowerCase()) {
-      case 'home':
-        routeName = 'Home';
-        break;
-      case 'fixtures':
-        routeName = 'Fixtures';
-        break;
-      case 'results':
-        routeName = 'Results';
-        break;
-      case 'teams':
-        routeName = 'Teams';
-        break;
-      case 'points':
-        routeName = 'Points';
-        break;
-      case 'stats':
-        routeName = 'Stats';
-        break;
-      case 'knockouts':
-        routeName = 'Knockouts';
-        break;
-    }
-
-    return routeName;
-  }
-
-  public getRouteWithSeason(route: string) {
-    const sport = this.selectedSportSeason.sport;
-    const season = this.selectedSportSeason.season;
-
-    let routePath = route;
-
-    if (route.length) {
-      if (sport.length) {
-        routePath = routePath.replace(':sport', sport.toString());
-      }
-
-      if (season.length) {
-        routePath = routePath.replace(':season', season.toString());
-      }
-    }
-
-    return routePath;
-  }
 
   public handleActiveCategoryChange() {
     this.updateDataByCategoryId(this.activeCategoryId);
   }
 
   get subRoutes() {
-    const subRoutes = [];
-    const keys = Object.keys(this.routes);
+    const subRoutes = sortBy(SUB_ROUTES, 'sortOrder') as any;
 
-    for (const key of keys) {
-      // Exclude unnecessary routes for sub-header
-      if (key.toLowerCase() !== 'fixture') {
-        subRoutes.push({
-          path: this.getRouteWithSeason(this.routes[key]),
-          name: this.getRouteName(key)
-        });
-      }
-    }
-
-    return subRoutes;
-  }
-
-  get matchRounds() {
-    return _.sortBy(this.rounds, ['sortOrder']);
+    return (
+      Object.keys(subRoutes).map(key => ({
+        path: `${this.$route.path}/${subRoutes[key].path}`,
+        name: subRoutes[key].name
+      })) || []
+    );
   }
 }
 </script>
