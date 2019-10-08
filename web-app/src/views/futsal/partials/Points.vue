@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="!points.length" class="container">
+    <p class="alert">Nothing to show here here at the moment.</p>
+  </div>
+  <div v-else>
     <h2 v-if="title && title.length" class="score-card-list-title">{{ title }}</h2>
     <table class="table table--striped points-wrapper">
       <thead>

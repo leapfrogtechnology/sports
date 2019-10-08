@@ -4,7 +4,13 @@ import Router from 'vue-router';
 import Home from '@/views/home/Home.vue';
 import * as ROUTES from '@/constants/routes';
 import Tournament from '@/views/Tournament.vue';
-
+import Teams from '@/views/common/teams/Teams.vue';
+import Stat from '@/views/futsal/partials/Stat.vue';
+import Recent from '@/views/common/recent/Recent.vue';
+import Points from '@/views/futsal/partials/Points.vue';
+import Results from '@/views/common/results/Results.vue';
+import Fixtures from '@/views/common/fixtures/Fixtures.vue';
+import Knockouts from '@/views/common/knockouts/Knockouts.vue';
 
 const DEFAULT_PAGE_TITLE = 'LF Sports';
 
@@ -20,7 +26,37 @@ const router = new Router({
     },
     {
       path: ROUTES.TOURNAMENT,
-      component: Tournament
+      component: Tournament,
+      children: [
+        {
+          path: ROUTES.SUB_ROUTES.HOME.path,
+          component: Recent
+        },
+        {
+          path: ROUTES.SUB_ROUTES.RESULTS.path,
+          component: Results
+        },
+        {
+          path: ROUTES.SUB_ROUTES.FIXTURES.path,
+          component: Fixtures
+        },
+        {
+          path: ROUTES.SUB_ROUTES.KNOCKOUTS.path,
+          component: Knockouts
+        },
+        {
+          path: ROUTES.SUB_ROUTES.STATS.path,
+          component: Stat
+        },
+        {
+          path: ROUTES.SUB_ROUTES.POINTS.path,
+          component: Points
+        },
+        {
+          path: ROUTES.SUB_ROUTES.TEAMS.path,
+          component: Teams
+        }
+      ]
     },
     {
       path: '*',

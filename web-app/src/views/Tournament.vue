@@ -27,7 +27,7 @@
   })
   export default class Tournament extends Vue {
     @Watch('$route')
-    onPropertyChanged() {
+    public onPropertyChanged() {
       this.fetchData();
     }
 
@@ -40,7 +40,9 @@
     }
 
     get tournamentData() {
-      return this.$store && this.$store.getters['tournaments/selectedTournamentData'];
+      const data = this.$store && this.$store.getters['tournaments/selectedTournamentData'];
+
+      return Object.freeze(data);
     }
 
     get title() {

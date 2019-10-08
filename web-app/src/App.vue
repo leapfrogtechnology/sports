@@ -6,7 +6,7 @@
       <!--Only on desktop-->
       <SideBar :classes="sideBarClassObject" :showHideSideBar="showHideSideBar" />
       <div class="content-wrapper">
-        <router-view :updateSelectedSport="updateSelectedSport"></router-view>
+        <router-view />
       </div>
     </div>
   </div>
@@ -37,10 +37,6 @@ export default class App extends Vue {
 
   public showHideSideBar(show: boolean = false) {
     this.showSideBar = show;
-  }
-
-  public updateSelectedSport(sport: string) {
-    this.selectedSport = sport && sport.length ? sport : '';
   }
 
   get sideBarClassObject() {

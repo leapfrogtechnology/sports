@@ -48,10 +48,11 @@ export default class SportHeader extends Vue {
 
   get subRoutes() {
     const subRoutes = sortBy(SUB_ROUTES, 'sortOrder') as any;
+    const { game, season } = this.$route.params;
 
     return (
       Object.keys(subRoutes).map(key => ({
-        path: `${this.$route.path}/${subRoutes[key].path}`,
+        path: `/${game}/${season}/${subRoutes[key].path}`,
         name: subRoutes[key].name
       })) || []
     );
