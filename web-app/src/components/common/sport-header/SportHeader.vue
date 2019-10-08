@@ -35,7 +35,7 @@ import ButtonGroupMenu from './partials/ButtonGroupMenu.vue';
 })
 export default class SportHeader extends Vue {
   @Prop() private selectedSportSeason!: any;
-  @Prop() private updateDataByCategoryId!: any;
+  @Prop() private handleCategoryChange!: any;
   @Prop({ default: '' }) private title!: string;
   @Prop({ default: '' }) private subTitle!: string;
   @Prop({ default: () => [] }) private categories!: CategoryInterface[];
@@ -43,7 +43,7 @@ export default class SportHeader extends Vue {
   private activeCategoryId: number = 0;
 
   public handleActiveCategoryChange() {
-    this.updateDataByCategoryId(this.activeCategoryId);
+    this.handleCategoryChange(this.activeCategoryId);
   }
 
   get subRoutes() {
