@@ -21,7 +21,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Component, Vue } from 'vue-property-decorator';
 
 import SideBar from '@/components/navigations/SideBar.vue';
-import { fetchSportData } from '@/services/TournamentService';
 import TopNavBar from '@/components/navigations/TopNavBar.vue';
 
 @Component({
@@ -29,7 +28,6 @@ import TopNavBar from '@/components/navigations/TopNavBar.vue';
 })
 export default class App extends Vue {
   public showSideBar: boolean = false;
-  public selectedSport: string | null = null;
 
   public beforeMount() {
     this.$store.dispatch('tournaments/fetchTournaments');
@@ -37,6 +35,10 @@ export default class App extends Vue {
 
   public showHideSideBar(show: boolean = false) {
     this.showSideBar = show;
+  }
+
+  get selectedSport() {
+    return this.$route.params.game || null;
   }
 
   get sideBarClassObject() {

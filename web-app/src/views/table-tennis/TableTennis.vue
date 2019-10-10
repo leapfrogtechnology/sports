@@ -16,11 +16,6 @@
     <div class="tournament-content-wrapper">
       <router-view :data="data" :triggerShowModal="triggerShowModal"/>
     </div>
-    <TableTennisScoreModal
-      :showModal="showModal"
-      :triggerShowModal="triggerShowModal"
-      :fixture="modalFixture"
-    />
   </div>
 </template>
 
@@ -36,11 +31,10 @@ import { getCategoryById } from '@/services/CategoryService';
 import { getSanitizedData } from '@/services/FixtureService';
 import LoadingIcon from '@/components/common/LoadingIcon.vue';
 import { fetchSportData } from '@/services/TournamentService';
-import TableTennisScoreModal from './TableTennisScoreModal.vue';
 import SportHeader from '@/components/common/sport-header/SportHeader.vue';
 
 @Component({
-  components: { SportHeader, LoadingIcon, TableTennisScoreModal }
+  components: { SportHeader, LoadingIcon }
 })
 export default class TableTennis extends Vue {
   @Prop() public updateSelectedSport: any;

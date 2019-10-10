@@ -15,11 +15,6 @@
     <div class="tournament-content-wrapper">
       <router-view :data="data" :triggerShowModal="triggerShowModal"/>
     </div>
-    <CarromBoardScoreModal
-      :showModal="showModal"
-      :triggerShowModal="triggerShowModal"
-      :fixture="modalFixture"
-    />
   </div>
 </template>
 
@@ -30,16 +25,13 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import SPORTS from '@/constants/sports';
 import { CARROM_BOARD_ROUTES } from '@/constants/routes';
 import { FixtureInterface } from '@/interfaces/interfaces';
-import { getFilteredData } from '@/services/FixtureService';
-import { getCategoryById } from '@/services/CategoryService';
 import { getSanitizedData } from '@/services/FixtureService';
 import LoadingIcon from '@/components/common/LoadingIcon.vue';
 import { fetchSportData } from '@/services/TournamentService';
-import CarromBoardScoreModal from './CarromBoardScoreModal.vue';
 import SportHeader from '@/components/common/sport-header/SportHeader.vue';
 
 @Component({
-  components: { SportHeader, LoadingIcon, CarromBoardScoreModal }
+  components: { SportHeader, LoadingIcon }
 })
 export default class CarromBoard extends Vue {
   @Prop() public updateSelectedSport: any;
@@ -91,12 +83,6 @@ export default class CarromBoard extends Vue {
     } finally {
       this.loading = false;
     }
-  }
-
-  public updateDataByCategoryId(categoryId: number) {
-    const category = getCategoryById(this.fixedData.categories, categoryId);
-
-    this.data = getFilteredData(cloneDeep(this.fixedData), { category });
   }
 
   public triggerShowModal(status: boolean = false, fixture: FixtureInterface | null = null) {

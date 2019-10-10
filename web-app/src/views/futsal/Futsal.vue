@@ -8,11 +8,6 @@
     <div class="tournament-content-wrapper">
       <router-view :data="data" :triggerShowModal="triggerShowModal"/>
     </div>
-    <FutsalScoreModal
-      :showModal="showModal"
-      :triggerShowModal="triggerShowModal"
-      :fixture="modalFixture"
-    />
   </div>
 </template>
 
@@ -21,7 +16,6 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import SPORTS from '@/constants/sports';
 import { FUTSAL_ROUTES } from '@/constants/routes';
-import FutsalScoreModal from './FutsalScoreModal.vue';
 import { FixtureInterface } from '@/interfaces/interfaces';
 import { getSanitizedData } from '@/services/FixtureService';
 import LoadingIcon from '@/components/common/LoadingIcon.vue';
@@ -29,7 +23,7 @@ import { fetchSportData } from '@/services/TournamentService';
 import SportHeader from '@/components/common/sport-header/SportHeader.vue';
 
 @Component({
-  components: { SportHeader, LoadingIcon, FutsalScoreModal }
+  components: { SportHeader, LoadingIcon }
 })
 export default class Futsal extends Vue {
   @Prop() public updateSelectedSport: any;

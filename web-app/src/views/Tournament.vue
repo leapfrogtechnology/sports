@@ -14,6 +14,7 @@
     <div class="tournament-content-wrapper">
       <router-view :data="tournamentData.data"/>
     </div>
+    <ScoreModal />
   </div>
   <div v-else class="container">
     <div class="alert alert-error">Something went wrong. Please try again.</div>
@@ -26,11 +27,12 @@
 
   import * as fixtureService from '@/services/fixtures';
   import * as categoriesService from '@/services/categories';
+  import ScoreModal from '@/components/common/ScoreModal.vue';
   import LoadingIcon from '@/components/common/LoadingIcon.vue';
   import SportHeader from '@/components/common/sport-header/SportHeader.vue';
 
   @Component({
-    components: { LoadingIcon, SportHeader }
+    components: { LoadingIcon, SportHeader, ScoreModal }
   })
   export default class Tournament extends Vue {
     public selectedCategoryId: number = 0;
