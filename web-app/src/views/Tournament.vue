@@ -7,7 +7,6 @@
     <SportHeader
       :title="title"
       :subTitle="subTitle"
-      :selectedSportSeason="selectedSportSeason"
       :categories="tournamentData.data.categories"
       :handleCategoryChange="handleCategoryChange"
     />

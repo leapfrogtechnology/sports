@@ -22,6 +22,14 @@ const getters = {
     return tournamentService.getTournamentsListForSideBar(state.data);
   },
 
+  navigationRoutes: (state: any) => (payload: { game: string, season: string }) => {
+    if (!state.selectedTournament.data) {
+      return [];
+    }
+
+    return tournamentService.getNavigationRoutes(state.selectedTournament.data, payload);
+  },
+
   recentTournaments: (state: any) => {
     if (!state.data) {
       return [];

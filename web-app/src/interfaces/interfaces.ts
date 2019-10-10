@@ -173,3 +173,8 @@ export interface RecentTournamentsInterface {
   upcoming: SeasonInterface[];
   past: SeasonInterface[];
 }
+
+export interface TournamentNavigationRouteInterface {
+  name: string;
+  path: string;
+}

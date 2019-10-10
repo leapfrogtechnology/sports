@@ -22,42 +22,33 @@
 </template>
 
 <script lang="ts">
-import { sortBy } from 'lodash';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+  import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { SUB_ROUTES } from '@/constants/routes';
-import DropDownMenu from './partials/DropDownMenu.vue';
-import { CategoryInterface } from '@/interfaces/interfaces';
-import ButtonGroupMenu from './partials/ButtonGroupMenu.vue';
+  import DropDownMenu from './partials/DropDownMenu.vue';
+  import { CategoryInterface } from '@/interfaces/interfaces';
+  import ButtonGroupMenu from './partials/ButtonGroupMenu.vue';
 
-@Component({
-  components: { DropDownMenu, ButtonGroupMenu }
-})
-export default class SportHeader extends Vue {
-  @Prop() private selectedSportSeason!: any;
-  @Prop() private handleCategoryChange!: any;
-  @Prop({ default: '' }) private title!: string;
-  @Prop({ default: '' }) private subTitle!: string;
-  @Prop({ default: () => [] }) private categories!: CategoryInterface[];
+  @Component({
+    components: { DropDownMenu, ButtonGroupMenu }
+  })
+  export default class SportHeader extends Vue {
+    @Prop() private handleCategoryChange!: any;
+    @Prop({ default: '' }) private title!: string;
+    @Prop({ default: '' }) private subTitle!: string;
+    @Prop({ default: () => [] }) private categories!: CategoryInterface[];
 
-  private activeCategoryId: number = 0;
+    private activeCategoryId: number = 0;
 
-  public handleActiveCategoryChange() {
-    this.handleCategoryChange(this.activeCategoryId);
+    public handleActiveCategoryChange() {
+      this.handleCategoryChange(this.activeCategoryId);
+    }
+
+    get subRoutes() {
+      const { game, season } = this.$route.params;
+
+      return this.$store.getters['tournaments/navigationRoutes']({ game, season });
+    }
   }
-
-  get subRoutes() {
-    const subRoutes = sortBy(SUB_ROUTES, 'sortOrder') as any;
-    const { game, season } = this.$route.params;
-
-    return (
-      Object.keys(subRoutes).map(key => ({
-        path: `/${game}/${season}/${subRoutes[key].path}`,
-        name: subRoutes[key].name
-      })) || []
-    );
-  }
-}
 </script>
 
 <style>

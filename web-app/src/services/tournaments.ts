@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { chain, sortBy } from 'lodash';
+import { SUB_ROUTES } from '@/constants/routes';
 import { differenceInDays, isAfter, isBefore, compareDesc, compareAsc } from 'date-fns';
 import {
   RoundInterface,
@@ -11,7 +12,8 @@ import {
   TournamentDataInterface,
   SideBarTournamentInterface,
   RecentTournamentsInterface,
-  TournamentDataResponseInterface
+  TournamentDataResponseInterface,
+  TournamentNavigationRouteInterface
 } from '@/interfaces/interfaces';
 
 /**
@@ -194,6 +196,47 @@ export function getTournamentIcon(name: string): string {
 }
 
 /**
+ * Get list of tournament navigation routes.
+ *
+ * @export
+ * @param tournament
+ * @param params
+ * @returns {TournamentNavigationRouteInterface[]}
+ */
+export function getNavigationRoutes(
+  tournament: TournamentDataInterface,
+  params: { game: string, season: string }
+): TournamentNavigationRouteInterface[] {
+  const routes: TournamentNavigationRouteInterface[] = [];
+  const { game, season } = params;
+  const subRoutes = sortBy(SUB_ROUTES, 'sortOrder') as any;
+
+  const hasStats = (tournament.stats && tournament.stats.length > 1);
+  const hasPoints = (tournament.points && tournament.points.length > 1);
+  const hasKnockouts = (tournament.rounds && tournament.rounds.length > 1);
+
+  Object.values(subRoutes).forEach((subRoute: any) => {
+    const { path, name } = subRoute;
+
+    // Avoid inclusion of the navigations which do not have any data.
+    if (
+      (path === SUB_ROUTES.STATS.path && !hasStats) ||
+      (path === SUB_ROUTES.POINTS.path && !hasPoints) ||
+      (path === SUB_ROUTES.KNOCKOUTS.path && !hasKnockouts)
+    ) {
+      return;
+    }
+
+    routes.push({
+      name,
+      path: `/${game}/${season}/${path}`
+    });
+  });
+
+  return routes;
+}
+
+/**
  * Get list of all tournaments.
  *
  * @param {TournamentInterface[]} tournaments
@@ -285,12 +328,12 @@ function getRecentFixtures(tournamentDetails: TournamentDataResponseInterface, l
       tournamentDetails.details.winners && tournamentDetails.details.winners.length
         ? tournamentDetails.details.winners
         : [
-            {
-              category: '',
-              winner: tournamentDetails.details.winner,
-              runnerUp: tournamentDetails.details.runnerUp
-            }
-          ];
+          {
+            category: '',
+            winner: tournamentDetails.details.winner,
+            runnerUp: tournamentDetails.details.runnerUp
+          }
+        ];
   } else {
     recents.results = getResults(tournamentDetails.fixtures, limit);
     recents.fixtures = getFixtures(tournamentDetails.fixtures, limit);
