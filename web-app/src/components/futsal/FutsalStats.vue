@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div v-if="!goalsStats.players.length && !yellowCardsStats.players.length && !redCardsStats.players.length">
       <p class="alert">No stats available.</p>
     </div>
@@ -34,13 +34,13 @@ import { footballIcon, redCardIcon, yellowCardIcon, footballAssistIcon } from '@
   components: { Stat }
 })
 export default class FutsalStats extends Vue {
-  @Prop() private data!: any;
+  @Prop() private stats!: any;
 
   get goalsStats() {
     return {
       title: 'Goals',
       icon: footballIcon,
-      players: this.data.stats.goals
+      players: this.stats.goals
     };
   }
 
@@ -48,7 +48,7 @@ export default class FutsalStats extends Vue {
     return {
       title: 'Assists',
       icon: footballAssistIcon,
-      players: this.data.stats.assists || []
+      players: this.stats.assists || []
     };
   }
 
@@ -56,7 +56,7 @@ export default class FutsalStats extends Vue {
     return {
       title: 'Yellow Cards',
       icon: yellowCardIcon,
-      players: this.data.stats.yellowCards
+      players: this.stats.yellowCards
     };
   }
 
@@ -64,7 +64,7 @@ export default class FutsalStats extends Vue {
     return {
       title: 'Red Cards',
       icon: redCardIcon,
-      players: this.data.stats.redCards
+      players: this.stats.redCards
     };
   }
 }

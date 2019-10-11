@@ -211,9 +211,9 @@ export function getNavigationRoutes(
   const { game, season } = params;
   const subRoutes = sortBy(SUB_ROUTES, 'sortOrder') as any;
 
-  const hasStats = (tournament.stats && tournament.stats.length > 1);
   const hasPoints = (tournament.points && tournament.points.length > 1);
   const hasKnockouts = (tournament.rounds && tournament.rounds.length > 1);
+  const hasStats = (tournament.stats && Object.values(tournament.stats).length);
 
   Object.values(subRoutes).forEach((subRoute: any) => {
     const { path, name } = subRoute;

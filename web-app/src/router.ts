@@ -4,8 +4,8 @@ import Router from 'vue-router';
 import Home from '@/views/home/Home.vue';
 import * as ROUTES from '@/constants/routes';
 import Tournament from '@/views/Tournament.vue';
+import Stats from '@/views/common/stats/Stats.vue';
 import Teams from '@/views/common/teams/Teams.vue';
-import Stat from '@/views/futsal/partials/Stat.vue';
 import Points from '@/views/common/points/Points.vue';
 import Recent from '@/views/common/recent/Recent.vue';
 import Results from '@/views/common/results/Results.vue';
@@ -46,7 +46,7 @@ const router = new Router({
         },
         {
           path: ROUTES.SUB_ROUTES.STATS.path,
-          component: Stat
+          component: Stats
         },
         {
           path: ROUTES.SUB_ROUTES.POINTS.path,

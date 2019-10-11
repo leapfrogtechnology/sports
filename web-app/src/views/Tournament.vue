@@ -76,12 +76,5 @@
     get subTitle() {
       return this.$route.params.season;
     }
-
-    get selectedSportSeason() {
-      return {
-        sport: this.$route.params.game,
-        season: this.$route.params.season
-      };
-    }
   }
 </script>
