@@ -39,6 +39,8 @@
     @Watch('$route')
     public onPropertyChanged(value: any, oldValue: any) {
       if (value.params.game !== oldValue.params.game || value.params.season !== oldValue.params.season) {
+        this.selectedCategoryId = 0;
+
         this.fetchData();
       }
     }

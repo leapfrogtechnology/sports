@@ -14,7 +14,7 @@
     <tr v-for="(point, index) in points" :key="index">
       <td>{{ point.id }}</td>
       <td class="points-team-name-wrapper">
-        <TeamLogo :participant="point.team"/> {{ point.team.name }}
+        <TeamLogo :team="point.team"/> {{ point.team.name }}
       </td>
       <td>{{ point.played }}</td>
       <td>{{ point.won }}</td>

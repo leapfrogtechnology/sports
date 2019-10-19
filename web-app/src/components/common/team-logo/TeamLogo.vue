@@ -27,7 +27,9 @@
     components: { ParticipantLogo }
   })
   export default class TeamLogo extends Vue {
-    @Prop() public showLarge!: boolean;
+    @Prop({
+      default: false
+    }) public showLarge!: boolean;
     @Prop() private team!: TeamInterface;
 
     get isTeamDouble(): boolean {
