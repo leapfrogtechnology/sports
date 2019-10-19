@@ -12,7 +12,7 @@ import Results from '@/views/common/results/Results.vue';
 import Fixtures from '@/views/common/fixtures/Fixtures.vue';
 import Knockouts from '@/views/common/knockouts/Knockouts.vue';
 
-const DEFAULT_PAGE_TITLE = 'LF Sports';
+const DEFAULT_PAGE_TITLE = 'Sports';
 
 Vue.use(Router);
 
