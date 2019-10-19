@@ -21,7 +21,7 @@
 
   import { TeamInterface } from '@/interfaces/interfaces';
   import ParticipantLogo from './partials/ParticipantLogo.vue';
-  import { isTeamDouble, getTeamInfo, getTeamCustomStyles, isTeamSingle } from '@/services/TeamService';
+  import { isTeamDouble, getTeamInfo, getTeamCustomStyles, isTeamSingle } from '@/services/teams';
 
   @Component({
     components: { ParticipantLogo }

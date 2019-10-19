@@ -59,9 +59,9 @@ import dateFns from 'date-fns';
 import { isEqual } from 'lodash';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 
+import { isFixturePlayed, isFixtureCancelled } from '@/services/fixtures';
 import { RecentsInterface, FixtureInterface } from '@/interfaces/interfaces';
 import ScoreCardsList from '@/components/common/score-card/ScoreCardsList.vue';
-import { isFixturePlayed, isFixtureCancelled } from '@/services/FixtureService';
 
 @Component({
   components: { ScoreCardsList }

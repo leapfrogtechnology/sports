@@ -11,8 +11,8 @@
 <script lang="ts">
 import { Vue, Prop, Component } from 'vue-property-decorator';
 
+import { getFixtureDate } from '@/services/fixtures';
 import { FixtureInterface } from '@/interfaces/interfaces';
-import { getFixtureDate } from '@/services/FixtureService';
 
 @Component
 export default class FixtureDetailsMobile extends Vue {

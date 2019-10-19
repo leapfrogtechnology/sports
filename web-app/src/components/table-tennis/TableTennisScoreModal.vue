@@ -67,7 +67,7 @@
   import { sortBy, cloneDeep } from 'lodash';
   import { Vue, Component } from 'vue-property-decorator';
 
-  import { isFixturePlayed } from '@/services/FixtureService';
+  import { isFixturePlayed } from '@/services/fixtures';
   import { SCORE_MODAL_DATE_TIME_FORMAT } from '@/constants/utils';
   import TeamLogo from '@/components/common/team-logo/TeamLogo.vue';
   import { TeamInterface, FixtureInterface, ActivityInterface } from '@/interfaces/interfaces';

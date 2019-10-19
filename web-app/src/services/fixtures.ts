@@ -9,9 +9,9 @@ import {
   CategoryInterface,
   TournamentDataInterface,
   TournamentDataResponseInterface
-} from '../interfaces/interfaces';
-import { checkIfPlayerIsInTeam } from './PlayerService';
-import FIXTURE_STATUSES from '../constants/fixtureStatuses';
+} from '@/interfaces/interfaces';
+import { checkIfPlayerIsInTeam } from './players';
+import FIXTURE_STATUSES from '@/constants/fixtureStatuses';
 
 export function getFixtures(fixturesList: FixtureInterface[], limit: number = 0): FixtureInterface[] {
   let fixtures = fixturesList

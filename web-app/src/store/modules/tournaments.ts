@@ -1,4 +1,4 @@
-import * as tournamentService from '../../services/tournaments';
+import * as tournamentService from '@/services/tournaments';
 
 const initialState = {
   data: null,

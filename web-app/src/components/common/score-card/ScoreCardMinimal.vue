@@ -21,12 +21,11 @@
 </template>
 
 <script lang="ts">
-import { find } from 'lodash';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
+import { getTeamInfo } from '@/services/teams';
+import { isFixturePlayed } from '@/services/fixtures';
 import { FixtureInterface } from '@/interfaces/interfaces';
-import { isFixturePlayed } from '@/services/FixtureService';
-import { getTeamInfo } from '../../../services/TeamService';
 
 @Component
 export default class ScoreCardMinimal extends Vue {

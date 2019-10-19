@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { chain, sortBy } from 'lodash';
-import { SUB_ROUTES } from '@/constants/routes';
 import { differenceInDays, isAfter, isBefore, compareDesc, compareAsc } from 'date-fns';
+
 import {
   RoundInterface,
   SeasonInterface,
@@ -15,6 +15,7 @@ import {
   TournamentDataResponseInterface,
   TournamentNavigationRouteInterface
 } from '@/interfaces/interfaces';
+import { SUB_ROUTES } from '@/constants/routes';
 
 /**
  * Fetch a tournament data by game and season.

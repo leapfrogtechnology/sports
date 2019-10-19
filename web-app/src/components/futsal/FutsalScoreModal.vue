@@ -47,7 +47,7 @@
   import TeamLogo from '@/components/common/team-logo/TeamLogo.vue';
   import FutsalActivities from '@/components/futsal/FutsalActivities.vue';
   import { FixtureInterface, TeamInterface } from '@/interfaces/interfaces';
-  import { isFixturePlayed, isFixtureCancelled } from '@/services/FixtureService';
+  import { isFixturePlayed, isFixtureCancelled } from '@/services/fixtures';
 
   @Component({
     components: { TeamLogo, FutsalActivities }

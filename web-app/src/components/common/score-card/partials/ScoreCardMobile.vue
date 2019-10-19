@@ -24,7 +24,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import FixtureTeamMobile from './FixtureTeamMobile.vue';
 import FixtureDetailsMobile from './FixtureDetailsMobile.vue';
-import { isFixturePlayed, isFixtureCancelled } from '@/services/FixtureService';
+import { isFixturePlayed, isFixtureCancelled } from '@/services/fixtures';
 
 @Component({
   components: { FixtureTeamMobile, FixtureDetailsMobile }

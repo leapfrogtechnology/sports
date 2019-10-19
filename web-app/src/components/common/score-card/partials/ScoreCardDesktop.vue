@@ -56,10 +56,10 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { getTeamInfo } from '@/services/TeamService';
+import { getTeamInfo } from '@/services/teams';
 import TeamLogo from '@/components/common/team-logo/TeamLogo.vue';
 import { FixtureInterface, TeamInterface } from '@/interfaces/interfaces';
-import { getFixtureDate, isFixturePlayed, isFixtureCancelled } from '@/services/FixtureService';
+import { getFixtureDate, isFixturePlayed, isFixtureCancelled } from '@/services/fixtures';
 
 @Component({
   components: { TeamLogo }
