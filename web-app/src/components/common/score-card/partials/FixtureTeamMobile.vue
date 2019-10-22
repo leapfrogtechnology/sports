@@ -12,9 +12,9 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
+import { getTeamInfo } from '@/services/teams';
 import { TeamInterface } from '@/interfaces/interfaces';
 import TeamLogo from '@/components/common/team-logo/TeamLogo.vue';
-import { getTeamInfo } from '@/services/TeamService';
 
 @Component({
   components: { TeamLogo }

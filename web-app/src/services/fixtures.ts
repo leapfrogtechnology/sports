@@ -8,10 +8,10 @@ import {
   RecentsInterface,
   CategoryInterface,
   TournamentDataInterface,
-  TournamentDataResponseInterface,
-} from '../interfaces/interfaces';
-import { checkIfPlayerIsInTeam } from './PlayerService';
-import FIXTURE_STATUSES from '../constants/fixtureStatuses';
+  TournamentDataResponseInterface
+} from '@/interfaces/interfaces';
+import { checkIfPlayerIsInTeam } from './players';
+import FIXTURE_STATUSES from '@/constants/fixtureStatuses';
 
 export function getFixtures(fixturesList: FixtureInterface[], limit: number = 0): FixtureInterface[] {
   let fixtures = fixturesList
@@ -60,12 +60,12 @@ export function getRecentFixtures(
       tournamentDetails.details.winners && tournamentDetails.details.winners.length
         ? tournamentDetails.details.winners
         : [
-            {
-              category: '',
-              winner: tournamentDetails.details.winner,
-              runnerUp: tournamentDetails.details.runnerUp
-            }
-          ];
+          {
+            category: '',
+            winner: tournamentDetails.details.winner,
+            runnerUp: tournamentDetails.details.runnerUp
+          }
+        ];
   } else {
     recents.results = getResults(tournamentDetails.fixtures, limit);
     recents.fixtures = getFixtures(tournamentDetails.fixtures, limit);
@@ -189,18 +189,24 @@ export function getSanitizedData(data: any, limit: number = 0): TournamentDataIn
  * @returns {*}
  */
 export function getFilteredData(data: any, params: any) {
-  const filteredData = data;
-
   // Filter by category
   if (params.category && params.category.id >= 0) {
-    filteredData.allFixtures = filterFixturesByCategory(filteredData.allFixtures, params.category);
-    filteredData.fixtures = filterFixturesByCategory(filteredData.fixtures, params.category);
-    filteredData.results = filterFixturesByCategory(filteredData.results, params.category);
-    filteredData.teams = filterTeamsByCategory(filteredData.teams, params.category);
-    filteredData.recents = filterRecentsByCategory(filteredData.recents, params.category);
+    const teams = filterTeamsByCategory(data.teams, params.category);
+    const recents = filterRecentsByCategory(data.recents, params.category);
+    const results = filterFixturesByCategory(data.results, params.category);
+    const fixtures = filterFixturesByCategory(data.fixtures, params.category);
+    const allFixtures = filterFixturesByCategory(data.allFixtures, params.category);
+
+    return {
+      teams,
+      recents,
+      results,
+      fixtures,
+      allFixtures
+    };
   }
 
-  return filteredData;
+  return data;
 }
 
 /**
@@ -358,6 +364,6 @@ function filterRecentsByCategory(recents: RecentsInterface, category: CategoryIn
  * @param {string} roundName
  * @returns {(RoundInterface|null)}
  */
-function findRoundByName(rounds: RoundInterface[], roundName: string): RoundInterface|null {
+function findRoundByName(rounds: RoundInterface[], roundName: string): RoundInterface | null {
   return find(rounds, round => round.description === roundName) || null;
 }

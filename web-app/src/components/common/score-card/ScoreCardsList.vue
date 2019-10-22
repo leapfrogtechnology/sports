@@ -41,12 +41,11 @@
 import { find, chain, filter, cloneDeep } from 'lodash';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
+import { getTeamsFromFixtures } from '@/services/teams';
 import SearchBar from '@/components/common/SearchBar.vue';
-import { getTeamsFromFixtures } from '@/services/TeamService';
 import TeamsFilter from '@/components/common/filters/TeamsFilter.vue';
 import RoundsFilter from '@/components/common/filters/RoundsFilter.vue';
 import ScoreCardWrapper from '@/components/common/score-card/ScoreCardWrapper.vue';
-import { getFixturesRounds, searchFixturesByKeyword } from '@/services/FixtureService';
 import { FixtureInterface, RoundInterface, TeamInterface } from '@/interfaces/interfaces';
 
 @Component({

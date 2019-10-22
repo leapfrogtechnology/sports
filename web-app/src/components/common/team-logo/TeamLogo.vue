@@ -17,33 +17,35 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+  import { Vue, Component, Prop } from 'vue-property-decorator';
 
-import { TeamInterface } from '@/interfaces/interfaces';
-import ParticipantLogo from './partials/ParticipantLogo.vue';
-import { isTeamDouble, getTeamInfo, getTeamCustomStyles, isTeamSingle } from '@/services/TeamService';
+  import { TeamInterface } from '@/interfaces/interfaces';
+  import ParticipantLogo from './partials/ParticipantLogo.vue';
+  import { isTeamDouble, getTeamInfo, getTeamCustomStyles, isTeamSingle } from '@/services/teams';
 
-@Component({
-  components: { ParticipantLogo }
-})
-export default class TeamLogo extends Vue {
-  @Prop() public showLarge!: boolean;
-  @Prop() private team!: TeamInterface;
+  @Component({
+    components: { ParticipantLogo }
+  })
+  export default class TeamLogo extends Vue {
+    @Prop({
+      default: false
+    }) public showLarge!: boolean;
+    @Prop() private team!: TeamInterface;
 
-  get isTeamDouble(): boolean {
-    return isTeamDouble(this.team);
+    get isTeamDouble(): boolean {
+      return isTeamDouble(this.team);
+    }
+
+    get isTeamSingle(): boolean {
+      return isTeamSingle(this.team);
+    }
+
+    get teamInfo(): TeamInterface {
+      return getTeamInfo(this.team);
+    }
+
+    get teamCustomStyles(): object {
+      return getTeamCustomStyles(this.team);
+    }
   }
-
-  get isTeamSingle(): boolean {
-    return isTeamSingle(this.team);
-  }
-
-  get teamInfo(): TeamInterface {
-    return getTeamInfo(this.team);
-  }
-
-  get teamCustomStyles(): object {
-    return getTeamCustomStyles(this.team);
-  }
-}
 </script>

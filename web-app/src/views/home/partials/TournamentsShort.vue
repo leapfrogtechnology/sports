@@ -22,12 +22,11 @@
 </template>
 
 <script lang="ts">
-import { format as formatDate } from 'date-fns';
-import { differenceInDays, isBefore } from 'date-fns';
 import { Vue, Prop, Component } from 'vue-property-decorator';
+import { format as formatDate, differenceInDays } from 'date-fns';
 
 import { SeasonInterface } from '@/interfaces/interfaces';
-import { getTournamentIcon } from '@/services/TournamentService';
+import { getTournamentIcon } from '@/services/tournaments';
 
 @Component
 export default class TournamentsShort extends Vue {

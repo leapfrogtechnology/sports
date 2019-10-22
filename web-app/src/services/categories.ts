@@ -1,4 +1,4 @@
-import { CategoryInterface } from './../interfaces/interfaces';
+import { CategoryInterface } from '@/interfaces/interfaces';
 
 /**
  * Get category by id.

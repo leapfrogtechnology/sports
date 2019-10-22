@@ -19,8 +19,8 @@
 import { Vue, Prop, Component } from 'vue-property-decorator';
 
 import { FixtureInterface, RoundInterface } from '@/interfaces/interfaces';
+import { sortFixturesByDate, getFixturesRounds } from '@/services/fixtures';
 import ScoreCardsList from '@/components/common/score-card/ScoreCardsList.vue';
-import { sortFixturesByDate, getFixturesRounds } from '@/services/FixtureService';
 
 @Component({
   components: { ScoreCardsList }

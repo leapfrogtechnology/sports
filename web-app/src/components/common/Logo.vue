@@ -8,7 +8,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 import { invertedLogo } from '@/assets/images';
-import { BASE_ROUTES } from '@/constants/routes';
+import { BASE_ROUTE } from '@/constants/routes';
 
 @Component
 export default class Logo extends Vue {
@@ -16,7 +16,7 @@ export default class Logo extends Vue {
 
   public handleClick() {
     this.$router.push({
-      path: BASE_ROUTES.HOME
+      path: BASE_ROUTE
     });
   }
 }

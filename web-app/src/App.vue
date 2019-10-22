@@ -2,11 +2,11 @@
   <div id="app">
     <div :class="['main-wrapper container-fluid', selectedSport]">
       <!-- Only on mobile -->
-      <TopNavBar :showSideBar="showSideBar" :showHideSideBar="showHideSideBar"/>
+      <TopNavBar :showSideBar="showSideBar" :showHideSideBar="showHideSideBar" />
       <!--Only on desktop-->
-      <SideBar :classes="sideBarClassObject" :showHideSideBar="showHideSideBar"/>
+      <SideBar :classes="sideBarClassObject" :showHideSideBar="showHideSideBar" />
       <div class="content-wrapper">
-        <router-view :updateSelectedSport="updateSelectedSport"></router-view>
+        <router-view />
       </div>
     </div>
   </div>
@@ -21,7 +21,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Component, Vue } from 'vue-property-decorator';
 
 import SideBar from '@/components/navigations/SideBar.vue';
-import { fetchSportData } from '@/services/TournamentService';
 import TopNavBar from '@/components/navigations/TopNavBar.vue';
 
 @Component({
@@ -29,14 +28,17 @@ import TopNavBar from '@/components/navigations/TopNavBar.vue';
 })
 export default class App extends Vue {
   public showSideBar: boolean = false;
-  public selectedSport: string|null = null;
+
+  public beforeMount() {
+    this.$store.dispatch('tournaments/fetchTournaments');
+  }
 
   public showHideSideBar(show: boolean = false) {
     this.showSideBar = show;
   }
 
-  public updateSelectedSport(sport: string) {
-    this.selectedSport = sport && sport.length ? sport : '';
+  get selectedSport() {
+    return this.$route.params.game || null;
   }
 
   get sideBarClassObject() {

@@ -1,36 +1,18 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import {
-  BASE_ROUTES,
-  DOTA_ROUTES,
-  FIFA_ROUTES,
-  CHESS_ROUTES,
-  FUTSAL_ROUTES,
-  TABLE_TENNIS_ROUTES,
-  CARROM_BOARD_ROUTES,
-  COUNTER_STRIKE_ROUTES
-} from './constants/routes';
-
 import Home from '@/views/home/Home.vue';
-import Dota from '@/views/dota/Dota.vue';
-import Fifa from '@/views/fifa/Fifa.vue';
-import Chess from '@/views/chess/Chess.vue';
-import Futsal from '@/views/futsal/Futsal.vue';
+import * as ROUTES from '@/constants/routes';
+import Tournament from '@/views/Tournament.vue';
+import Stats from '@/views/common/stats/Stats.vue';
 import Teams from '@/views/common/teams/Teams.vue';
-import DotaPoints from '@/views/dota/DotaPoints.vue';
+import Points from '@/views/common/points/Points.vue';
 import Recent from '@/views/common/recent/Recent.vue';
 import Results from '@/views/common/results/Results.vue';
-import FutsalStats from '@/views/futsal/FutsalStats.vue';
-import FutsalPoints from '@/views/futsal/FutsalPoints.vue';
 import Fixtures from '@/views/common/fixtures/Fixtures.vue';
 import Knockouts from '@/views/common/knockouts/Knockouts.vue';
-import CarromBoard from '@/views/carrom-board/CarromBoard.vue';
-import TableTennis from '@/views/table-tennis/TableTennis.vue';
-import CounterStrike from '@/views/counter-strike/CounterStrike.vue';
-import CounterStrikePoints from '@/views/counter-strike/CounterStrikePoints.vue';
 
-const DEFAULT_PAGE_TITLE = 'LF Sports';
+const DEFAULT_PAGE_TITLE = 'Sports';
 
 Vue.use(Router);
 
@@ -39,376 +21,46 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: BASE_ROUTES.HOME,
+      path: ROUTES.BASE_ROUTE,
       component: Home
     },
     {
-      path: BASE_ROUTES.TABLE_TENNIS,
-      component: TableTennis,
-      meta: {
-        title: 'Table Tennis'
-      },
+      path: ROUTES.TOURNAMENT,
+      component: Tournament,
       children: [
         {
-          path: TABLE_TENNIS_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'Table Tennis - Home'
-          }
+          path: ROUTES.SUB_ROUTES.HOME.path,
+          component: Recent
         },
         {
-          path: TABLE_TENNIS_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'Table Tennis - Fixtures'
-          }
+          path: ROUTES.SUB_ROUTES.RESULTS.path,
+          component: Results
         },
         {
-          path: TABLE_TENNIS_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'Table Tennis - Results'
-          }
+          path: ROUTES.SUB_ROUTES.FIXTURES.path,
+          component: Fixtures
         },
         {
-          path: TABLE_TENNIS_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'Table Tennis - Teams'
-          }
+          path: ROUTES.SUB_ROUTES.KNOCKOUTS.path,
+          component: Knockouts
         },
         {
-          path: TABLE_TENNIS_ROUTES.KNOCKOUTS,
-          component: Knockouts,
-          meta: {
-            title: 'Table Tennis - Knockouts'
-          }
+          path: ROUTES.SUB_ROUTES.STATS.path,
+          component: Stats
         },
         {
-          path: '*',
-          redirect: TABLE_TENNIS_ROUTES.HOME
-        }
-      ]
-    },
-    {
-      path: BASE_ROUTES.CHESS,
-      component: Chess,
-      meta: {
-        title: 'Chess'
-      },
-      children: [
-        {
-          path: CHESS_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'Chess - Home'
-          }
+          path: ROUTES.SUB_ROUTES.POINTS.path,
+          component: Points
         },
         {
-          path: CHESS_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'Chess - Fixtures'
-          }
-        },
-        {
-          path: CHESS_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'Chess - Results'
-          }
-        },
-        {
-          path: CHESS_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'Chess - Teams'
-          }
-        },
-        {
-          path: CHESS_ROUTES.KNOCKOUTS,
-          component: Knockouts,
-          meta: {
-            title: 'Chess - Knockouts'
-          }
-        },
-        {
-          path: '*',
-          redirect: CHESS_ROUTES.HOME
-        }
-      ]
-    },
-    {
-      path: BASE_ROUTES.FUTSAL,
-      component: Futsal,
-      meta: {
-        title: 'Futsal'
-      },
-      children: [
-        {
-          path: FUTSAL_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'Futsal - Home'
-          }
-        },
-        {
-          path: FUTSAL_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'Futsal - Fixtures'
-          }
-        },
-        {
-          path: FUTSAL_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'Futsal - Results'
-          }
-        },
-        {
-          path: FUTSAL_ROUTES.POINTS,
-          component: FutsalPoints,
-          meta: {
-            title: 'Futsal - Points'
-          }
-        },
-        {
-          path: FUTSAL_ROUTES.STATS,
-          component: FutsalStats,
-          meta: {
-            title: 'Futsal - Stats'
-          }
-        },
-        {
-          path: FUTSAL_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'Futsal - Teams'
-          }
-        },
-        {
-          path: '*',
-          redirect: FUTSAL_ROUTES.HOME
-        }
-      ]
-    },
-    {
-      path: BASE_ROUTES.CARROM_BOARD,
-      component: CarromBoard,
-      meta: {
-        title: 'Carrom Board'
-      },
-      children: [
-        {
-          path: CARROM_BOARD_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'Carrom Board - Home'
-          }
-        },
-        {
-          path: CARROM_BOARD_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'Carrom Board - Fixtures'
-          }
-        },
-        {
-          path: CARROM_BOARD_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'Carrom Board - Results'
-          }
-        },
-        {
-          path: CARROM_BOARD_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'Carrom Board - Teams'
-          }
-        },
-        {
-          path: CARROM_BOARD_ROUTES.KNOCKOUTS,
-          component: Knockouts,
-          meta: {
-            title: 'Carrom Board - Knockouts'
-          }
-        },
-        {
-          path: '*',
-          redirect: CARROM_BOARD_ROUTES.HOME
-        }
-      ]
-    },
-    {
-      path: BASE_ROUTES.COUNTER_STRIKE,
-      component: CounterStrike,
-      meta: {
-        title: 'Counter Strike'
-      },
-      children: [
-        {
-          path: COUNTER_STRIKE_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'Counter Strike - Home'
-          }
-        },
-        {
-          path: COUNTER_STRIKE_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'Counter Strike - Fixtures'
-          }
-        },
-        {
-          path: COUNTER_STRIKE_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'Counter Strike - Results'
-          }
-        },
-        {
-          path: COUNTER_STRIKE_ROUTES.POINTS,
-          component: CounterStrikePoints,
-          meta: {
-            title: 'Counter Strike - Points'
-          }
-        },
-        {
-          path: COUNTER_STRIKE_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'Counter Strike - Teams'
-          }
-        },
-        {
-          path: COUNTER_STRIKE_ROUTES.KNOCKOUTS,
-          component: Knockouts,
-          meta: {
-            title: 'Counter Strike - Knockouts'
-          }
-        },
-        {
-          path: '*',
-          redirect: COUNTER_STRIKE_ROUTES.HOME
-        }
-      ]
-    },
-    {
-      path: BASE_ROUTES.FIFA,
-      component: Fifa,
-      meta: {
-        title: 'FIFA'
-      },
-      children: [
-        {
-          path: FIFA_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'FIFA - Home'
-          }
-        },
-        {
-          path: FIFA_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'FIFA - Fixtures'
-          }
-        },
-        {
-          path: FIFA_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'FIFA - Results'
-          }
-        },
-        {
-          path: FIFA_ROUTES.POINTS,
-          component: FutsalPoints,
-          meta: {
-            title: 'FIFA - Points'
-          }
-        },
-        {
-          path: FIFA_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'FIFA - Teams'
-          }
-        },
-        {
-          path: FIFA_ROUTES.KNOCKOUTS,
-          component: Knockouts,
-          meta: {
-            title: 'FIFA - Knockouts'
-          }
-        },
-        {
-          path: '*',
-          redirect: FIFA_ROUTES.HOME
-        }
-      ]
-    },
-    {
-      path: BASE_ROUTES.DOTA,
-      component: Dota,
-      meta: {
-        title: 'Dota'
-      },
-      children: [
-        {
-          path: DOTA_ROUTES.HOME,
-          component: Recent,
-          meta: {
-            title: 'Dota - Home'
-          }
-        },
-        {
-          path: DOTA_ROUTES.FIXTURES,
-          component: Fixtures,
-          meta: {
-            title: 'Dota - Fixtures'
-          }
-        },
-        {
-          path: DOTA_ROUTES.RESULTS,
-          component: Results,
-          meta: {
-            title: 'Dota - Results'
-          }
-        },
-        {
-          path: DOTA_ROUTES.POINTS,
-          component: DotaPoints,
-          meta: {
-            title: 'Dota - Points'
-          }
-        },
-        {
-          path: DOTA_ROUTES.TEAMS,
-          component: Teams,
-          meta: {
-            title: 'Dota - Teams'
-          }
-        },
-        {
-          path: DOTA_ROUTES.KNOCKOUTS,
-          component: Knockouts,
-          meta: {
-            title: 'Dota - Knockouts'
-          }
-        },
-        {
-          path: '*',
-          redirect: DOTA_ROUTES.HOME
+          path: ROUTES.SUB_ROUTES.TEAMS.path,
+          component: Teams
         }
       ]
     },
     {
       path: '*',
-      redirect: BASE_ROUTES.HOME
+      redirect: ROUTES.BASE_ROUTE
     }
   ]
 });
