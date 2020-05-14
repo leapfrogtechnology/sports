@@ -13,7 +13,7 @@ services:
       - ./.data/postgres:/var/lib/postgresql/data
 
   api:
-    image: node:8
+    image: node:8.10
     container_name: 'sports-api'
     volumes:
       - './api:/home/sports/api/'
@@ -23,7 +23,7 @@ services:
     command: sh -c 'yarn && yarn start:dev'
 
   web-app:
-    image: node:8
+    image: node:10.16
     container_name: 'sports-web-app'
     volumes:
       - './web-app:/home/sports/web-app/'
@@ -33,7 +33,7 @@ services:
     command: sh -c 'yarn && yarn serve'
 
   admin-app:
-    image: node:8
+    image: node:10.16
     container_name: 'sports-admin-app'
     volumes:
       - './admin-app:/home/sports/admin-app/'
