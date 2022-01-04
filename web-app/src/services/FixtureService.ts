@@ -167,6 +167,7 @@ export function getRounds(rounds: RoundInterface[] = []) {
 export function getSanitizedData(data: any, limit: number = 0): TournamentDataInterface {
   return {
     teams: data.teams,
+    groups: data.groups || [1],
     points: data.table || [],
     stats: data.stats || [],
     details: data.details,

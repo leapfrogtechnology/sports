@@ -97,6 +97,7 @@ export interface FixtureInterface {
   activities?: ActivityInterface[];
   categoryType: string;
   round: string;
+  group?: number;
   winnerTeam?: TeamInterface;
 }
 
@@ -119,6 +120,7 @@ export interface TournamentDataResponseInterface {
 }
 
 export interface TournamentDataInterface {
+  groups?: number[];
   teams: TeamInterface[];
   rounds?: RoundInterface[];
   details: DetailsInterface;
