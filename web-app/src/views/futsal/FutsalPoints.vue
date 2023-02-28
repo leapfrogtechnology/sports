@@ -8,6 +8,7 @@
     </slot>
     <slot v-else>
       <Points
+        :showGroup="!groups.length || groups.length"
         v-for="(group, index) in groups"
         :key="`group-points-${index}`"
         :title="group.name"

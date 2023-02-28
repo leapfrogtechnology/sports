@@ -1,6 +1,12 @@
 <template>
   <div>
     <h2 v-if="title && title.length" class="score-card-list-title">{{ title }}</h2>
+     <div v-if="showGroup">
+        <span class="score-card-list-title">
+          Group {{ title }}
+          {{ groupCount}}
+        </span>
+    </div>
     <table class="table table--striped points-wrapper">
       <thead>
         <tr>
@@ -48,5 +54,6 @@ import TeamLogo from '@/components/common/team-logo/TeamLogo.vue';
 export default class Points extends Vue {
   @Prop() private title!: string | null;
   @Prop() private points!: object;
+  @Prop() private showGroup!: boolean;
 }
 </script>
