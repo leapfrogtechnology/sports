@@ -4,6 +4,10 @@ export default [
     icon: 'far fa-futbol',
     seasons: [
       {
+        name: 2023,
+        route: '/futsal/2023'
+      },
+      {
         name: 2019,
         route: '/futsal/2019'
       },
